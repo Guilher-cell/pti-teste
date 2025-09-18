@@ -1,0 +1,163 @@
+/* ======== Seção Planos ======== */
+.planos-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 80px;
+  margin: 100px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.plano-box {
+  background-color: #19284b;
+  border-radius: 12px;
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plano-box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+.plano-box h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #cccccc;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Lista */
+.plano-box ul {
+  list-style: none;
+  padding-left: 60px; /* empurra toda a lista mais para a direita */
+  margin: 0 0 40px 0;
+  width: 100%;
+}
+
+.plano-box ul li {
+  font-size: 18px;
+  color: #cccccc;
+  margin: 20px 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px; /* espaço entre ícone e texto */
+}
+
+/* Ícone */
+.icon {
+  color: #0084ff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Botão */
+.btn-obter-plano,
+.btn-escolher-plano {
+  background-color: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center; /* centraliza dentro da box */
+}
+
+.btn-obter-plano:hover,
+.btn-escolher-plano:hover {
+  background-color: #006bcf;
+}
+
+
+
+/* Bloco externo ocupa a largura total */
+.info-extra-planos {
+    background-color: #080e1c;   /* fundo escuro diferenciado */
+    position: relative;
+    width: calc(100vw - 15px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 50px 0;
+    margin-top: 150px;
+    margin-bottom: 250px;
+    box-sizing: border-box;
+}
+
+/* Container interno */
+.info-extra-container-planos {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: nowrap;           /* não deixa quebrar */
+    justify-content: space-between; /* joga uma box pra esquerda e outra pra direita */
+    gap: 60px;                   /* espaço entre elas */
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Cada bloco */
+.info-box-planos {
+    flex: 1 1 45%;
+    max-width: 600px;
+    min-width: 350px;
+    text-align: left;
+
+    display: flex;
+    flex-direction: column;   
+}
+
+/* Botões ficam alinhados mas não ocupam largura total */
+.info-box-planos a {
+    margin-top: auto;
+    align-self: flex-start; /* mantém alinhado à esquerda e só do tamanho do botão */
+}
+
+
+.info-box-planos h3 {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #04b2f2;
+    font-family: "Sora", sans-serif;
+}
+
+.info-box-planos p {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    color: #cccccc;
+}
+
+/* Botões */
+.btn-funcionalidades-planos,
+.btn-sobre-a-empresa-planos {
+    display: inline-block;
+     background: #0084ff;
+    color: #ffffff;
+    padding: 12px 26px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-funcionalidades-planos:hover,
+.btn-sobre-a-empresa-planos:hover {
+    background: #006bcf;
+    transform: scale(1.05);
+}

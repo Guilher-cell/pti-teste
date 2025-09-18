@@ -1,0 +1,197 @@
+.img-flowcerti{
+    margin-top: 50px;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* wrapper que vai animar */
+.anim-wrapper{
+    display: inline-block;
+    position: relative;
+    animation: slideFromRight 1s ease forwards, zoomPulse 1s ease 1s forwards;
+}
+
+/* imagem */
+.logo-flowcerti-sobre-a-empresa{
+    opacity: 0.3;
+    width: 100%;
+    max-width: 1100px;
+    height: auto;
+    display: block;
+}
+
+/* texto */
+.titulo-inicial-sobre-nos{
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #cccccc;
+    font-family: "Sora", sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+}
+
+/* keyframes da direita para a esquerda */
+@keyframes slideFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* keyframes do zoom vai e volta */
+@keyframes zoomPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.nossa-historia{
+    margin-top: 30px;
+}
+.titulo-nossa-historia{
+    font-size: 32px;
+    font-weight: 600;
+    font-family: "Sora", sans-serif;
+}
+
+.texto-inteiro-nossa-historia{
+    margin-left: 40px;
+}
+.texto-nossa-historia{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.9;
+    word-spacing: 1px;
+    color: #cccccc;
+}
+
+.banner-empresa{
+    position: relative;
+    width: calc(100vw - 15px); /* ajusta para não ultrapassar */
+    margin: 0;
+    margin-top: 150px;
+    margin-bottom: 150px;
+    padding: 40px 5px;
+    text-align: center;
+    background-color: #5882a0;
+    border-top: 2px solid #04b2f2;
+    border-bottom: 2px solid #04b2f2;
+    color: #cccccc;
+    box-sizing: border-box;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: -10px;
+}
+
+.titulo-banner-empresa{
+    font-weight: 500;
+    font-size: 24px;
+    word-spacing: 5px;
+    font-family: "Sora", sans-serif;
+}
+
+.texto-banner-empresa{
+    color: #cccccc;
+    word-spacing: 3px;
+    font-size: 18px;
+}
+
+.banner-empresa a{
+    cursor: pointer;
+    font-weight: 700;
+    color: #cccccc;
+    text-decoration: none;
+    transition: color .18s ease;
+}
+
+.banner-empresa a:hover{
+    color: #eeeeee;
+    text-decoration: underline;
+}
+
+.banner-redes-sociais{
+    width: 22px;
+    height: 22px;
+    margin-bottom: -5px;
+    margin-left: 4px;
+    margin-right: 4px;
+    align-items: center;
+    justify-items: center;
+    cursor: pointer;
+}
+
+#banner-redes-sociais-youtube{
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-bottom: -9px;
+}
+
+#banner-redes-sociais-linkedin{
+    margin-left: 5px;
+}
+
+#banner-redes-sociais-instagram:hover{
+    content: url("Imagem/sobre_a_empresa/icon_instagram_hover.png")
+}
+
+#banner-redes-sociais-youtube:hover{
+    content: url("Imagem/sobre_a_empresa/icone_youtube_hover.png")
+}
+
+#banner-redes-sociais-linkedin:hover{
+    content: url("Imagem/sobre_a_empresa/icon_linkedin_hover.png")
+}
+
+.como-plataforma-ajuda{
+    margin-top: 30px;
+
+}
+
+/* Container com flex */
+.conteudo-como-plataforma-ajuda {
+    display: flex;
+    align-items: center; /* centraliza verticalmente */
+    justify-content: space-between;
+    gap: 40px; /* espaço entre texto e imagem */
+}
+
+.titulo-como-plataforma-ajuda{
+    font-size: 32px;
+    font-weight: 600;
+    font-family: "Sora", sans-serif;
+}
+
+.texto-inteiro-como-plataforma-ajuda{
+    flex: 1; /* ocupa metade */
+    margin-left: 40px;
+}
+.texto-como-plataforma-ajuda{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.9;
+    word-spacing: 1px;
+    color: #cccccc;
+}
+
+/* Imagem */
+.img-como-plataforma-ajuda {
+    flex: 1; /* ocupa metade */
+    max-width: 700px;
+    border-radius: 8px;
+}

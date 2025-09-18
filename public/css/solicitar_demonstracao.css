@@ -1,0 +1,208 @@
+.solicite-demonstracao{
+    margin-top: 50px;
+}
+.titulo-solicite-demonstracao{
+    font-size: 32px;
+    font-weight: 600;
+    font-family: "Sora", sans-serif;
+}
+
+.texto-inteiro-solicite-demonstracao{
+    margin-left: 40px;
+}
+.texto-solicite-demonstracao{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.9;
+    word-spacing: 1px;
+    color: #cccccc;
+} 
+
+/* Container do formulário Solicite Demonstração */
+.form-container-solicite-demonstracao {
+  background: #0e1629;
+  padding: 20px 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 60px auto;
+  color: #ccc;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+}
+
+.form-content-solicite {
+  text-align: left;
+}
+
+.form-texto-solicite-demonstracao {
+  font-size: 14px;
+  color: #cccccc;
+  margin-bottom: 25px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Inputs iguais aos do modal */
+.form-solicite-demonstracao input,
+.form-solicite-demonstracao textarea {
+  width: 100%;
+  padding: 13px 12px 12px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #2b3b5e;
+  background: #0e1629;
+  color: #ffffff;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+.form-solicite-demonstracao input::placeholder,
+.form-solicite-demonstracao textarea::placeholder {
+  color: #999999;
+  opacity: 0.5;
+  font-family: "Inter", sans-serif;
+}
+
+.form-solicite-demonstracao input:focus,
+.form-solicite-demonstracao textarea:focus {
+  border-color: #0084ff;
+  box-shadow: 0 0 6px rgba(0,132,255,0.4);
+}
+
+.form-row-solicite-demonstracao {
+  display: flex;
+  gap: 15px;
+}
+
+.form-solicite-demonstracao textarea {
+  height: 100px;
+  resize: none;
+}
+
+/* Checkbox */
+.checkbox-solicite-demonstracao {
+  display: flex;
+  align-items: center;
+  gap: 8px;             /* espaço fixo entre checkbox e texto */
+  font-size: 14px;
+  color: #cccccc;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.checkbox-solicite-demonstracao input[type="checkbox"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: #0084ff; /* cor moderna no checkbox */
+}
+
+.checkbox-solicite-demonstracao a {
+  color: #0084ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.checkbox-solicite-demonstracao a:hover {
+  text-decoration: underline;
+}
+
+/* Botão igual ao modal */
+.btn-enviar-solicite-demonstracao {
+  background: #0084ff;
+  border: none;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 15px;
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.btn-enviar-solicite-demonstracao:hover {
+  background: #006bcf;
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.2);
+}
+
+/* Bloco externo ocupa a largura total */
+.info-extra-solicite-demonstracao {
+    background-color: #080e1c;   /* fundo escuro diferenciado */
+    position: relative;
+    width: calc(100vw - 15px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 50px 0;
+    margin-top: 150px;
+    margin-bottom: 250px;
+    box-sizing: border-box;
+}
+
+/* Container interno */
+.info-extra-container-solicite-demonstracao {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: nowrap;           /* não deixa quebrar */
+    justify-content: space-between; /* joga uma box pra esquerda e outra pra direita */
+    gap: 60px;                   /* espaço entre elas */
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Cada bloco */
+.info-box-solicite-demonstracao {
+    flex: 1 1 45%;
+    max-width: 600px;
+    min-width: 350px;
+    text-align: left;
+
+    display: flex;
+    flex-direction: column;   
+}
+
+/* Botões ficam alinhados mas não ocupam largura total */
+.info-box-solicite-demonstracao a {
+    margin-top: auto;
+    align-self: flex-start; /* mantém alinhado à esquerda e só do tamanho do botão */
+}
+
+
+.info-box-solicite-demonstracao h3 {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #04b2f2;
+    font-family: "Sora", sans-serif;
+}
+
+.info-box-solicite-demonstracao p {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    color: #cccccc;
+}
+
+/* Botões */
+.btn-planos-solicite-demonstracao,
+.btn-central-de-ajuda-solicite-demonstracao {
+    display: inline-block;
+     background: #0084ff;
+    color: #ffffff;
+    padding: 12px 26px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-planos-solicite-demonstracao:hover,
+.btn-central-de-ajuda-solicite-demonstracao:hover {
+    background: #006bcf;
+    transform: scale(1.05);
+}

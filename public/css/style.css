@@ -1,0 +1,388 @@
+/* Geral */
+body{
+    background-color: #0E1629;
+    color: #999999;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 1500px;
+    line-height: normal;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+/* ---------------------------------------------------------------------------------------------*/
+/* header */
+header{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   /* border-bottom: 1px solid #0cb7eb; /* Linha divisória */ 
+}
+
+.menu{
+    display: flex;
+    gap: 40px; /* Espaçamento maior entre os itens do menu */
+    font-size: 16px;
+}
+
+.menu-item{
+    position: relative;
+    cursor: pointer;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-item a{
+    color: #999999;
+    text-decoration: none;
+    padding: 6px;
+    position: relative;
+}
+
+.menu-principal a:hover, .menu-hamburguer a:hover{
+    color:#cccccc
+}
+.menu-principal{
+    margin-right: 40px; 
+}
+.menu-principal a{
+    margin-right: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-demonstracao a {
+  background-color: #0084ff;   /* azul do botão */
+  color: #ffffff;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.3s ease; /* transição suave */
+}
+
+.menu-demonstracao a:hover {
+  background-color: #006bcf;   /* azul do botão */
+  box-shadow: 0 4px 12px rgba(0, 107, 207, 0.4); /* destaque */
+}
+
+
+.menu-notificacao{
+    width: 40px;   /* tamanho da bolinha */
+    height: 40px;
+    border: 0.5px solid rgba(102, 102, 102, 0.5); /* cor da borda */
+    border-radius: 50%; /* deixa redondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* necessário para posicionar o submenu */
+    cursor: pointer;
+}
+
+.menu-notificacao-img{
+    width: 24px;
+    height: 24px;
+}
+
+.menu-notificacao-img:hover{
+    content: url("Imagem/header/icon_notificacao_tema_escuro_hover.png")
+}
+
+.menu-notificacao:hover, .menu-hamburguer:hover{
+    border: 0.5px solid rgba(204, 204, 204, 0.5); /* cor da borda */
+}
+
+.submenu-notificacao {
+    max-height: 0; /* começa fechado */
+    opacity: 0;
+    transition: max-height 0.6s ease, opacity 0.6s ease, padding 0.6s ease;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 240px;
+    background-color: #19284b;
+    color: #cccccc;
+    padding: 0 35px; /* padding "zerado" no início */
+    border-radius: 10px;
+    border: 0.5px solid rgba(102,102,102,0.4);
+    white-space: normal;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+    z-index: 100;
+    overflow-y: auto;
+}
+
+/* evita scroll quando fechado (opcional) */
+.submenu-notificacao:not(.aberto) {
+    overflow: hidden;
+}
+
+.submenu-notificacao p {
+    font-size: 14px;
+    text-align: center;
+}
+
+/* mostra o submenu quando a classe "aberto" for adicionada via JS */
+.menu-notificacao.aberto .submenu-notificacao {
+    max-height: 500px; /* altura suficiente pro conteúdo */
+    opacity: 1;
+    padding: 20px 35px;
+}
+
+/* Botão do hambúrguer igual ao de notificação */
+.menu-hamburguer {
+    width: 40px;
+    height: 40px;
+    border: 0.5px solid rgba(102, 102, 102, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+
+
+.menu-hamburguer-img {
+    width: 24px;
+    height: 24px;
+}
+
+.menu-hamburguer-img:hover{
+    content: url("Imagem/header/icon_hamburguer_tema_escuro_hover.png")
+}
+
+.submenu-hamburguer {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease, opacity 0.6s ease;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #19284b;
+    border-radius: 10px;
+    border: 0.5px solid rgba(102, 102, 102, 0.4);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+    min-width: 210px;
+    z-index: 100;
+    flex-direction: column;
+}
+
+.menu-hamburguer.active .submenu-hamburguer {
+    max-height: 500px;
+    opacity: 1;
+}
+
+.submenu-hamburguer a {
+    display: flex;
+    justify-content: flex-end; /* conteúdo alinhado à direita */
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+}
+
+/* Mantém o mesmo estilo do <a> para os divs interativos */
+.submenu-hamburguer-item {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.submenu-hamburguer-item:hover{
+    color:#cccccc
+}
+
+#submenu-hamburguer-entrar, 
+#submenu-hamburguer-central-de-ajuda, 
+#submenu-hamburguer-documento{
+  border-bottom: 0.5px solid rgba(102, 102, 102, 0.4);
+}
+
+.menu-hamburguer-img-central-de-ajuda:hover{
+    content: url("Imagem/header/submenu_hamburguer/icon_central_de_ajuda_tema_escuro_hover.png")
+}
+
+.menu-hamburguer-img-documento:hover{
+    content: url("Imagem/header/submenu_hamburguer/icon_documentos_tema_escuro_hover.png")
+}
+
+.menu-hamburguer-img-tema-claro:hover{
+     content: url("Imagem/header/submenu_hamburguer/icon_tema_claro_hover.png")
+}
+
+.menu-hamburguer-img-central-de-ajuda, .menu-hamburguer-img-documento, .menu-hamburguer-img-tema-claro {
+    width: 20px;
+    height: 20px;
+}
+
+.menu-hamburguer-img:hover{
+    content: url("Imagem/header/icon_hamburguer_tema_escuro_hover.png")
+}
+
+/* Ativo */
+.menu-hamburguer.active .submenu-hamburguer {
+  display: flex;
+}
+
+/* ---------------------------------------------------------------------------------------------*/
+/* footer */
+
+.footer {
+    background-color: #070b14;
+    color: #cccccc;
+    position: relative;
+    width: calc(100vw - 15px);      /* evita ultrapassar por causa da barra de rolagem */
+    left: 50%;
+    transform: translateX(-50%);   /* centraliza corretamente */
+    padding: 50px 0 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-top: 150px;
+}
+
+/* Conteúdo interno centralizado */
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 90px;                 /* mais espaço entre colunas */
+    max-width: 1500px;
+    margin: 0 auto;
+    align-items: flex-start;   /* garante topo alinhado */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Colunas gerais */
+.footer-colunas {
+    flex: 1; /* ocupa o espaço restante de forma proporcional */
+    min-width: 180px; /* garante quebra em telas menores */
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+/* Coluna "sobre" fixa */
+.footer-sobre {
+    flex: 0 0 550px; /* largura fixa */
+    max-width: 550px;
+    margin-right: 40px;
+}
+
+/* estrutura interna da coluna SOBRE */
+.footer-sobre-inner {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+/* bloco do lado esquerdo (logo + redes sociais) */
+.footer-sobre-left {
+    display: flex;
+    flex-direction: column; /* logo em cima, redes abaixo */
+    align-items: flex-start; /* alinhados à esquerda */
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+/* Logo (lado esquerdo) */
+.footer-logo {
+    width: 110px;
+    height: auto;
+    display: block;
+}
+
+/* texto ao lado direito da logo */
+.footer-sobre-text {
+    flex: 1; /* ocupa o resto do espaço */
+}
+
+.footer-sobre-text p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #cccccc;
+    margin: 0;
+    margin-left: 10px;
+}
+
+/* redes sociais alinhadas embaixo da logo */
+.footer-social img {
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+#footer-redes-sociais-youtube{
+    width: 28px;
+    height: 28px;
+}
+
+#footer-redes-sociais-instagram:hover{
+    content: url("Imagem/footer/icon_instagram_hover.png");
+}
+
+#footer-redes-sociais-youtube:hover{
+    content: url("Imagem/footer/icon_youtube_hover.png");
+}
+
+#footer-redes-sociais-linkedin:hover{
+    content: url("Imagem/footer/icon_linkedin_hover.png");
+}
+
+  /* titulo das colunas */
+.footer-titulo {
+    color: #eeeeee;
+    font-size: 16px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    font-family: "Sora", sans-serif;
+}
+
+#footer-titulo-sobre{
+    margin-left: 5px;
+}
+
+/* listas e links das outras colunas */
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer ul li {
+    margin-bottom: 16px;
+}
+  
+.footer a {
+    color: #cccccc;
+    text-decoration: none;
+    transition: color .18s ease;
+    font-size: 14px;
+}
+
+.footer a:hover {
+    color: #eeeeee;
+    text-decoration: underline;
+}
+
+/* COPYRIGHT rodapé */
+.footer-copyright {
+    text-align: center;
+    border-top: 1px solid rgba(102, 102, 102, 0.28);
+    margin-top: 50px;
+    padding: 16px 0 5px;
+    font-size: 14px;
+    color: #999999;
+    font-weight: 400;
+}
+

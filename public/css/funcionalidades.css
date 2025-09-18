@@ -1,0 +1,92 @@
+.funcionalidades {
+    padding: 80px 30px;
+    text-align: center;
+}
+
+/* Container */
+.cards-container-funcionalidades {
+    display: flex;
+    justify-content: center; /* centraliza melhor na tela */
+    gap: 100px; /* aumenta espaço entre cards */
+    flex-wrap: wrap;
+}
+
+/* Card */
+.card-funcionalidades {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 10px 30px 30px 30px;
+    flex: 1;
+    min-width: 280px;
+    max-width: 340px;
+    min-height: 400px; /* altura um pouco maior para respiro */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+
+    /* animação inicial */
+    opacity: 0;
+    transform: translateY(40px);
+    animation: subir 0.8s ease forwards;
+}
+
+
+/* Animação de subir */
+@keyframes subir {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* efeito de atraso entre cards */
+.card-funcionalidades:nth-child(1) {
+    animation-delay: 0.2s;
+}
+.card-funcionalidades:nth-child(2) {
+    animation-delay: 0.6s;
+}
+.card-funcionalidades:nth-child(3) {
+    animation-delay: 1s;
+}
+ 
+
+/* Título */
+.titulo-card-funcionalidades {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: "Sora", sans-serif;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+/* Texto */
+.texto-card-funcionalidades {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #cccccc;
+    line-height: 1.7;
+    flex-grow: 1; /* faz o texto ocupar o espaço livre */
+}
+
+/* Botão */
+.sabia-mais-card-funcionalidades {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #0084ff;
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(0, 132, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.sabia-mais-card-funcionalidades:hover {
+    background-color: #006bcf;
+    box-shadow: 0 6px 16px rgba(0, 107, 207, 0.6);
+    transform: translateY(-3px); /* levanta um pouco no hover */
+}

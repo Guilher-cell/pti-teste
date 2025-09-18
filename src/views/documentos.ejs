@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos - FlowCerti</title>
+    
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/documentos.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <a href="/"><img class="logo" src="/Imagem/header/logo.png" alt="logo"></a>
+        <nav class="menu">
+            <div class="menu-item">
+                <div class="menu-principal">
+                    <a href="/sobre">Sobre a Empresa</a>
+                    <a href="/funcionalidades">Funcionalidades</a>
+                    <a href="">Dashbord</a>
+                    <a href="/planos">Planos</a>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-demonstracao">
+                    <a href="/solicitar">Solicitar Demonstração</a>
+                </div>
+            </div>
+             <% if (locals.user) { %>
+            <div class="menu-item">
+            <div class="menu-notificacao">
+                <img class="menu-notificacao-img" src="/Imagem/header/icon_notificacao_tema_escuro.png" alt="notificacao">
+                <div class="submenu-notificacao">
+                    <p>Nenhuma notificação encontrada</p>
+                </div>    
+                </div>   
+            </div>
+                <% } %>
+
+            <div class="menu-item"> 
+                <div class="menu-hamburguer" id="menuHamburguer">
+                    <img class="menu-hamburguer-img" src="/Imagem/header/icon_hamburguer_tema_escuro.png" alt="menu hamburguer">
+
+                    <div class="submenu-hamburguer">
+                        <% if (locals.user) { %>
+                            <!-- Usuário logado -->
+                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item">
+                                <span>Olá, <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %></span>
+                            </a>
+                            <a class="submenu-hamburguer-item" href="/minha-conta"><span>Ver Minha Conta</span></a>
+                            <a href="#">
+                                <img class="menu-hamburguer-img-central-de-ajuda" src="/Imagem/header/submenu_hamburguer/icon_central_de_ajuda_tema_escuro.png" alt="central de ajuda">
+                                <span>Central de Ajuda</span>
+                            </a>
+                            <a href="/documentos">
+                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_documentos_tema_escuro.png" alt="documentos">
+                                <span>Documentos</span>
+                            </a>
+                            <a class="submenu-hamburguer-item" href="/logout">
+                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_exit" alt="Sair">
+                                <span>Sair</span>
+                            </a>
+                        <% } else { %>
+                            <!-- Usuário deslogado -->
+                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item" href="/login">
+                                <span>Entrar</span>
+                            </a>
+                        <% } %>
+
+                        <!-- Sempre visível se estiver deslogado ou nao-->
+                        <div id="submenu-hamburguer-tema-claro" class="submenu-hamburguer-item">
+                            <img class="menu-hamburguer-img-tema-claro" src="/Imagem/header/submenu_hamburguer/icon_tema_claro.png" alt="tema claro">
+                            <span>Tema Claro</span>
+                        </div>   
+                    </div> 
+                </div> 
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-documentos">
+        <%- include('includes/messages') %>
+        <p class="texto-documentos">Organize todos os seus documentos em pastas personalizadas, mantendo-os centralizados e acessíveis. Essa funcionalidade facilita a gestão e garante que, no momento da auditoria, seus arquivos estejam estruturados e prontos para apresentação.</p>
+
+        <button id="btn-criar-pasta" class="btn-modal-criar-pasta">Criar Pasta <img src="/Imagem/icon/mais.png" alt="mais"></button>
+    </div>
+    
+    <div class="pastas-grid">
+    <% if (documentos && documentos.length > 0) { %>
+        <% documentos.forEach(doc => { %>
+            <div class="pasta-card">
+                <a href="/documentos/<%= doc._id %>" class="pasta-link">
+                    <div class="pasta-icon">
+                        <img src="/Imagem/icon/pasta.png" alt="Ícone de Pasta">
+                    </div>
+                    <div class="pasta-info">
+                        <h3 class="pasta-nome"><%= doc.nome %></h3>
+                        <p class="pasta-descricao"><%= doc.descricao || 'Sem descrição' %></p>
+                    </div>
+                </a>
+                <div class="pasta-acoes">
+                    <!-- Futuramente, podemos adicionar botões de editar/apagar aqui -->
+                    <span class="pasta-data">Criado em: <%= doc.createdAt.toLocaleDateString('pt-BR') %></span>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p class="nenhuma-pasta">Nenhuma pasta foi criada ainda. Clique em "Criar Pasta" para começar.</p>
+    <% } %>
+</div>
+
+    <!-- Modal Criar Pasta -->
+    <div id="modal-criar-pasta" class="modal">
+        <div class="modal-content">
+            <div class="modal-content-forms">
+                <span class="close">&times;</span>
+                <h2>Criar Nova Pasta</h2>
+                <form id="form-criar-pasta" method="POST" action="/documentos/criar">
+                    <input type="hidden" name="_csrf" value=<%= csrfToken %>>
+                    <input type="text" name="nome" placeholder="Nome da Pasta" id="nomePasta" required>
+                    <textarea name="descricao" placeholder="Descrição (opcional)" id="descricaoPasta" rows="4"></textarea>
+                    <button type="submit" class="btn-criar-modal">CRIAR PASTA</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            
+            <!-- Coluna Sobre -->
+            <div class="footer-colunas footer-sobre">
+                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
+
+                <div class="footer-sobre-inner">
+
+                    <!-- Lado esquerdo: logo + redes sociais -->
+                    <div class="footer-sobre-left">
+                        <img src="/Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
+
+                        <div class="footer-social">
+                            <a href="#"><img id="footer-redes-sociais-instagram" src="/Imagem/footer/icon_instagram.png" alt="Instagram"></a>
+                            <a href="#"><img id="footer-redes-sociais-youtube" src="/Imagem/footer/icon_youtube.png" alt="YouTube"></a>
+                            <a href="#"><img id="footer-redes-sociais-linkedin" src="/Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
+                        </div>
+                    </div>     
+                    
+                    <!-- Lado direito: texto -->
+                    <div class="footer-sobre-text">
+                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- Coluna Acesso Rápido -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Perguntas frequentes</a></li>
+                    <li><a href="#">Centro de ajuda</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Acessos Buscados -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
+                <ul>
+                    <li><a href="#">DashBoard</a></li>
+                    <li><a href="#">Solicitar Demonstração</a></li>
+                    <li><a href="#">Documentos</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Institucional -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">INSTITUCIONAL</h3>
+                <ul>
+                    <li><a href="#">Termos e uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="footer-copyright">
+            <span>Copyright © FlowCerti 2025</span>
+        </div>
+    </footer>
+    
+    <script src="/assets/js/documentos.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>
