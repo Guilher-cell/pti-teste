@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCerti</title>
+
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/meus_dados.css">
+    <link rel="stylesheet" href="/css/conta_geral.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("includes/header", { user: user }) %>
+
+    <!-- Breadcrumb -->
+    <ul class="breadcrumb">
+      <li><a href="index.html">Início</a></li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </li>
+      <li><a href="conta.html">Conta</a></li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </li>
+      <li class="current">Meus Dados</li>
+    </ul>
+
+    <div class="conta-wrapper"> 
+  <!-- ===== Sidebar (menu da conta) ===== -->
+  <aside class="account-sidebar">
+    <div class="account-sidebar-inner">
+      <div class="menu-title">MENU</div>
+      <nav class="account-menu">
+        <a href="/resumo" class="menu-link">Resumo</a>
+        <a href="/minha-conta" class="menu-link">Minha Conta</a>
+        <a href="/meus-dados" class="menu-link active" aria-current="page">Meus Dados</a>
+        <a href="/verificacao" class="menu-link">Verificação</a>
+        <a href="/seguranca" class="menu-link">Segurança</a>
+        <a href="/pagamento" class="menu-link">Pagamento</a>
+        <a href="/cadastrar-funcionario" class="menu-link">Cadastrar Funcionários</a>
+        <a href="#" class="menu-link sair">Sair</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ===== Modal Logout ===== -->
+<div id="modal-logout" class="modal-logout">
+  <div class="modal-logout-content">
+    <h3>Deseja realmente sair?</h3>
+    <p>Você será desconectado da sua conta FlowCerti.</p>
+    <div class="modal-logout-actions">
+      <form method="POST" action="/logout">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn-logout confirmar">Sair</button>
+      </form>
+      <button class="btn-logout cancelar" id="btn-cancelar-logout">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+        <!-- ===== Conteúdo principal ===== -->
+<main class="conta-main-meus-dados">
+
+  <!-- UM ÚNICO FORM englobando tudo -->
+  <form class="form-conta-meus-dados" method="POST" action="/meus-dados/salvar">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <!-- Dados Empresariais -->
+    <section class="conta-form-meus-dados conta-form-meus-dados-empresariais">
+      <h3 class="form-title-meus-dados">Dados empresariais</h3>
+      <p class="form-subtitle-meus-dados">
+        Insira com atenção todas as informações que são solicitadas, uma vez enviadas você não conseguirá modificar.<br>
+        Essas informações são necessárias para você <a href="/verificacao">Verificar</a> sua conta.
+      </p>
+
+      <div class="form-grid-2-meus-dados">
+        <div class="field-meus-dados">
+          <label>Razão Social <span class="req">*</span></label>
+          <input type="text" name="razaoSocial" value="<%= empresa.razaoSocial || '' %>"
+                 <%= empresa.razaoSocial ? 'readonly' : '' %>
+                 placeholder="Digite a razão social" required>
+        </div>
+        <div class="field-meus-dados">
+          <label>CNPJ <span class="req">*</span></label>
+          <input type="text" value="<%= user.cnpj %>" readonly>
+        </div>
+      </div>
+    </section>
+
+    <!-- Endereço -->
+    <section class="conta-form-meus-dados">
+      <h3 class="form-title-meus-dados">Endereço</h3>
+      <p class="form-subtitle-meus-dados">
+        Insira com atenção todas as informações que são solicitadas, uma vez enviadas você não conseguirá modificar.
+      </p>
+
+      <div class="form-grid-multi-meus-dados">
+        <div class="field-meus-dados">
+          <label>CEP <span class="req">*</span></label>
+          <input id="CEP" type="text" name="cep" value="<%= empresa.endereco?.cep || '' %>"
+                 <%= empresa.endereco?.cep ? 'readonly' : '' %>
+                 placeholder="00000-000" required>
+        </div>
+        <div class="field-meus-dados">
+          <label>Endereço <span class="req">*</span></label>
+          <input type="text" name="endereco" id="Endereco"
+                 value="<%= empresa.endereco?.logradouro || '' %>"
+                 <%= empresa.endereco?.logradouro ? 'readonly' : '' %>
+                 placeholder="Rua, Avenida..." required>
+        </div>
+        <div class="field-meus-dados">
+          <label>Número <span class="req">*</span></label>
+          <input type="text" name="numero" value="<%= empresa.endereco?.numero || '' %>"
+                 <%= empresa.endereco?.numero ? 'readonly' : '' %> required>
+        </div>
+        <div class="field-meus-dados">
+          <label>Complemento</label>
+          <input type="text" name="complemento" value="<%= empresa.endereco?.complemento || '' %>"
+                 <%= empresa.endereco?.complemento ? 'readonly' : '' %>>
+        </div>
+        <div class="field-meus-dados">
+          <label>Bairro <span class="req">*</span></label>
+          <input type="text" id="Bairro" name="bairro" value="<%= empresa.endereco?.bairro || '' %>"
+                 <%= empresa.endereco?.bairro ? 'readonly' : '' %> required>
+        </div>
+        <div class="field-meus-dados">
+          <label>Cidade <span class="req">*</span></label>
+          <input type="text" id="Cidade" name="cidade" value="<%= empresa.endereco?.cidade || '' %>"
+                 <%= empresa.endereco?.cidade ? 'readonly' : '' %> required>
+        </div>
+        <div class="field-meus-dados">
+          <label>Estado <span class="req">*</span></label>
+          <input type="text" id="Estado" name="estado" value="<%= empresa.endereco?.estado || '' %>"
+                 <%= empresa.endereco?.estado ? 'readonly' : '' %> required>
+        </div>
+        <div class="field-meus-dados">
+          <label>País <span class="req">*</span></label>
+          <input type="text" name="pais" value="<%= empresa.endereco?.pais || '' %>"
+                 <%= empresa.endereco?.pais ? 'readonly' : '' %> required>
+        </div>
+      </div>
+    </section>
+
+    <!-- Botão de envio -->
+    <% if (!empresa.dadosCompletos) { %>
+    <div class="form-footer-meus-dados">
+      <button type="submit" id="btn-salvar-dados" class="btn-conta-salvar-meus-dados">Salvar</button>
+    </div>
+    <% } %>
+
+    <!-- mensagens -->
+    <%- include('includes/messages') %>
+  </form>
+</main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Colunas do footer -->
+            <div class="footer-colunas footer-sobre">
+                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
+                <div class="footer-sobre-inner">
+                    <div class="footer-sobre-left">
+                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
+                        <div class="footer-social">
+                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
+                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
+                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
+                        </div>
+                    </div>     
+                    <div class="footer-sobre-text">
+                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Perguntas frequentes</a></li>
+                    <li><a href="#">Centro de ajuda</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
+                <ul>
+                    <li><a href="#">DashBoard</a></li>
+                    <li><a href="#">Solicitar Demonstração</a></li>
+                    <li><a href="#">Documentos</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">INSTITUCIONAL</h3>
+                <ul>
+                    <li><a href="#">Termos e uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <span>Copyright © FlowCerti 2025</span>
+        </div>
+    </footer>
+    
+    <script src="/assets/js/meus_dados.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

@@ -30,3 +30,16 @@ exports.isAuthenticated = (req, res, next) => {
 }
 
 
+exports.isAdmin = (req, res, next) => {
+  if (req.session.user && req.session.user.role === "admin") {
+    return next();
+  }
+
+  req.flash("errors", "Acesso restrito apenas para administradores globais.");
+  return res.redirect("/");
+};
+
+
+
+
+

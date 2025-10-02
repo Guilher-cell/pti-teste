@@ -1,0 +1,122 @@
+/* ===== Página Capítulos (subcapítulos) ===== */
+.capitulos {
+  padding: 60px 20px;
+  margin: 0 auto;
+}
+
+.capitulos-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.capitulos-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 12px;
+  font-family: "Sora", sans-serif;
+}
+.capitulos-header p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  word-spacing: 1px;
+  color: #cccccc;
+  margin-top: -5px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Grid padrão */
+.capitulos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  justify-content: center;  /* centraliza quando não ocupa toda a largura */
+}
+
+/* Quando tiver exatamente 3 cards */
+.capitulos-grid.three-columns {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1100px; /* trava largura para não espalhar muito */
+  margin: 0 auto;    /* centraliza */
+}
+
+
+/* Card */
+.capitulos-card {
+  background: #0e1629;
+  border: 2px solid #2b3b5e;
+  border-radius: 14px;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+
+  display: flex;             /* Ativa flex */
+  flex-direction: column;    /* Conteúdo em coluna */
+}
+.capitulos-card:hover { border-color: #0084ff; }
+
+
+.capitulos-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 10px;
+  font-family: "Sora", sans-serif;
+}
+.capitulos-card p {
+  font-size: 15px;
+  color: #ccc;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-family: "Inter", sans-serif;
+}
+
+/* Porcentagem (canto superior direito) */
+.capitulos-progress {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+/* 0% */
+.capitulos-progress.zero {
+  background: rgba(0,132,255,.15);
+  color: #3da0fc;
+  border-color: rgba(0,132,255,.35);
+}
+
+/* 1% a 99% */
+.capitulos-progress.in-progress {
+  background: rgba(255,204,0,.15);
+  color: #ffcc00;
+  border-color: rgba(255,204,0,.35);
+}
+
+/* 100% */
+.capitulos-progress.complete {
+  background: rgba(0,255,106,.15);
+  color: #00ff6a;
+  border-color: rgba(0,255,106,.35);
+}
+
+/* Botão */
+.btn-capitulos-gerenciar {
+  background: #0084ff;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 25px;
+  padding: 12px 28px;
+  text-decoration: none;
+  transition: background-color .3s ease;
+
+  margin-top: auto;   /* força o botão ir pro rodapé */
+  align-self: center; /* centraliza horizontalmente */
+}
+.btn-capitulos-gerenciar:hover { background: #006bcf; }

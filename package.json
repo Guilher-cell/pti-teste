@@ -27,6 +27,7 @@
     "mongodb": "^6.9.0",
     "mongoose": "^8.7.0",
     "multer": "^2.0.2",
+    "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.6",
     "regenerator-runtime": "^0.14.1",
     "style-loader": "^3.3.4",

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCerti</title>
+
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/conta.css">
+    <link rel="stylesheet" href="/css/conta_geral.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("includes/header", { user: user }) %>
+
+    <!-- Breadcrumb -->
+  <ul class="breadcrumb">
+    <li><a href="index.html">Início</a></li>
+    <li>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </li>
+    <li class="current">Conta</li>
+  </ul>
+
+    <div class="conta-wrapper"> 
+  <!-- ===== Sidebar (menu da conta) ===== -->
+  <aside class="account-sidebar">
+    <div class="account-sidebar-inner">
+      <div class="menu-title">MENU</div>
+      <nav class="account-menu">
+        <a href="/resumo" class="menu-link active" aria-current="page">Resumo</a>
+        <a href="/minha-conta" class="menu-link">Minha Conta</a>
+        <a href="/meus-dados" class="menu-link">Meus Dados</a>
+        <a href="/verificacao" class="menu-link">Verificação</a>
+        <a href="/seguranca" class="menu-link">Segurança</a>
+        <a href="/pagamento" class="menu-link">Pagamento</a>
+        <a href="/cadastrar-funcionario" class="menu-link">Cadastrar Funcionários</a>
+        <a href="#" class="menu-link sair">Sair</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ===== Modal Logout ===== -->
+<div id="modal-logout" class="modal-logout">
+  <div class="modal-logout-content">
+    <h3>Deseja realmente sair?</h3>
+    <p>Você será desconectado da sua conta FlowCerti.</p>
+    <div class="modal-logout-actions">
+      <form method="POST" action="/logout">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn-logout confirmar">Sair</button>
+      </form>
+      <button class="btn-logout cancelar" id="btn-cancelar-logout">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+  <!-- ===== Conteúdo principal ===== -->
+<main class="conta-main">
+  <!-- Header de boas-vindas -->
+  <div class="conta-header">
+    <div class="conta-avatar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+           viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round"
+           class="lucide lucide-user-icon lucide-user">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </div>
+    <div class="conta-texto">
+      <h2>Olá, <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %>!</h2>
+      <p>Seja bem-vindo(a) à sua conta da FlowCerti!</p>
+    </div>
+  </div>
+
+    <!-- Boxes -->
+  <section class="conta-boxes">
+    <!-- Box 1 - Tudo validado -->
+    <div class="conta-box conta-box-large">
+      <div class="conta-box-header">
+    <% if (empresa && empresa.razaoSocial && empresa.endereco && empresa.endereco.cep) { %>
+      <h3 class="conta-box-title">Tudo validado!</h3>
+      <span class="status-validado">✔ 100%</span>
+    <% } else { %>
+      <h3 class="conta-box-title">Validação pendente</h3>
+      <span class="status-invalido">⚠ 50%</span>
+    <% } %>
+  </div>
+
+  <div class="conta-box-content">
+        <div class="box-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="#ffffff" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round"
+               class="lucide lucide-file-user-icon lucide-file-user">
+            <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+            <path d="M15 18a3 3 0 1 0-6 0"/>
+            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/>
+            <circle cx="12" cy="13" r="2"/>
+          </svg>
+        </div>
+    <div class="box-text">
+      <% if (empresa && empresa.razaoSocial && empresa.endereco && empresa.endereco.cep) { %>
+        <p><strong>Parabéns!</strong> Sua conta está 100% verificada. Agora você pode acessar e
+          gerenciar todas as certificações disponíveis na FlowCerti com total
+          segurança e autonomia.</p>
+      <% } else { %>
+        <p><strong>Atenção!</strong> Sua conta está 50% verificada. Complete seus dados em 
+          verificação para liberar todas as funcionalidades.</p>
+      <% } %>
+    </div>
+  </div>
+
+  <% if (!(empresa && empresa.razaoSocial && empresa.endereco && empresa.endereco.cep)) { %>
+    <a href="/verificacao" class="btn-conta-verificacao">Ver Verificações</a>
+  <% } %>
+</div>
+
+
+      <!-- Box 2 - Sugestões -->
+    <div class="conta-box">
+      <h3 class="conta-box-title">Área de Sugestões</h3>
+      <p>Contribua com a evolução do FlowCerti enviando suas sugestões!</p>
+      <a href="#" class="btn-conta-sugestao">Propor Sugestão</a>
+    </div>
+
+    <!-- Box 3 - Bugs -->
+    <div class="conta-box">
+      <h3 class="conta-box-title">Área de Bugs</h3>
+      <p>Ajude-nos a melhorar relatando qualquer problema com uma breve descrição e, se
+        possível, o envio de uma imagem.</p>
+      <a href="#" class="btn-conta-bug">Relatar Bug</a>
+    </div>
+  </section>
+</main>
+</div>
+
+
+    <footer class="footer">
+        <div class="footer-container">
+            
+            <!-- Coluna Sobre -->
+            <div class="footer-colunas footer-sobre">
+                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
+
+                <div class="footer-sobre-inner">
+
+                    <!-- Lado esquerdo: logo + redes sociais -->
+                    <div class="footer-sobre-left">
+                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
+
+                        <div class="footer-social">
+                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
+                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
+                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
+                        </div>
+                    </div>     
+                    
+                    <!-- Lado direito: texto -->
+                    <div class="footer-sobre-text">
+                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- Coluna Acesso Rápido -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Perguntas frequentes</a></li>
+                    <li><a href="#">Centro de ajuda</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Acessos Buscados -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
+                <ul>
+                    <li><a href="#">DashBoard</a></li>
+                    <li><a href="#">Solicitar Demonstração</a></li>
+                    <li><a href="#">Documentos</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Institucional -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">INSTITUCIONAL</h3>
+                <ul>
+                    <li><a href="#">Termos e uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="footer-copyright">
+            <span>Copyright © FlowCerti 2025</span>
+        </div>
+    </footer>
+    
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

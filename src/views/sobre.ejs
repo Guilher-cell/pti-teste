@@ -15,74 +15,20 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <a href="/"><img class="logo" src="/Imagem/header/logo.png" alt="logo"></a>
-        <nav class="menu">
-            <div class="menu-item">
-                <div class="menu-principal">
-                    <a href="/sobre">Sobre a Empresa</a>
-                    <a href="/funcionalidades">Funcionalidades</a>
-                    <a href="">Dashbord</a>
-                    <a href="/planos">Planos</a>
-                </div>
-            </div>
+    
+    <%- include("includes/header", { user: user }) %>
+    
+    <!-- Breadcrumb -->
+    <ul class="breadcrumb">
+        <li><a href="index.html">Início</a></li>
+        <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </li>
+        <li class="current">Sobre a Empresa</li>
+    </ul>
 
-            <div class="menu-item">
-                <div class="menu-demonstracao">
-                    <a href="/solicitar">Solicitar Demonstração</a>
-                </div>
-            </div>
-             <% if (locals.user) { %>
-            <div class="menu-item">
-            <div class="menu-notificacao">
-                <img class="menu-notificacao-img" src="Imagem/header/icon_notificacao_tema_escuro.png" alt="notificacao">
-                <div class="submenu-notificacao">
-                    <p>Nenhuma notificação encontrada</p>
-                </div>    
-                </div>   
-            </div>
-                <% } %>
 
-            <div class="menu-item"> 
-                <div class="menu-hamburguer" id="menuHamburguer">
-                    <img class="menu-hamburguer-img" src="Imagem/header/icon_hamburguer_tema_escuro.png" alt="menu hamburguer">
 
-                    <div class="submenu-hamburguer">
-                        <% if (locals.user) { %>
-                            <!-- Usuário logado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item">
-                                <span>Olá, <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %></span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/minha-conta"><span>Ver Minha Conta</span></a>
-                            <a href="#">
-                                <img class="menu-hamburguer-img-central-de-ajuda" src="/Imagem/header/submenu_hamburguer/icon_central_de_ajuda_tema_escuro.png" alt="central de ajuda">
-                                <span>Central de Ajuda</span>
-                            </a>
-                            <a href="/documentos">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_documentos_tema_escuro.png" alt="documentos">
-                                <span>Documentos</span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/logout">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_exit" alt="Sair">
-                                <span>Sair</span>
-                            </a>
-                        <% } else { %>
-                            <!-- Usuário deslogado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item" href="/login">
-                                <span>Entrar</span>
-                            </a>
-                        <% } %>
-
-                        <!-- Sempre visível se estiver deslogado ou nao-->
-                        <div id="submenu-hamburguer-tema-claro" class="submenu-hamburguer-item">
-                            <img class="menu-hamburguer-img-tema-claro" src="/Imagem/header/submenu_hamburguer/icon_tema_claro.png" alt="tema claro">
-                            <span>Tema Claro</span>
-                        </div>   
-                    </div> 
-                </div> 
-            </div>
-        </nav>
-    </header>
     
     <div class="img-flowcerti">
         <div class="anim-wrapper">
@@ -106,9 +52,42 @@
     <div class="banner-empresa">
         <h3 class="titulo-banner-empresa">Tudo sobre nossa plataforma e explore o mundo das certificações</h3>
         <span class="texto-banner-empresa"> Siga nos em nossas redes </span>
-        <a href=""><img class="banner-redes-sociais" id="banner-redes-sociais-instagram" src="Imagem/sobre_a_empresa/icon_instagram.png" alt="instagram"></a> 
-        <a href=""><img class="banner-redes-sociais" id="banner-redes-sociais-youtube" src="Imagem/sobre_a_empresa/icone_youtube.png" alt="youtube"></a>
-        <a href=""><img class="banner-redes-sociais" id="banner-redes-sociais-linkedin" src="Imagem/sobre_a_empresa/icon_linkedin.png" alt="linkedin"></a> 
+
+        <!-- Instagram -->
+        <a href="#" class="banner-rede-social">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-instagram-icon">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+            </svg>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="#" class="banner-rede-social">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-linkedin-icon">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect width="4" height="12" x="2" y="9"/>
+                <circle cx="4" cy="4" r="2"/>
+            </svg>
+        </a>
+
+        <!-- YouTube -->
+        <a href="#" class="banner-rede-social">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-youtube-icon">
+                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
+                <path d="m10 15 5-3-5-3z"/>
+            </svg>
+        </a>
+        
         <span class="texto-banner-empresa">e acompanhe nosso <a href="blog.html">Blog</a></span>
     </div>
     

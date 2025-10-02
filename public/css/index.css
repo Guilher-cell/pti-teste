@@ -1,0 +1,220 @@
+/* ===== Hero Section ===== */
+.hero-home {
+  padding: 80px 20px;
+}
+
+.hero-home-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+
+/* Texto */
+.hero-home-text {
+  flex: 1 1 500px;
+  margin-top: -100px; /* <-- sobe o bloco de texto */
+}
+
+.hero-home-text h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 15px;
+  font-family: "Sora", sans-serif;
+}
+
+.hero-home-text p {
+  font-size: 18px;
+  color: #cccccc;
+  margin-bottom: 30px;
+  margin-top: -5px;
+  line-height: 1.7;
+  font-family: "Inter", sans-serif;
+}
+
+
+/* Botão estilo igual ao .btn-conta-* */
+.btn-home-hero {
+  background-color: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 25px;
+  padding: 18px 42px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+  display: inline-block;
+}
+.btn-home-hero:hover {
+  background-color: #006bcf;
+}
+
+/* Imagem */
+.hero-home-image {
+  flex: 1 1 500px; /* aumenta a largura base */
+  text-align: center;
+}
+.hero-home-image img {
+  max-width: 140%; /* aumenta a proporção */
+  height: auto;
+}
+
+/* ===== Seção Certificações ===== */
+.cert-titulo {
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 12px;
+  margin-top: 30px;
+  font-family: "Sora", sans-serif;
+}
+
+.cert-subtitulo {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  word-spacing: 1px;
+  color: #cccccc;
+  margin-bottom: 60px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Grid */
+.cert-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* Card */
+.cert-card {
+  background: transparent;
+  border: 2px solid #2b3b5e;
+  border-radius: 14px;
+  padding: 40px 30px;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.cert-card:hover {
+  border-color: #0084ff;
+}
+.cert-card img {
+  max-width: 210px;
+}
+
+.cert-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 12px;
+  font-family: "Sora", sans-serif;
+}
+.cert-card p {
+  font-size: 15px;
+  color: #cccccc;
+  margin-bottom: 25px;
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+}
+
+/* Botão ativo */
+.btn-cert {
+  background-color: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 25px;
+  padding: 14px 34px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: "Inter", sans-serif;
+  display: inline-block;
+}
+.btn-cert:hover {
+  background-color: #006bcf;
+}
+
+/* Card "Em breve" */
+.cert-card.soon {
+  opacity: 0.5;
+  border-style: dashed; /* destaque de em breve */
+  pointer-events: none; /* não clicável */
+}
+.cert-card.soon h3::after {
+  content: " (em breve)";
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffcc00;
+}
+.cert-card.soon .btn-cert {
+  background: #444;
+  color: #aaa;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
+/* ===== Seção: Simplifique ===== */
+.simplifique {
+  margin-top: 150px;
+}
+
+.simplifique-titulo {
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  font-family: "Sora", sans-serif;
+}
+
+.simplifique-container {
+  max-width: 1200px; /* aumentei um pouco pra dar respiro */
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+/* Imagem (esquerda) */
+.simplifique-image {
+  flex: 1 1 600px;
+  text-align: center;
+  margin-left: -40px; /* puxa a imagem mais para a esquerda */
+}
+
+.simplifique-image img {
+  width: 105%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+
+/* Texto (direita) */
+.simplifique-texto {
+  flex: 1 1 520px;
+}
+.simplifique-texto p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.9;
+  word-spacing: 1px;
+  color: #cccccc;
+}
+
+.simplifique-texto strong {
+  color: #ffffff;
+}
+

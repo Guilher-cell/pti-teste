@@ -18,56 +18,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- ======================================================= -->
-    <!-- HEADER -->
-    <!-- ======================================================= -->
-    <header>
-        <a href="/"><img class="logo" src="/Imagem/header/logo.png" alt="logo"></a>
-        <nav class="menu">
-            <div class="menu-item">
-                <div class="menu-principal">
-                    <a href="/sobre">Sobre a Empresa</a>
-                    <a href="/funcionalidades">Funcionalidades</a>
-                    <a href="">Dashbord</a>
-                    <a href="/planos">Planos</a>
-                </div>
-            </div>
-            <div class="menu-item">
-                <div class="menu-demonstracao">
-                    <a href="/solicitar-demonstracao">Solicitar Demonstração</a>
-                </div>
-            </div>
-            <% if (locals.user ) { %>
-            <div class="menu-item">
-                <div class="menu-notificacao">
-                    <img class="menu-notificacao-img" src="/Imagem/header/icon_notificacao_tema_escuro.png" alt="notificacao">
-                    <div class="submenu-notificacao">
-                        <p>Nenhuma notificação encontrada</p>
-                    </div>    
-                </div>   
-            </div>
-            <% } %>
-            <div class="menu-item"> 
-                <div class="menu-hamburguer" id="menuHamburguer">
-                    <img class="menu-hamburguer-img" src="/Imagem/header/icon_hamburguer_tema_escuro.png" alt="menu hamburguer">
-                    <div class="submenu-hamburguer">
-                        <% if (locals.user) { %>
-                            <a class="submenu-hamburguer-item"><span>Olá, <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %></span></a>
-                            <a class="submenu-hamburguer-item" href="/minha-conta"><span>Ver Minha Conta</span></a>
-                            <a href="#"><img class="menu-hamburguer-img-central-de-ajuda" src="/Imagem/header/submenu_hamburguer/icon_central_de_ajuda_tema_escuro.png" alt="central de ajuda"><span>Central de Ajuda</span></a>
-                            <a href="/documentos"><img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_documentos_tema_escuro.png" alt="documentos"><span>Documentos</span></a>
-                            <a class="submenu-hamburguer-item" href="/logout"><img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_exit.png" alt="Sair"><span>Sair</span></a>
-                        <% } else { %>
-                            <a class="submenu-hamburguer-item" href="/login"><span>Entrar</span></a>
-                        <% } %>
-                        <div id="submenu-hamburguer-tema-claro" class="submenu-hamburguer-item">
-                            <img class="menu-hamburguer-img-tema-claro" src="/Imagem/header/submenu_hamburguer/icon_tema_claro.png" alt="tema claro"><span>Tema Claro</span>
-                        </div>   
-                    </div> 
-                </div> 
-            </div>
-        </nav>
-    </header>
+    <%- include("includes/header", { user: user }) %>
 
     <!-- ======================================================= -->
     <!-- CONTEÚDO PRINCIPAL DA PÁGINA -->
@@ -94,31 +45,61 @@
 
         <div class="upload-area">
             <h2>Carregar Novos Ficheiros</h2>
-            <form action="/documentos/<%= documento._id %>/upload" method="POST" enctype="multipart/form-data">
+            <form id="form-upload" action="/documentos/<%= documento._id %>/upload" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <p>Arraste e solte os ficheiros aqui ou clique para selecionar.</p>
-                <input type="file" name="ficheiros" multiple required>
-                <button type="submit">CARREGAR</button>
+
+                <!-- Botão escolher -->
+                <label for="ficheiros" class="btn-escolher-arquivo">Escolher Ficheiros</label>
+                <input type="file" name="ficheiros" id="ficheiros" multiple>
+
+                <!-- Lista de pré-visualização -->
+                <ul id="preview-list" class="lista-preview"></ul>
+
+                <!-- Inputs de aprovado por -->
+                <div id="aprovadores-wrapper"></div>
+
+                <!-- Botão carregar -->
+                <button type="submit" class="btn-primario">Carregar</button>
             </form>
         </div>
 
-        <div class="ficheiros-lista">
-            <h2>Ficheiros nesta Pasta</h2>
-            <% if (documento.ficheiros && documento.ficheiros.length > 0) { %>
-                <ul class="lista-de-ficheiros">
-                    <% documento.ficheiros.forEach(ficheiro => { %>
-                        <li class="item-ficheiro">
+        <!-- Botão salvar separado -->
+        <div class="salvar-container">
+            <button id="btn-salvar-ficheiros" class="btn-primario">Salvar alterações</button>
+        </div>
+
+        <% if (documento.ficheiros && documento.ficheiros.length > 0) { %>
+            <ul class="lista-de-ficheiros">
+                <% documento.ficheiros.forEach(ficheiro => { %>
+                    <li class="item-ficheiro">
+                        <div class="ficheiro-info">
                             <a href="/uploads/<%= ficheiro.path %>" target="_blank" class="link-ficheiro">
                                 <span class="nome-ficheiro"><%= ficheiro.nomeOriginal %></span>
                                 <span class="tamanho-ficheiro"><%= (ficheiro.size / 1024).toFixed(2) %> KB</span>
                             </a>
-                        </li>
-                    <% }) %>
-                </ul>
-            <% } else { %>
-                <p class="nenhum-ficheiro">Nenhum ficheiro foi carregado para esta pasta ainda.</p>
-            <% } %>
-        </div>
+
+                            <% if (ficheiro.aprovadoPor) { %>
+                                <span class="status-aprovado">
+                                        Aprovado por: <%= ficheiro.aprovadoPor %>
+                                    <% if (ficheiro.aprovadoEm) { %>
+                                        em <%= ficheiro.aprovadoEm.toLocaleDateString("pt-BR") %>
+                                    <% } %>
+                                </span>
+                            <% } else { %>
+                                <span class="status-pendente">Aguardando aprovação</span>
+                            <% } %>
+
+                            <form method="POST" action="/documentos/<%= documento._id %>/ficheiro/<%= ficheiro._id %>/apagar">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button type="submit" class="btn-perigo">Apagar</button>
+                            </form>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p class="nenhum-ficheiro">Nenhum ficheiro foi carregado para esta pasta ainda.</p>
+        <% } %>
     </div>
 
     <!-- ======================================================= -->
@@ -144,11 +125,7 @@
             <div class="modal-content-forms">
                 <span class="close">&times;</span>
                 <h2>Confirmar Exclusão</h2>
-                <p class="confirmacao-texto">
-                    Tem a certeza de que deseja apagar a pasta <strong>"<%= documento.nome %>"</strong>?
-                      
-  
-
+                <p class="confirmacao-texto">Tem a certeza de que deseja apagar a pasta <strong>"<%= documento.nome %>"</strong>?
                     Esta ação é irreversível e todos os ficheiros dentro dela serão perdidos.
                 </p>
                 <form id="form-apagar-pasta" method="POST" action="/documentos/apagar/<%= documento._id %>">
@@ -212,7 +189,6 @@
         </div>
     </footer>
   
-    
     <script src="/assets/js/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,40 @@
+.box-2fa {
+  background: #1a2438;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 100px auto;
+  color: #fff;
+  text-align: center;
+}
+
+.box-2fa h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.box-2fa input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 6px;
+}
+
+.box-2fa .btn-primario {
+  background: #0084ff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.box-2fa .msg-sucesso {
+  color: #00ff99;
+}
+
+.box-2fa .msg-erro {
+  color: #ff4c4c;
+}

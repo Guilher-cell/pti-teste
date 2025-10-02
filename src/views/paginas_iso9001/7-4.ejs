@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCerti - ISO 9001:2015 - 7.4 Comunicação</title>
+
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/subcapitulo.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("../includes/header", { user: user }) %>
+
+    <ul class="breadcrumb">
+  <li><a href="/">Início</a></li>
+  <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
+  <li><a href="/dashboard">Dashboard</a></li>
+  <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
+  <li><a href="/gerenciar">ISO 9001:2015</a></li>
+  <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
+  <li><a href="/iso9001/7">7. Apoio</a></li>
+  <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
+  <li class="current">7.4 Comunicação</li>
+</ul>
+
+
+   <!-- ===== Subcapítulo 7.4 ===== -->
+<main class="subcap">
+
+    <div class="subcap-header">
+      <h2>7.4 Comunicação</h2>
+      <p>Envie o documento principal que comprove este requisito e utilize o checklist apenas como lembrete do conteúdo que ele deve cobrir.</p>
+    </div>
+  
+    <!-- Orientação -->
+    <section class="subcap-hint">
+      <button class="subcap-hint-toggle" aria-expanded="false">
+        <span>Ver orientação do documento</span>
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5"/></svg>
+      </button>
+      <div class="subcap-hint-body" hidden>
+        <p><strong>Documento recomendado:</strong> Plano de comunicação
+          <span class="muted">(interna e externa)</span>.
+        </p>
+      </div>
+    </section>
+  
+    <!-- Checklist -->
+    <section class="subcap-checklist">
+      <h3>Checklist do Documento</h3>
+      <ul>
+        <li>
+          <label class="chk"><input type="checkbox"><span class="checkmark"></span>
+            <span>Plano de comunicação interna e externa (o que, quando, como e por quem)</span>
+          </label>
+          <button class="more" data-target="m1">Ler mais</button>
+          <div id="m1" class="more-body" hidden>
+            Crie um plano que mostre como as informações de qualidade serão comunicadas
+            dentro da empresa e com clientes/fornecedores.
+          </div>
+        </li>
+      </ul>
+      <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>
+    </section>
+  
+    <!-- Upload -->
+    <section class="subcap-upload">
+  <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" class="upload-form" id="form-upload-capitulo">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="upload-card">
+      <h3>Carregar Novos Ficheiros</h3>
+
+      <!-- input escondido -->
+      <input type="file" id="file-upload" name="ficheiros" multiple hidden required>
+
+      <!-- botões -->
+      <div class="upload-actions">
+        <label for="file-upload" class="btn-escolher">Escolher ficheiros</label>
+
+        <div class="aprovado-por">
+          <label for="aprovado-por-input">Aprovado por:</label>
+          <input type="text" id="aprovado-por-input" placeholder="Nome de quem aprovou" required>
+        </div>
+
+        <button type="submit" id="btn-carregar" class="btn-carregar" disabled>Carregar</button>
+      </div>
+
+      <!-- pré-visualização -->
+      <div id="file-preview" class="file-preview vazio">
+        <em>Nenhum arquivo selecionado.</em>
+      </div>
+    </div>
+  </form>
+
+  <!-- Lista de arquivos já enviados -->
+  <% if (documentos && documentos.length > 0) { %>
+    <div class="subcap-arquivos">
+      <h4>Arquivos anexados:</h4>
+      <% documentos.forEach(doc => { %>
+        <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
+         <ul>
+  <% doc.ficheiros.forEach(f => { %>
+    <li class="arquivo-item">
+      <span class="file-name"><a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a></span>
+      <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
+      <% if (f.aprovadoPor) { %>
+        <span class="aprovado">Aprovado por: <%= f.aprovadoPor %> em <%= (f.aprovadoEm || f.createdAt).toLocaleDateString("pt-BR") %></span>
+      <% } %>
+      <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn-apagar">Apagar</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+
+        <% } %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+  </main>
+   
+
+    <footer class="footer">
+        <div class="footer-container">
+            
+            <!-- Coluna Sobre -->
+            <div class="footer-colunas footer-sobre">
+                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
+
+                <div class="footer-sobre-inner">
+
+                    <!-- Lado esquerdo: logo + redes sociais -->
+                    <div class="footer-sobre-left">
+                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
+
+                        <div class="footer-social">
+                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
+                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
+                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
+                        </div>
+                    </div>     
+                    
+                    <!-- Lado direito: texto -->
+                    <div class="footer-sobre-text">
+                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- Coluna Acesso Rápido -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Perguntas frequentes</a></li>
+                    <li><a href="#">Centro de ajuda</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Acessos Buscados -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
+                <ul>
+                    <li><a href="#">DashBoard</a></li>
+                    <li><a href="#">Solicitar Demonstração</a></li>
+                    <li><a href="#">Documentos</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Institucional -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">INSTITUCIONAL</h3>
+                <ul>
+                    <li><a href="#">Termos e uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="footer-copyright">
+            <span>Copyright © FlowCerti 2025</span>
+        </div>
+    </footer>
+    
+    <script src="/assets/js/subcapitulo.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

@@ -239,9 +239,28 @@
 }
 
 .pasta-data {
-    font-size: 12px;
-    color: #7788aa;
+  font-size: 12px;
+  color: #ccc;
+  background: rgba(255, 255, 255, 0.05); /* leve contraste */
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* espaço entre as linhas */
+  line-height: 1.4;
 }
+
+.pasta-data strong {
+  color: #00aaff; /* destaque para labels */
+  font-weight: 600;
+}
+
+.pasta-data .linha {
+  display: flex;
+  justify-content: space-between; /* datas e nomes alinhados */
+}
+
 
 .nenhuma-pasta {
     text-align: center;
@@ -430,3 +449,127 @@
     font-size: 14px;
     color: #7788aa;
 }
+
+/* Botão azul padrão */
+.btn-primario {
+  background: #0084ff;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-primario:hover {
+  background: #006bcc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 132, 255, 0.3);
+}
+
+/* Botão vermelho (apagar) */
+.btn-perigo {
+  background: #e63946;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-perigo:hover {
+  background: #c71f2d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
+}
+
+/* Botão de escolher ficheiros (substitui input feio) */
+.btn-escolher-arquivo {
+  background: #222e4a;
+  color: #ccc;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 10px;
+}
+.btn-escolher-arquivo:hover {
+  background: #2d3a5c;
+  color: #fff;
+}
+
+/* Esconde o input file padrão */
+input[type="file"] {
+  display: none;
+}
+
+/* ===== LISTA DE FICHEIROS ===== */
+.lista-de-ficheiros {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.item-ficheiro {
+  background: #1a253d;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+/* Nome + tamanho + botão em linha */
+.ficheiro-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Link com nome e tamanho */
+.link-ficheiro {
+  flex: 1;
+  text-decoration: none;
+  color: #ccd6f6;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Nome */
+.nome-ficheiro {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Tamanho */
+.tamanho-ficheiro {
+  color: #66b2ff;
+  font-size: 13px;
+}
+
+.lista-preview {
+  margin: 15px 0;
+  padding: 0;
+  list-style: none;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.lista-preview li {
+  background: rgba(255,255,255,0.05);
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.salvar-container {
+  margin-top: 20px;
+  text-align: right;
+}
+

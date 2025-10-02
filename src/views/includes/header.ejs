@@ -1,0 +1,189 @@
+<header>
+  <a href="/"><img class="logo" src="/Imagem/header/logo.png" alt="logo"></a>
+  <nav class="menu">
+    <div class="menu-item">
+      <div class="menu-principal">
+        <a href="/sobre">Sobre a Empresa</a>
+        <a href="/funcionalidades">Funcionalidades</a>
+
+        <% if (user && user.role === "funcionario") { %>
+          <% if (user.permissoes && user.permissoes.dashboardISO) { %>
+    <!-- Funcionário: vê Dashboard -->
+    <a href="/dashboard">Dashboard</a>
+  <% } %>
+  <% if (user.permissoes && user.permissoes.documentosGerais) { %>
+    <!-- Funcionário: vê Documentos -->
+    <a href="/documentos">Documentos Gerais</a>
+  <% } %>
+<% } else { %>
+  <!-- Master ou visitante -->
+  <a href="/dashboard">Dashboard</a>
+  <a href="/planos">Planos</a>
+<% } %>
+      </div>
+    </div>
+
+    
+      <div class="menu-item">
+        <div class="menu-demonstracao">
+          <a href="/solicitar">Solicitar Demonstração</a>
+        </div>
+      </div>
+    
+
+    <% if (user) { %>
+      <div class="menu-item">
+        <div class="menu-notificacao">
+           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                        viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="menu-notificacao-icon lucide lucide-bell-icon">
+                        <path d="M10.268 21a2 2 0 0 0 3.464 0"/>
+                        <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>
+                    </svg>
+          <div class="submenu-notificacao">
+            <p>Nenhuma notificação encontrada</p>
+          </div>    
+        </div>   
+      </div>
+    <% } %>
+
+    <div class="menu-item">
+                <div class="menu-hamburguer" id="menuHamburguer">
+                    <!-- SVG hambúrguer -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                        viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="menu-hamburguer-icon lucide lucide-menu-icon">
+                        <path d="M4 5h16"/>
+                        <path d="M4 12h16"/>
+                        <path d="M4 19h16"/>
+                    </svg>
+
+        <div class="submenu-hamburguer">
+          <% if (user) { %>
+            <div class="submenu-hamburguer-item submenu-usuario">
+                            <div class="conta-avatar">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                fill="none" stroke="#ffffff" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-user-icon lucide-user">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            </div>
+                            <div class="submenu-usuario-texto">
+                                <span>Olá, <strong><%= user.user.charAt(0).toUpperCase() + user.user.slice(1) %></strong>!</span>
+
+                                <% if (user.role !== "funcionario") { %>
+                                <a href="/resumo">ver minha conta</a>
+                                  <% } %>
+                            </div>
+                        </div>
+
+                        <a href="central_de_ajuda.html" id="submenu-hamburguer-central-de-ajuda">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                class="submenu-icon lucide lucide-badge-question-mark">
+                                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" x2="12.01" y1="17" y2="17"/>
+                            </svg>
+                            <span>Central de Ajuda</span>
+                        </a>
+
+                        <!-- Logs (só admin e master) -->
+        <% if (user) { %>
+        <% if (user.role === "admin") { %>
+        <a href="/logs/admin">Registros Globais</a>
+       <% } else if (user.role === "master") { %>
+      <a href="/logs/empresa"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+      viewBox="0 0 24 24" fill="none" stroke="#999999" 
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" 
+      class="submenu-icon lucide lucide-id-card-lanyard-icon lucide-id-card-lanyard">
+      <path d="M13.5 8h-3"/>
+      <path d="m15 2-1 2h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3"/>
+      <path d="M16.899 22A5 5 0 0 0 7.1 22"/>
+      <path d="m9 2 3 6"/>
+      <circle cx="12" cy="15" r="3"/>
+    </svg>
+    <span>Registros Funcionarios</span>
+  </a>
+      
+      <% } %>
+      <% } %>
+
+
+            <% if (user.role === "master" || user.role === "admin") { %>
+            <!-- Master/Admin veem tudo -->
+            <a href="/documentos">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                class="submenu-icon lucide lucide-folder-open">
+                                <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>
+                            </svg>
+            <span>Documentos Gerais</span>
+            </a>
+            <% } else { %>
+                  <!-- Funcionário só vê botão Sair -->
+                 <!-- Botão sair (abre modal) -->
+            <a href="#" class="submenu-hamburguer-item sair">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                  viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5" 
+                  stroke-linecap="round" stroke-linejoin="round" 
+                  class="submenu-icon lucide lucide-log-out-icon">
+                  <path d="m16 17 5-5-5-5"/>
+                  <path d="M21 12H9"/>
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              </svg>
+              <span>Sair</span>
+            </a>
+          <% } %>
+
+          <% } else { %>
+            <!-- Usuário deslogado -->
+            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item" href="/login">
+              <span>Entrar</span>
+            </a>
+          <% } %>
+
+          <!-- Sempre visível -->
+          <div id="submenu-hamburguer-tema-claro" class="submenu-hamburguer-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                class="submenu-icon lucide lucide-sun">
+                                <circle cx="12" cy="12" r="4"/>
+                                <path d="M12 2v2"/>
+                                <path d="M12 20v2"/>
+                                <path d="m4.93 4.93 1.41 1.41"/>
+                                <path d="m17.66 17.66 1.41 1.41"/>
+                                <path d="M2 12h2"/>
+                                <path d="M20 12h2"/>
+                                <path d="m6.34 17.66-1.41 1.41"/>
+                                <path d="m19.07 4.93-1.41 1.41"/>
+                            </svg>
+            <span>Tema Claro</span>
+          </div>   
+        </div> 
+      </div> 
+    </div>
+  </nav>
+</header>
+
+<!-- Modal Logout -->
+<div id="modal-logout" class="modal-logout">
+  <div class="modal-logout-content">
+    <h3>Deseja realmente sair?</h3>
+    <p>Você será desconectado da sua conta FlowCerti.</p>
+    <div class="modal-logout-actions">
+      <form method="POST" action="/logout">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn-logout confirmar">Sair</button>
+      </form>
+      <button class="btn-logout cancelar" id="btn-cancelar-logout">Cancelar</button>
+    </div>
+  </div>
+</div>

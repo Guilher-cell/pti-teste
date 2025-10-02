@@ -1,0 +1,213 @@
+/* ===== Header avatar + nome (Minha Conta) ===== */
+.conta-header-line-minha-conta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.conta-avatar-center {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #0E1629;
+  border: 2px solid #2b3b5e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conta-avatar-center svg {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 5px;
+  stroke: #ffffff;
+}
+
+.conta-header-line-minha-conta h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #ffffff;
+  font-family: "Sora", sans-serif;
+}
+
+/* ===== Formulário (Minha Conta) ===== */
+.conta-form-minha-conta {
+  margin-top: 70px;
+}
+
+.form-conta-minha-conta {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+/* Grid de inputs */
+.form-grid-2-minha-conta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px 120px;
+}
+
+/* Field */
+.field-minha-conta {
+  display: flex;
+  flex-direction: column;
+}
+.field-minha-conta label {
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-family: "Inter", sans-serif;
+}
+.field-minha-conta .req {
+  color: #ff6b6b;
+}
+
+/* Inputs */
+.field-minha-conta input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #2b3b5e;
+  background: #0e1629;
+  color: #ffffff;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* Inputs readonly (bloqueados visualmente) */
+.field-minha-conta input[readonly] {
+  color: #999999;        /* texto mais apagado */
+  cursor: not-allowed;   /* ícone de bloqueado */
+  border-color: #2b3b5e; /* mantém a borda */
+}
+
+.field-minha-conta input[readonly]:focus {
+  border-color: #2b3b5e; /* mantém a borda */
+  box-shadow: none;
+}
+
+
+.field-minha-conta input::placeholder {
+  color: #999999;
+  opacity: 0.5;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+}
+.field-minha-conta input:focus {
+  border-color: #0084ff;
+  box-shadow: 0 0 6px rgba(0,132,255,0.4);
+}
+
+/* ===== Inputs de senha com olho ===== */
+.input-senha-container {
+  position: relative;
+  width: 100%;
+}
+.input-senha {
+  width: 100%;
+  padding: 13px 44px 13px 15px;
+  border-radius: 8px;
+  border: 1px solid #2b3b5e;
+  background: #0e1629;
+  color: #ffffff;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  outline: none;
+  box-sizing: border-box;
+}
+.toggle-senha {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  transition: filter .15s ease, transform .12s ease;
+  user-select: none;
+}
+.toggle-senha.ativo {
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* ===== Requisitos de senha - Minha Conta ===== */
+#password-rules-minha-conta {
+  margin-top: 10px;
+  font-size: 13px;
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 1.5s ease, max-height 1.5s ease;
+}
+
+#password-rules-minha-conta:not(.hidden) {
+  display: block;
+  max-height: 500px;
+  opacity: 1;
+}
+
+#password-rules-minha-conta li {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  color: #ff4d4d;
+  transition: color 0.2s;
+}
+
+#password-rules-minha-conta li.valid {
+  color: #4dff4d;
+}
+
+#password-rules-minha-conta li::before {
+  content: "✘";
+  margin-right: 8px;
+}
+
+#password-rules-minha-conta li.valid::before {
+  content: "✔";
+}
+
+/* ===== Botão (Minha Conta) ===== */
+.form-footer-minha-conta {
+  margin-top: 70px;
+  display: flex;
+  justify-content: flex-end;
+  grid-column: 2;
+}
+.btn-minha-conta-alterar-senha {
+  background-color: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+.btn-minha-conta-alterar-senha:hover {
+  background-color: #006bcf;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 860px) {
+  .form-conta-minha-conta { padding: 0; }
+  .form-grid-2-minha-conta { grid-template-columns: 1fr; }
+  .form-footer-minha-conta {
+    grid-column: 1;
+    justify-content: center;
+  }
+}

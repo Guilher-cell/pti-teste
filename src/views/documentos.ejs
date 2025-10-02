@@ -15,80 +15,27 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <a href="/"><img class="logo" src="/Imagem/header/logo.png" alt="logo"></a>
-        <nav class="menu">
-            <div class="menu-item">
-                <div class="menu-principal">
-                    <a href="/sobre">Sobre a Empresa</a>
-                    <a href="/funcionalidades">Funcionalidades</a>
-                    <a href="">Dashbord</a>
-                    <a href="/planos">Planos</a>
-                </div>
-            </div>
+   <%- include("includes/header", { user: user }) %>
 
-            <div class="menu-item">
-                <div class="menu-demonstracao">
-                    <a href="/solicitar">Solicitar Demonstração</a>
-                </div>
-            </div>
-             <% if (locals.user) { %>
-            <div class="menu-item">
-            <div class="menu-notificacao">
-                <img class="menu-notificacao-img" src="/Imagem/header/icon_notificacao_tema_escuro.png" alt="notificacao">
-                <div class="submenu-notificacao">
-                    <p>Nenhuma notificação encontrada</p>
-                </div>    
-                </div>   
-            </div>
-                <% } %>
-
-            <div class="menu-item"> 
-                <div class="menu-hamburguer" id="menuHamburguer">
-                    <img class="menu-hamburguer-img" src="/Imagem/header/icon_hamburguer_tema_escuro.png" alt="menu hamburguer">
-
-                    <div class="submenu-hamburguer">
-                        <% if (locals.user) { %>
-                            <!-- Usuário logado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item">
-                                <span>Olá, <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %></span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/minha-conta"><span>Ver Minha Conta</span></a>
-                            <a href="#">
-                                <img class="menu-hamburguer-img-central-de-ajuda" src="/Imagem/header/submenu_hamburguer/icon_central_de_ajuda_tema_escuro.png" alt="central de ajuda">
-                                <span>Central de Ajuda</span>
-                            </a>
-                            <a href="/documentos">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_documentos_tema_escuro.png" alt="documentos">
-                                <span>Documentos</span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/logout">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_exit" alt="Sair">
-                                <span>Sair</span>
-                            </a>
-                        <% } else { %>
-                            <!-- Usuário deslogado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item" href="/login">
-                                <span>Entrar</span>
-                            </a>
-                        <% } %>
-
-                        <!-- Sempre visível se estiver deslogado ou nao-->
-                        <div id="submenu-hamburguer-tema-claro" class="submenu-hamburguer-item">
-                            <img class="menu-hamburguer-img-tema-claro" src="/Imagem/header/submenu_hamburguer/icon_tema_claro.png" alt="tema claro">
-                            <span>Tema Claro</span>
-                        </div>   
-                    </div> 
-                </div> 
-            </div>
-        </nav>
-    </header>
+   <!-- Breadcrumb -->
+    <ul class="breadcrumb">
+        <li><a href="index.html">Início</a></li>
+        <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </li>
+        <li class="current">Documentos Gerais</li>
+    </ul>
 
     <div class="container-documentos">
         <%- include('includes/messages') %>
         <p class="texto-documentos">Organize todos os seus documentos em pastas personalizadas, mantendo-os centralizados e acessíveis. Essa funcionalidade facilita a gestão e garante que, no momento da auditoria, seus arquivos estejam estruturados e prontos para apresentação.</p>
 
-        <button id="btn-criar-pasta" class="btn-modal-criar-pasta">Criar Pasta <img src="/Imagem/icon/mais.png" alt="mais"></button>
+        <button id="btn-criar-pasta" class="btn-modal-criar-pasta">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                <path d="M5 12h14"/><path d="M12 5v14"/>
+            </svg>
+            Criar Pasta
+        </button>
     </div>
     
     <div class="pastas-grid">
@@ -97,17 +44,33 @@
             <div class="pasta-card">
                 <a href="/documentos/<%= doc._id %>" class="pasta-link">
                     <div class="pasta-icon">
-                        <img src="/Imagem/icon/pasta.png" alt="Ícone de Pasta">
+                        <img src="\Imagem\documento/pasta.png" alt="Ícone de Pasta">
                     </div>
                     <div class="pasta-info">
                         <h3 class="pasta-nome"><%= doc.nome %></h3>
                         <p class="pasta-descricao"><%= doc.descricao || 'Sem descrição' %></p>
                     </div>
                 </a>
-                <div class="pasta-acoes">
-                    <!-- Futuramente, podemos adicionar botões de editar/apagar aqui -->
-                    <span class="pasta-data">Criado em: <%= doc.createdAt.toLocaleDateString('pt-BR') %></span>
-                </div>
+          <div class="pasta-data">
+  <div class="linha">
+    <strong>Criado em:</strong>
+    <span><%= doc.createdAt ? doc.createdAt.toLocaleDateString('pt-BR') : "Indisponível" %></span>
+  </div>
+  <div class="linha">
+    <strong>Última alteração:</strong>
+    <span>
+      <%= doc.ultimaAlteracao ? doc.ultimaAlteracao.toLocaleDateString('pt-BR') : "Nunca" %>
+    </span>
+  </div>
+  <div class="linha">
+    <strong>Alterado por:</strong>
+   <span><%= doc.alteradoPor ? (doc.alteradoPor.user || doc.alteradoPor.nome || doc.alteradoPor.usuario) : '—' %></span>
+  </div>
+  <div class="linha">
+  <strong>Arquivos:</strong>
+  <span><%= doc.ficheiros.length %></span>
+</div>
+</div>
             </div>
         <% }) %>
     <% } else { %>

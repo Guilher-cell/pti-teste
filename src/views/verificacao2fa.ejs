@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificação em Duas Etapas - FlowCerti</title>
+
+  <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/pages_modais.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="page">
+    <div class="page-content">
+      <div class="page-content-forms">
+        <span class="close">&times;</span>
+        <h2>Verificação em Duas Etapas</h2>
+        <p>Insira o código de 6 dígitos enviado ao seu e-mail para concluir a verificação de segurança.</p>
+	      <%- include('includes/messages') %>
+        <form  method="POST" action="/login/2fa">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="code" id="codigo-final">
+          <div class="codigo-2fa-container">
+	          
+            <input type="text" maxlength="1" class="codigo-2fa" required>
+            <input type="text" maxlength="1" class="codigo-2fa" required>
+            <input type="text" maxlength="1" class="codigo-2fa" required>
+            <input type="text" maxlength="1" class="codigo-2fa" required>
+            <input type="text" maxlength="1" class="codigo-2fa" required>
+            <input type="text" maxlength="1" class="codigo-2fa" required>
+          </div>
+
+          <button type="submit" class="btn-verificacao-modal" id="btn-2fa" disabled>VERIFICAR</button>
+        </form>
+        <div class="links">
+            <button type="button" class="btn-reenviar-codigo" id="btn-reenviar">Reenviar código</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/js/pages_modais.js"></script>
+</body>
+</html>

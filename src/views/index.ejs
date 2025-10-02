@@ -5,86 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlowCerti</title>
 
-    <link rel="icon" type="image/png" href="/Imagem/footer/logo_pequena.png">
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <a href="/"><img class="logo" src="/Imagem/header/logo.png" alt="logo"></a>
-        <nav class="menu">
-            <div class="menu-item">
-                <div class="menu-principal">
-                    <a href="/sobre">Sobre a Empresa</a>
-                    <a href="/funcionalidades">Funcionalidades</a>
-                    <a href="">Dashbord</a>
-                    <a href="/planos">Planos</a>
-                </div>
+    
+    <%- include("includes/header", { user: user }) %>
+
+    <!-- ===== Seção Hero / Destaque ===== -->
+    <section class="hero-home">
+        <div class="hero-home-container">
+    
+            <!-- Texto -->
+            <div class="hero-home-text">
+                <h2>Simplificando a gestão de certificações</h2>
+                <p>Gerencie certificações de forma inteligente, sem burocracia e sem preocupação!</p>
+                <a href="#como-funciona" class="btn-home-hero">COMO FUNCIONA?</a>
             </div>
 
-            <div class="menu-item">
-                <div class="menu-demonstracao">
-                    <a href="/solicitar">Solicitar Demonstração</a>
-                </div>
+            <!-- Imagem -->
+            <div class="hero-home-image">
+                <img src="Imagem/home/icon_principal.png" alt="Gestão de Certificações">
             </div>
-             <% if (locals.user) { %>
-            <div class="menu-item">
-            <div class="menu-notificacao">
-                <img class="menu-notificacao-img" src="/Imagem/header/icon_notificacao_tema_escuro.png" alt="notificacao">
-                <div class="submenu-notificacao">
-                    <p>Nenhuma notificação encontrada</p>
-                </div>    
-                </div>   
+
+        </div>
+    </section>
+
+    <!-- ===== Seção Certificações ===== -->
+    <section class="certificacoes">
+        <h2 class="cert-titulo">Certificações disponíveis</h2>
+        <p class="cert-subtitulo">Hoje você pode gerenciar a ISO 9001. Em breve, novas certificações estarão disponíveis!</p>
+
+        <div class="cert-grid">
+            <!-- Ativa -->
+            <div class="cert-card">
+                <!-- ISO 9001 - Certificado -->
+                <img src="Imagem/home/icon-ISO-9001.png" alt="ISO 9001">
+                <h3>ISO 9001:2015</h3>
+                <p>Gerencie sua certificação ISO 9001 de forma simples, prática e digital.</p>
+                <a href="dashboard.html" class="btn-cert">GERENCIAR</a>
             </div>
-                <% } %>
 
-            <div class="menu-item"> 
-                <div class="menu-hamburguer" id="menuHamburguer">
-                    <img class="menu-hamburguer-img" src="/Imagem/header/icon_hamburguer_tema_escuro.png" alt="menu hamburguer">
-
-                    <div class="submenu-hamburguer">
-                        <% if (locals.user) { %>
-                            <!-- Usuário logado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item">
-                                <span>Olá, <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %></span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/minha-conta"><span>Ver Minha Conta</span></a>
-                            <a href="/centralAjuda">
-                                <img class="menu-hamburguer-img-central-de-ajuda" src="/Imagem/header/submenu_hamburguer/icon_central_de_ajuda_tema_escuro.png" alt="central de ajuda">
-                                <span>Central de Ajuda</span>
-                            </a>
-                            <a href="/documentos">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_documentos_tema_escuro.png" alt="documentos">
-                                <span>Documentos</span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/logout">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_exit" alt="Sair">
-                                <span>Sair</span>
-                            </a>
-                        <% } else { %>
-                            <!-- Usuário deslogado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item" href="/login">
-                                <span>Entrar</span>
-                            </a>
-                        <% } %>
-
-                        <!-- Sempre visível se estiver deslogado ou nao-->
-                        <div id="submenu-hamburguer-tema-claro" class="submenu-hamburguer-item">
-                            <img class="menu-hamburguer-img-tema-claro" src="/Imagem/header/submenu_hamburguer/icon_tema_claro.png" alt="tema claro">
-                            <span>Tema Claro</span>
-                        </div>   
-                    </div> 
-                </div> 
+            <!-- Em breve -->
+            <div class="cert-card soon">
+                <!-- ISO 14001 - Sustentabilidade -->
+                <img src="Imagem/home/icon-ISO-14001.png" alt="ISO 14001">
+                <h3>ISO 14001:2015</h3>
+                <p>Gestão ambiental para empresas que buscam sustentabilidade.</p>
+                <a href="#" class="btn-cert">EM BREVE</a>
             </div>
-        </nav>
-    </header>
 
+            <!-- Em breve -->
+            <div class="cert-card soon">
+                <!-- ISO 27001 - Segurança -->
+                <img src="Imagem/home/icon-ISO-27001.png" alt="ISO 27001">
+                <h3>ISO/IEC 27001:2022</h3>
+                <p>Gestão de segurança da informação para proteger seus dados.</p>
+                <a href="#" class="btn-cert">EM BREVE</a>
+            </div>
+        </div>
+    </section>
 
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <!-- ===== Seção: Simplifique a gestão ===== -->
+    <section class="simplifique">
+        <h2 class="simplifique-titulo">Simplifique a gestão e o controlo dos seus certificados</h2>
+
+        <div class="simplifique-container">
+            <!-- Imagem à esquerda -->
+            <div class="simplifique-image">
+                <img src="Imagem/home/icon_simplifique.png" alt="Gestão simples e controlada de certificados">
+            </div>
+
+            <!-- Texto à direita -->
+            <div class="simplifique-texto">
+                <p>A Flowcerti nasceu para transformar a maneira como as empresas lidam com suas certificações. Em vez de enfrentar planilhas confusas, documentos dispersos e prazos esquecidos, você encontra tudo centralizado em um único sistema.</p>
+
+                <p>Nossa plataforma atua como uma <strong>pré-auditoria digital</strong>: organiza documentos, acompanha prazos, sinaliza pendências e mostra, em tempo real, o nível de conformidade da sua empresa.</p>
+
+                <p>O resultado é <strong>mais controle, menos retrabalho</strong> e muito mais confiança durante auditorias. E não para por aí — começamos com a ISO 9001, mas em breve novas normas, como ISO 14001 e ISO 27001, estarão disponíveis para que sua empresa cresça sem barreiras.</p>               
+            </div>
+        </div>
+    </section>
 
     <footer class="footer">
         <div class="footer-container">
@@ -97,12 +104,12 @@
 
                     <!-- Lado esquerdo: logo + redes sociais -->
                     <div class="footer-sobre-left">
-                        <img src="/Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
+                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
 
                         <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="/Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="/Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="/Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
+                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
+                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
+                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
                         </div>
                     </div>     
                     

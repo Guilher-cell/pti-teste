@@ -15,74 +15,18 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <a href="/"><img class="logo" src="/Imagem/header/logo.png" alt="logo"></a>
-        <nav class="menu">
-            <div class="menu-item">
-                <div class="menu-principal">
-                    <a href="/sobre">Sobre a Empresa</a>
-                    <a href="/funcionalidades">Funcionalidades</a>
-                    <a href="">Dashbord</a>
-                    <a href="/planos">Planos</a>
-                </div>
-            </div>
+    
+    <%- include("includes/header", { user: user }) %>
 
-            <div class="menu-item">
-                <div class="menu-demonstracao">
-                    <a href="/solicitar">Solicitar Demonstração</a>
-                </div>
-            </div>
-             <% if (locals.user) { %>
-            <div class="menu-item">
-            <div class="menu-notificacao">
-                <img class="menu-notificacao-img" src="Imagem/header/icon_notificacao_tema_escuro.png" alt="notificacao">
-                <div class="submenu-notificacao">
-                    <p>Nenhuma notificação encontrada</p>
-                </div>    
-                </div>   
-            </div>
-                <% } %>
+    <!-- Breadcrumb -->
+    <ul class="breadcrumb">
+        <li><a href="index.html">Início</a></li>
+        <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </li>
+        <li class="current">Solicite Demonstração</li>
+    </ul>
 
-            <div class="menu-item"> 
-                <div class="menu-hamburguer" id="menuHamburguer">
-                    <img class="menu-hamburguer-img" src="Imagem/header/icon_hamburguer_tema_escuro.png" alt="menu hamburguer">
-
-                    <div class="submenu-hamburguer">
-                        <% if (locals.user) { %>
-                            <!-- Usuário logado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item">
-                                <span>Olá, <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %></span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/minha-conta"><span>Ver Minha Conta</span></a>
-                            <a href="#">
-                                <img class="menu-hamburguer-img-central-de-ajuda" src="/Imagem/header/submenu_hamburguer/icon_central_de_ajuda_tema_escuro.png" alt="central de ajuda">
-                                <span>Central de Ajuda</span>
-                            </a>
-                            <a href="/documentos">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_documentos_tema_escuro.png" alt="documentos">
-                                <span>Documentos</span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/logout">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_exit" alt="Sair">
-                                <span>Sair</span>
-                            </a>
-                        <% } else { %>
-                            <!-- Usuário deslogado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item" href="/login">
-                                <span>Entrar</span>
-                            </a>
-                        <% } %>
-
-                        <!-- Sempre visível se estiver deslogado ou nao-->
-                        <div id="submenu-hamburguer-tema-claro" class="submenu-hamburguer-item">
-                            <img class="menu-hamburguer-img-tema-claro" src="/Imagem/header/submenu_hamburguer/icon_tema_claro.png" alt="tema claro">
-                            <span>Tema Claro</span>
-                        </div>   
-                    </div> 
-                </div> 
-            </div>
-        </nav>
-    </header>
 
     <div class="solicite-demonstracao">
         <h1 class="titulo-solicite-demonstracao">Solicite uma demonstração</h1>
@@ -91,34 +35,35 @@
         </div>
     </div>
 
+    <%- include('includes/messages') %>
     <div class="form-container-solicite-demonstracao">
         <div class="form-content-solicite">
             <p class="form-texto-solicite-demonstracao">Caso você for uma <strong>pessoa física, autônomo ou MEI</strong>, infelizmente não podemos ajudá-lo.  
           Na FlowCerti, atendemos exclusivamente empresas para a centralização e o controle de seus certificados ISO.</p>
 
-            <form class="form-solicite-demonstracao" id="form-solicite-demonstracao" method="POST" action="/solicitar-demonstracao">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <input type="text" name="nomeResponsavel" class="input-solicite-demonstracao" placeholder="Nome do responsável" required>
-            <input type="text" name="razaoSocial" class="input-solicite-demonstracao" placeholder="Razão Social" required>
-            <input type="email" name="email" class="input-solicite-demonstracao" placeholder="E-mail (Corporativo)" required>
+            <form class="form-solicite-demonstracao" id="form-solicite-demonstracao">
+                <input type="text" class="input-solicite-demonstracao" placeholder="Nome do responsável" required>
+                <input type="text" class="input-solicite-demonstracao" placeholder="Razão Social" required>
+                <input type="email" class="input-solicite-demonstracao" placeholder="E-mail (Corporativo)" required>
 
-            <div class="form-row-solicite-demonstracao">
-            <input type="text" name="cnpj" class="input-solicite-demonstracao" placeholder="CNPJ" required>
-            <input type="text" name="ramoEmpresa" class="input-solicite-demonstracao" placeholder="Ramo da Empresa" required>
-            </div>
+                <div class="form-row-solicite-demonstracao">
+                    <input type="text" class="input-solicite-demonstracao" placeholder="CNPJ" required>
+                    <input type="text" class="input-solicite-demonstracao" placeholder="Ramo da Empresa" required>
+                </div>
 
-            <textarea name="mensagem" class="textarea-solicite-demonstracao" placeholder="Mensagem adicional (opcional)"></textarea>
+                <textarea class="textarea-solicite-demonstracao" placeholder="Mensagem adicional (opcional)"></textarea>
 
-            <label class="checkbox-solicite-demonstracao">
-            <input type="checkbox" name="aceitePolitica" required> <span>Li e aceito a <a href="#">Política de Privacidade da FlowCerti</a></span>
-            </label>
-
-            <button type="submit" class="btn-enviar-solicite-demonstracao">ENVIAR</button>
+                <label class="checkbox-solicite-demonstracao">
+                    <input type="checkbox" required>
+                    <span class="checkmark"></span>
+                    <span>Li e aceito a <a href="#" class="link-politica">Política de Privacidade da FlowCerti</a></span>
+                </label>
+                
+                <button type="submit" class="btn-enviar-solicite-demonstracao">ENVIAR</button>
             </form>
         </div>
     </div>
-
-
+  
     <div class="info-extra-solicite-demonstracao">
         <div class="info-extra-container-solicite-demonstracao">
             <div class="info-box-solicite-demonstracao">

@@ -80,83 +80,67 @@
     color: #cccccc;
 }
 
-.banner-empresa{
-    position: relative;
-    width: calc(100vw - 15px); /* ajusta para não ultrapassar */
-    margin: 0;
-    margin-top: 150px;
-    margin-bottom: 150px;
-    padding: 40px 5px;
-    text-align: center;
-    background-color: #5882a0;
-    border-top: 2px solid #04b2f2;
-    border-bottom: 2px solid #04b2f2;
-    color: #cccccc;
-    box-sizing: border-box;
-    left: 50%;
-    transform: translateX(-50%);
-    gap: -10px;
+.banner-empresa {
+  position: relative;
+  width: calc(100vw - 15px);
+  margin: 150px auto;
+  padding: 40px 5px;
+  text-align: center;
+  background-color: #5882a0;
+  border-top: 2px solid #04b2f2;
+  border-bottom: 2px solid #04b2f2;
+  color: #cccccc;
+  box-sizing: border-box;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.titulo-banner-empresa{
-    font-weight: 500;
-    font-size: 24px;
-    word-spacing: 5px;
-    font-family: "Sora", sans-serif;
+.titulo-banner-empresa {
+  font-weight: 500;
+  font-size: 24px;
+  word-spacing: 5px;
+  font-family: "Sora", sans-serif;
 }
 
-.texto-banner-empresa{
-    color: #cccccc;
-    word-spacing: 3px;
-    font-size: 18px;
+.texto-banner-empresa {
+  color: #cccccc;
+  word-spacing: 3px;
+  font-size: 18px;
 }
 
-.banner-empresa a{
-    cursor: pointer;
-    font-weight: 700;
-    color: #cccccc;
-    text-decoration: none;
-    transition: color .18s ease;
+/* Links gerais */
+.banner-empresa a {
+  cursor: pointer;
+  font-weight: 700;
+  color: #cccccc;
+  text-decoration: none;
+  transition: color .5s ease;
 }
 
-.banner-empresa a:hover{
-    color: #eeeeee;
-    text-decoration: underline;
+.banner-empresa a:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
 
-.banner-redes-sociais{
-    width: 22px;
-    height: 22px;
-    margin-bottom: -5px;
-    margin-left: 4px;
-    margin-right: 4px;
-    align-items: center;
-    justify-items: center;
-    cursor: pointer;
+/* Ícones das redes sociais */
+.banner-rede-social {
+  display: inline-block;
+  margin: 0 6px;
+  text-decoration: none !important; /* evita o "traço" */
 }
 
-#banner-redes-sociais-youtube{
-    width: 30px;
-    height: 30px;
-    margin-left: 5px;
-    margin-bottom: -9px;
+.banner-rede-social svg {
+  width: 24px;
+  height: 24px;
+  stroke: #cccccc;
+  transition: stroke 0.5s ease;
+  vertical-align: middle;
 }
 
-#banner-redes-sociais-linkedin{
-    margin-left: 5px;
+.banner-rede-social:hover svg {
+  stroke: #ffffff;
 }
 
-#banner-redes-sociais-instagram:hover{
-    content: url("Imagem/sobre_a_empresa/icon_instagram_hover.png")
-}
-
-#banner-redes-sociais-youtube:hover{
-    content: url("Imagem/sobre_a_empresa/icone_youtube_hover.png")
-}
-
-#banner-redes-sociais-linkedin:hover{
-    content: url("Imagem/sobre_a_empresa/icon_linkedin_hover.png")
-}
 
 .como-plataforma-ajuda{
     margin-top: 30px;
@@ -189,9 +173,20 @@
     color: #cccccc;
 }
 
-/* Imagem */
+/* Estado inicial da imagem */
 .img-como-plataforma-ajuda {
-    flex: 1; /* ocupa metade */
+    flex: 1;
     max-width: 700px;
-    border-radius: 8px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    opacity: 0;               
+    transform: translateY(50px) scale(0.95); 
+    transition: opacity 1s ease, transform 1s ease, box-shadow 1s ease, filter 1s ease;
+}
+
+/* Quando aparecer na tela */
+.img-como-plataforma-ajuda.visible {
+    opacity: 1;
+    transform: scale(1.05); /* leve zoom */
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6); /* sombra mais forte */
 }

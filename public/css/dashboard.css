@@ -1,0 +1,120 @@
+/* ===== Dashboard ===== */
+.dashboard {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.dashboard-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 12px;
+  font-family: "Sora", sans-serif;
+}
+.dashboard-header p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  word-spacing: 1px;
+  color: #cccccc;
+  margin-top: -5px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Grid de cards */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+/* Card */
+.dash-card {
+  background: #0e1629;
+  border: 2px solid #2b3b5e;
+  border-radius: 14px;
+  padding: 30px 20px;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.dash-card:hover {
+  border-color: #0084ff;
+}
+.dash-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.dash-card p {
+  font-size: 15px;
+  color: #ccc;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* Selo de status (canto superior direito) */
+.status-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.status-badge.disponivel {
+  background: rgba(0,132,255,.15);
+  color: #3da0fc;
+  border-color: rgba(0,132,255,.35);
+}
+.status-badge.ativo {
+  background: rgba(0,255,106,.15);
+  color: #00ff6a;
+  border-color: rgba(0,255,106,.35);
+}
+.status-badge.soon {
+  background: rgba(255,204,0,.15);
+  color: #ffcc00;
+  border-color: rgba(255,204,0,.35);
+}
+
+/* Card "Em breve" (apagado + não clicável) */
+.dash-card.soon {
+  opacity: .5;
+  border-style: dashed;
+  pointer-events: none;
+}
+
+/* Botão (sempre "GERENCIAR") */
+.btn-dashboard-gerenciar {
+  background: #0084ff;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 25px;
+  padding: 12px 28px;
+  text-decoration: none;
+  transition: background-color .3s ease;
+
+  margin-top: auto;   /* botão vai pro rodapé do card */
+  align-self: center; /* centralizado */
+}
+.btn-dashboard-gerenciar:hover {
+  background: #006bcf;
+}
+.btn-dashboard-gerenciar.disabled {
+  background: #444;
+  color: #aaa;
+  cursor: not-allowed;
+}

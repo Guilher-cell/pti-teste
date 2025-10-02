@@ -17,7 +17,7 @@ const tokenSchema = new mongoose.Schema({
         default: Date.now,
         // O token expirará automaticamente após 10 minutos.
         // O MongoDB pode apagar documentos expirados automaticamente!
-        expires: 180, // 180 segundos = 3 minutos
+        expires: 300, // 300 segundos = 5 minutos
     },
 });
 

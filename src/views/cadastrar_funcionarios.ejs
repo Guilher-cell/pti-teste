@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCerti</title>
+
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/cadastrar_funcionarios.css">
+    <link rel="stylesheet" href="/css/conta_geral.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("includes/header", { user: user }) %>
+
+    <!-- Breadcrumb -->
+<ul class="breadcrumb">
+  <li><a href="index.html">Início</a></li>
+  <li>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </li>
+  <li><a href="conta.html">Conta</a></li>
+  <li>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </li>
+  <li class="current">Cadastrar Funcionários</li>
+</ul>
+
+    <div class="conta-wrapper"> 
+  <!-- ===== Sidebar (menu da conta) ===== -->
+  <aside class="account-sidebar">
+    <div class="account-sidebar-inner">
+      <div class="menu-title">MENU</div>
+      <nav class="account-menu">
+        <a href="/resumo" class="menu-link" aria-current="page">Resumo</a>
+        <a href="/minha-conta" class="menu-link">Minha Conta</a>
+        <a href="/meus-dados" class="menu-link">Meus Dados</a>
+        <a href="/verificacao" class="menu-link">Verificação</a>
+        <a href="/seguranca" class="menu-link">Segurança</a>
+        <a href="/pagamento" class="menu-link">Pagamento</a>
+        <a href="/cadastrar-funcionario" class="menu-link active" aria-current="page">Cadastrar Funcionários</a>
+        <a href="#" class="menu-link sair">Sair</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ===== Modal Logout ===== -->
+<div id="modal-logout" class="modal-logout">
+  <div class="modal-logout-content">
+    <h3>Deseja realmente sair?</h3>
+    <p>Você será desconectado da sua conta FlowCerti.</p>
+    <div class="modal-logout-actions">
+      <form method="POST" action="/logout">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn-logout confirmar">Sair</button>
+      </form>
+      <button class="btn-logout cancelar" id="btn-cancelar-logout">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Conteúdo Principal ===== -->
+<main class="conta-main-funcionarios">
+
+  <!-- Header -->
+  <div class="conta-header-funcionarios">
+    <h2>Cadastrar Funcionários</h2>
+    <p>Gerencie os usuários que terão acesso à sua conta FlowCerti.</p>
+  </div>
+
+  <%- include('includes/messages') %>
+
+  <!-- Card: Formulário -->
+  <section class="card-funcionarios">
+    <div class="card-header-funcionarios">
+      <h3 id="form-titulo">Novo Funcionário</h3>
+    </div>
+    <div class="card-body-funcionarios">
+      <form class="form-funcionarios" id="form-funcionario" method="POST" action="/funcionarios/adicionar">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <div class="form-grid-funcionarios">
+          <div class="field-funcionarios">
+            <label>Nome completo <span class="req">*</span></label>
+            <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" required>
+          </div>
+          <div class="field-funcionarios">
+            <label>Usuário <span class="req">*</span></label>
+            <input type="text" id="usuario" name="usuario" placeholder="Usuário de acesso" required>
+          </div>
+          <div class="field-funcionarios">
+            <label>Cargo</label>
+            <input type="text" id="cargo" name="cargo" placeholder="Ex: Analista, Gerente">
+          </div>
+          <div class="field-funcionarios">
+            <label>Senha <span class="req">*</span></label>
+            <div class="input-senha-container">
+              <input type="password" id="senha" name="senha" class="input-senha" placeholder="Digite a senha de acesso" required>
+              <img src="Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
+            </div>
+          </div>
+        </div>
+
+        <!-- Permissões -->
+        <div class="permissoes-funcionarios">
+          <label>Permissões:</label>
+          <div class="permissoes-opcoes">
+            <label class="checkbox-custom">
+              <input type="checkbox" id="perm-dashboard" name="permissoes[dashboardISO]" value="true">
+              <span class="checkmark"></span>
+              <span class="checkbox-text">Gerenciar Certificação (Dashboard)</span>
+            </label>
+            <label class="checkbox-custom">
+              <input type="checkbox" id="perm-docs" name="permissoes[documentosGerais]" value="true">
+              <span class="checkmark"></span>
+              <span class="checkbox-text">Gerenciar Documentos Gerais</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions-funcionarios">
+          <button type="submit" id="btn-form" class="btn-cadastrar-funcionarios">Cadastrar</button>
+          <button type="button" id="btn-cancelar" class="btn-cancelar-funcionarios" style="display:none;">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Card: Lista -->
+  <section class="card-funcionarios">
+    <div class="card-header-funcionarios">
+      <h3>Funcionários cadastrados</h3>
+    </div>
+    <div class="card-body-funcionarios">
+      <div class="tabela-wrap-funcionarios">
+        <table class="tabela-funcionarios">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Usuário</th>
+              <th>Cargo</th>
+              <th>Permissões</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (funcionarios && funcionarios.length) { %>
+              <% funcionarios.forEach(f => { %>
+                <tr data-id="<%= f._id %>"
+                    data-nome="<%= f.nome %>"
+                    data-usuario="<%= f.usuario %>"
+                    data-cargo="<%= f.cargo || '' %>"
+                    data-perm-dashboard="<%= !!(f.permissoes && f.permissoes.dashboardISO) %>"
+                    data-perm-docs="<%= !!(f.permissoes && f.permissoes.documentosGerais) %>">
+                  <td><%= f.nome %></td>
+                  <td><%= f.usuario %></td>
+                  <td><%= f.cargo || '-' %></td>
+                  <td>
+                    <% if (f.permissoes && f.permissoes.dashboardISO) { %>
+                      <span class="badge-funcionarios badge-permissao">Certificação</span>
+                    <% } %>
+                    <% if (f.permissoes && f.permissoes.documentosGerais) { %>
+                      <span class="badge-funcionarios badge-permissao">Documentos</span>
+                    <% } %>
+                    <% if ((!f.permissoes || (!f.permissoes.dashboardISO && !f.permissoes.documentosGerais))) { %>
+                      -
+                    <% } %>
+                  </td>
+                  <td>
+                    <a href="#" class="link-funcionarios editar">Editar</a> |
+                    <form action="/funcionarios/<%= f._id %>/remover" method="POST" style="display:inline;">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                      <button type="submit" class="link-funcionarios remover" style="background:none;border:none;padding:0;cursor:pointer;">Remover</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="5">Nenhum funcionário cadastrado.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</div>
+
+
+
+
+    <script src="/assets/js/cadastrar_funcionarios.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

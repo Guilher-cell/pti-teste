@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FlowCerti</title>
+
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("includes/header", { user: user }) %>
+
+    <!-- Breadcrumb -->
+    <ul class="breadcrumb">
+        <li><a href="index.html">Início</a></li>
+        <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </li>
+        <li class="current">Dashboard</li>
+    </ul>
+
+
+<!-- ===== Dashboard de Certificações ===== -->
+<main class="dashboard">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h2>Dashboard de Certificações</h2>
+    <p>Acompanhe e gerencie suas certificações ISO em um só lugar.</p>
+  </div>
+
+  <!-- Grid de Cards -->
+  <div class="dashboard-grid">
+
+    <!-- ISO 9001: disponível inicialmente -->
+    <div class="dash-card" id="iso9001-card">
+      <span class="status-badge disponivel" id="iso9001-status">Disponível</span>
+      <h3>ISO 9001:2015</h3>
+      <p id="iso9001-desc">Pronta para iniciar a gestão da qualidade.</p>
+      <a href="/gerenciar" class="btn-dashboard-gerenciar" id="iso9001-btn">GERENCIAR</a>
+    </div>
+
+    <!-- ISO 14001: em breve -->
+    <div class="dash-card soon">
+      <span class="status-badge soon">Em breve</span>
+      <h3>ISO 14001:2015</h3>
+      <p>Gestão ambiental — disponível em breve.</p>
+      <a href="#" class="btn-dashboard-gerenciar disabled">EM BREVE</a>
+    </div>
+
+    <!-- ISO 27001: em breve -->
+    <div class="dash-card soon">
+      <span class="status-badge soon">Em breve</span>
+      <h3>ISO/IEC 27001:2022</h3>
+      <p>Segurança da informação — disponível em breve.</p>
+      <a href="#" class="btn-dashboard-gerenciar disabled">EM BREVE</a>
+    </div>
+
+  </div>
+</main>
+    <footer class="footer">
+        <div class="footer-container">
+            
+            <!-- Coluna Sobre -->
+            <div class="footer-colunas footer-sobre">
+                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
+
+                <div class="footer-sobre-inner">
+
+                    <!-- Lado esquerdo: logo + redes sociais -->
+                    <div class="footer-sobre-left">
+                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
+
+                        <div class="footer-social">
+                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
+                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
+                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
+                        </div>
+                    </div>     
+                    
+                    <!-- Lado direito: texto -->
+                    <div class="footer-sobre-text">
+                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- Coluna Acesso Rápido -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Perguntas frequentes</a></li>
+                    <li><a href="#">Centro de ajuda</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Acessos Buscados -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
+                <ul>
+                    <li><a href="#">DashBoard</a></li>
+                    <li><a href="#">Solicitar Demonstração</a></li>
+                    <li><a href="#">Documentos</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Institucional -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">INSTITUCIONAL</h3>
+                <ul>
+                    <li><a href="#">Termos e uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="footer-copyright">
+            <span>Copyright © FlowCerti 2025</span>
+        </div>
+    </footer>
+    
+    <script src="/assets/js/dashboard.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

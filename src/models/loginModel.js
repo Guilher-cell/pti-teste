@@ -13,8 +13,11 @@ class Login {
     this.validaLogin()
     if (this.errors.length > 0) return
 
-    this.user = await cadastroModel.findOne({ user: this.body.user }).select('+password')
+    this.user = await cadastroModel
+    .findOne({ user: this.body.user })
+    .select('+password user email cnpj twoFAEnabled ativo');
 
+    
     if (!this.user) {
       this.errors.push('Usuário não existe')
       return

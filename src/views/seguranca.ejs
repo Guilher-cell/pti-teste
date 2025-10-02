@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCerti</title>
+
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/seguranca.css">
+    <link rel="stylesheet" href="/css/conta_geral.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  
+    <%- include("includes/header", { user: user }) %>
+
+    <!-- Breadcrumb -->
+<ul class="breadcrumb">
+  <li><a href="index.html">Início</a></li>
+  <li>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </li>
+  <li><a href="conta.html">Conta</a></li>
+  <li>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </li>
+  <li class="current">Segurança</li>
+</ul>
+
+    <div class="conta-wrapper"> 
+  <!-- ===== Sidebar (menu da conta) ===== -->
+  <aside class="account-sidebar">
+    <div class="account-sidebar-inner">
+      <div class="menu-title">MENU</div>
+      <nav class="account-menu">
+        <a href="/resumo" class="menu-link">Resumo</a>
+        <a href="/minha-conta" class="menu-link">Minha Conta</a>
+        <a href="/meus-dados" class="menu-link">Meus Dados</a>
+        <a href="/verificacao" class="menu-link">Verificação</a>
+        <a href="/seguranca" class="menu-link active" aria-current="page">Segurança</a>
+        <a href="/pagamento" class="menu-link">Pagamento</a>
+        <a href="/cadastrar-funcionario" class="menu-link">Cadastrar Funcionários</a>
+        <a href="#" class="menu-link sair">Sair</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ===== Modal Logout ===== -->
+<div id="modal-logout" class="modal-logout">
+  <div class="modal-logout-content">
+    <h3>Deseja realmente sair?</h3>
+    <p>Você será desconectado da sua conta FlowCerti.</p>
+    <div class="modal-logout-actions">
+      <form method="POST" action="/logout">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn-logout confirmar">Sair</button>
+      </form>
+      <button class="btn-logout cancelar" id="btn-cancelar-logout">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+   <!-- ===== Conteúdo Principal ===== -->
+<main class="conta-main-seguranca">
+
+  <% if (locals.user.twoFAEnabled) { %>
+  <!-- Quando 2FA está ativado -->
+  <div id="card-2fa" class="card-seguranca habilitado">
+    <div class="card-seguranca-header">
+      <h3>Verificação em duas etapas (2FA)</h3>
+      <span class="status-ativado">✔</span>
+    </div>
+
+    <div class="card-seguranca-content">
+      <div class="card-seguranca-icone">
+        <!-- Ícone shield-check -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="#ffffff" stroke-width="1.5"
+             stroke-linecap="round" stroke-linejoin="round"
+             class="lucide lucide-shield-check">
+          <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+      </div>
+
+      <div id="texto-2fa" class="card-seguranca-texto">
+        <p><strong>Sua conta já está protegida com autenticação de dois fatores (2FA).</strong>  
+        Isso significa que, além da sua senha, é necessário um código adicional ao fazer login, garantindo mais segurança contra acessos não autorizados.</p>
+      </div>
+    </div>
+  </div>
+
+  <% } else { %>
+  <!-- Quando 2FA NÃO está ativado -->
+  <div id="card-2fa" class="card-seguranca">
+    <div class="card-seguranca-header">
+      <h3>Verificação em duas etapas (2FA)</h3>
+      <span id="status-2fa" class="status-nao-ativado">✖</span>
+    </div>
+
+    <div class="card-seguranca-content">
+      <div class="card-seguranca-icone">
+        <!-- Ícone shield simples -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="#ffffff" stroke-width="1.5"
+             stroke-linecap="round" stroke-linejoin="round"
+             class="lucide lucide-shield">
+          <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+        </svg>
+      </div>
+
+      <div id="texto-2fa" class="card-seguranca-texto">
+        <p><strong>Parece que a autenticação de dois fatores (2FA) não está ativada para sua conta.</strong>  
+        Isso significa que seu login depende apenas da sua senha, sem uma camada extra de proteção. <br>  
+        Para aumentar a segurança, recomendamos ativar a <strong>2FA</strong>. Com ela, será necessário um 
+        código adicional ao fazer login, garantindo maior proteção contra acessos não autorizados.</p>
+      </div>
+    </div>
+
+    <form method="POST" action="/seguranca/2fa/enviar">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" id="btn-habilitar" class="btn-seguranca-habilitar">Habilitar</button>
+    </form>
+    <%- include('includes/messages') %>
+  </div>
+  <% } %>
+
+</main>
+</div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            
+            <!-- Coluna Sobre -->
+            <div class="footer-colunas footer-sobre">
+                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
+
+                <div class="footer-sobre-inner">
+
+                    <!-- Lado esquerdo: logo + redes sociais -->
+                    <div class="footer-sobre-left">
+                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
+
+                        <div class="footer-social">
+                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
+                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
+                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
+                        </div>
+                    </div>     
+                    
+                    <!-- Lado direito: texto -->
+                    <div class="footer-sobre-text">
+                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- Coluna Acesso Rápido -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Perguntas frequentes</a></li>
+                    <li><a href="#">Centro de ajuda</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Acessos Buscados -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
+                <ul>
+                    <li><a href="#">DashBoard</a></li>
+                    <li><a href="#">Solicitar Demonstração</a></li>
+                    <li><a href="#">Documentos</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Institucional -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">INSTITUCIONAL</h3>
+                <ul>
+                    <li><a href="#">Termos e uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="footer-copyright">
+            <span>Copyright © FlowCerti 2025</span>
+        </div>
+    </footer>
+    
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

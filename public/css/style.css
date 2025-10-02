@@ -1,7 +1,7 @@
 /* Geral */
 body{
     background-color: #0E1629;
-    color: #999999;
+    color: #ffffff;
     margin: 0 auto;
     padding: 0;
     max-width: 1500px;
@@ -11,18 +11,19 @@ body{
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-/* header */
+/* ===============================
+   HEADER BASE
+================================ */
 header{
     padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-   /* border-bottom: 1px solid #0cb7eb; /* Linha divisória */ 
 }
 
 .menu{
     display: flex;
-    gap: 40px; /* Espaçamento maior entre os itens do menu */
+    gap: 40px;
     font-size: 16px;
 }
 
@@ -39,99 +40,98 @@ header{
     text-decoration: none;
     padding: 6px;
     position: relative;
+    transition: color 0.5s ease;
 }
 
-.menu-principal a:hover, .menu-hamburguer a:hover{
-    color:#cccccc
-}
 .menu-principal{
     margin-right: 40px; 
 }
 .menu-principal a{
     margin-right: 50px;
-    align-items: center;
-    justify-content: center;
 }
 
+.menu-principal a:hover,
+.menu-hamburguer a:hover {
+  color: #cccccc;
+}
+
+/* ===============================
+   BOTÃO SOLICITAR DEMONSTRAÇÃO
+================================ */
 .menu-demonstracao a {
-  background-color: #0084ff;   /* azul do botão */
+  background-color: #0084ff;
   color: #ffffff;
   font-weight: 600;
   padding: 10px 22px;
   border-radius: 25px;
   text-decoration: none;
   font-size: 16px;
-  transition: all 0.3s ease; /* transição suave */
+  font-family: "Inter", sans-serif;
+  transition: all 0.3s ease;
 }
-
 .menu-demonstracao a:hover {
-  background-color: #006bcf;   /* azul do botão */
-  box-shadow: 0 4px 12px rgba(0, 107, 207, 0.4); /* destaque */
+  background-color: #006bcf;
+  box-shadow: 0 4px 12px rgba(0, 107, 207, 0.4);
 }
 
-
+/* ===============================
+   NOTIFICAÇÃO (BELL)
+================================ */
 .menu-notificacao{
-    width: 40px;   /* tamanho da bolinha */
+    width: 40px;
     height: 40px;
-    border: 0.5px solid rgba(102, 102, 102, 0.5); /* cor da borda */
-    border-radius: 50%; /* deixa redondo */
+    border: 0.5px solid rgba(102, 102, 102, 0.5);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; /* necessário para posicionar o submenu */
+    position: relative;
     cursor: pointer;
+    transition: border 0.5s ease;
 }
-
-.menu-notificacao-img{
-    width: 24px;
-    height: 24px;
+.menu-notificacao:hover{
+    border: 0.5px solid rgba(204, 204, 204, 0.5);
 }
-
-.menu-notificacao-img:hover{
-    content: url("Imagem/header/icon_notificacao_tema_escuro_hover.png")
+.menu-notificacao-icon {
+  width: 24px;
+  height: 24px;
+  stroke: #999999;
+  transition: stroke 0.5s ease;
 }
-
-.menu-notificacao:hover, .menu-hamburguer:hover{
-    border: 0.5px solid rgba(204, 204, 204, 0.5); /* cor da borda */
+.menu-notificacao:hover .menu-notificacao-icon {
+  stroke: #cccccc;
 }
-
 .submenu-notificacao {
-    max-height: 0; /* começa fechado */
-    opacity: 0;
-    transition: max-height 0.6s ease, opacity 0.6s ease, padding 0.6s ease;
-    position: absolute;
-    top: 50px;
-    right: 0;
-    width: 240px;
-    background-color: #19284b;
-    color: #cccccc;
-    padding: 0 35px; /* padding "zerado" no início */
-    border-radius: 10px;
-    border: 0.5px solid rgba(102,102,102,0.4);
-    white-space: normal;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-    z-index: 100;
-    overflow-y: auto;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease, opacity 0.6s ease, padding 0.6s ease;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 240px;
+  background-color: #19284b;
+  color: #cccccc;
+  padding: 0 35px;
+  border-radius: 10px;
+  border: 0.5px solid rgba(102, 102, 102, 0.4);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  white-space: normal;
+  z-index: 100;
 }
-
-/* evita scroll quando fechado (opcional) */
-.submenu-notificacao:not(.aberto) {
-    overflow: hidden;
+.menu-notificacao.aberto .submenu-notificacao {
+    max-height: 500px;
+    opacity: 1;
+    padding: 20px 35px;
 }
-
 .submenu-notificacao p {
     font-size: 14px;
     text-align: center;
 }
 
-/* mostra o submenu quando a classe "aberto" for adicionada via JS */
-.menu-notificacao.aberto .submenu-notificacao {
-    max-height: 500px; /* altura suficiente pro conteúdo */
-    opacity: 1;
-    padding: 20px 35px;
-}
-
-/* Botão do hambúrguer igual ao de notificação */
+/* ===============================
+   MENU HAMBÚRGUER
+================================ */
 .menu-hamburguer {
     width: 40px;
     height: 40px;
@@ -142,99 +142,244 @@ header{
     justify-content: center;
     position: relative;
     cursor: pointer;
+    transition: border 0.5s ease;
 }
-
-
-.menu-hamburguer-img {
-    width: 24px;
-    height: 24px;
+.menu-hamburguer:hover {
+  border: 0.5px solid rgba(204, 204, 204, 0.5);
 }
-
-.menu-hamburguer-img:hover{
-    content: url("Imagem/header/icon_hamburguer_tema_escuro_hover.png")
+.menu-hamburguer-icon {
+  width: 20px;
+  height: 20px;
+  stroke: #999999;
+  transition: stroke 0.5s ease;
 }
-
+.menu-hamburguer:hover .menu-hamburguer-icon {
+  stroke: #cccccc;
+}
 .submenu-hamburguer {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.6s ease, opacity 0.6s ease;
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: #19284b;
-    border-radius: 10px;
-    border: 0.5px solid rgba(102, 102, 102, 0.4);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-    min-width: 210px;
-    z-index: 100;
-    flex-direction: column;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease, opacity 0.6s ease;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  min-width: 230px; /* 🔹 padrão */
+  background-color: #19284b;
+  border-radius: 10px;
+  border: 0.5px solid rgba(102, 102, 102, 0.4);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  flex-direction: column;
+  z-index: 100;
 }
-
 .menu-hamburguer.active .submenu-hamburguer {
     max-height: 500px;
     opacity: 1;
-}
-
-.submenu-hamburguer a {
     display: flex;
-    justify-content: flex-end; /* conteúdo alinhado à direita */
-    align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    font-size: 14px;
 }
 
-/* Mantém o mesmo estilo do <a> para os divs interativos */
+.submenu-hamburguer a,
 .submenu-hamburguer-item {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    font-size: 14px;
-    cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  color: #999999;
+  cursor: pointer;
+  transition: color 0.5s ease;
+  font-family: "Inter", sans-serif;
 }
-
-.submenu-hamburguer-item:hover{
-    color:#cccccc
+.submenu-hamburguer a:hover,
+.submenu-hamburguer-item:hover {
+  color: #cccccc;
 }
-
-#submenu-hamburguer-entrar, 
-#submenu-hamburguer-central-de-ajuda, 
-#submenu-hamburguer-documento{
+.submenu-hamburguer .submenu-icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  transition: stroke 0.5s ease;
+}
+.submenu-hamburguer a,
+.submenu-hamburguer-item {
   border-bottom: 0.5px solid rgba(102, 102, 102, 0.4);
 }
-
-.menu-hamburguer-img-central-de-ajuda:hover{
-    content: url("Imagem/header/submenu_hamburguer/icon_central_de_ajuda_tema_escuro_hover.png")
+.submenu-hamburguer a:last-child,
+.submenu-hamburguer-item:last-child {
+  border-bottom: none;
 }
 
-.menu-hamburguer-img-documento:hover{
-    content: url("Imagem/header/submenu_hamburguer/icon_documentos_tema_escuro_hover.png")
-}
-
-.menu-hamburguer-img-tema-claro:hover{
-     content: url("Imagem/header/submenu_hamburguer/icon_tema_claro_hover.png")
-}
-
-.menu-hamburguer-img-central-de-ajuda, .menu-hamburguer-img-documento, .menu-hamburguer-img-tema-claro {
-    width: 20px;
-    height: 20px;
-}
-
-.menu-hamburguer-img:hover{
-    content: url("Imagem/header/icon_hamburguer_tema_escuro_hover.png")
-}
-
-/* Ativo */
-.menu-hamburguer.active .submenu-hamburguer {
+/* 🔹 Item Usuário no submenu */
+.submenu-usuario {
   display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 0px;
+  border-bottom: 0.5px solid rgba(102, 102, 102, 0.4);
+  color: #cccccc;
+  cursor: default;
+  box-sizing: border-box;
+}
+.submenu-usuario:hover{ color:#cccccc; }
+.submenu-usuario .conta-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #2b3b5e;
+  background: #0E1629;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.submenu-usuario .conta-avatar svg {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 2px;
+  stroke: #ffffff;
+}
+.submenu-usuario-texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.3;
+  font-family: "Inter", sans-serif;
+  min-width:0;
+  text-align: right;     /* força o alinhamento à direita */
+}
+.submenu-usuario-texto span{
+  display:block;
+  font-size:17px;
+  font-weight:600;
+  color:#cccccc;
+  white-space:nowrap;
+  overflow:hidden;
+  margin-left:8px;
+  padding-right:20px;
+}
+.submenu-usuario-texto span strong{
+  display:inline-block;
+  max-width:120px;
+  font-weight:500;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  vertical-align:bottom;
+  color:#ffffff;
+}
+.submenu-usuario-texto a {
+  font-size: 14px;
+  color: #999999;
+  text-decoration: none;
+  transition: color 0.5s ease;
+  line-height: 1.2;
+  white-space:nowrap;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+.submenu-usuario-texto a:hover {
+  color: #cccccc;
+}
+
+/* 🔹 Quando nome for longo */
+.submenu-hamburguer.nome-longo {
+  min-width: 250px;
+}
+
+.modal-logout {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(14, 22, 41, 0.95);
+  backdrop-filter: blur(4px);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.modal-logout-content {
+  background: #0e1629;
+  padding: 60px 50px 40px 50px;
+  border-radius: 12px;
+  width: 380px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  animation: aparecer 0.6s ease forwards;
+  font-family: "Inter", sans-serif;
+  color: #ffffff;
+}
+
+.modal-logout-content h3 {
+  font-size: 24px;
+  font-weight: 800;
+  font-family: "Sora", sans-serif;
+  margin-top: -10px;
+}
+
+.modal-logout-content p {
+  font-size: 15px;
+  color: #cccccc;
+  margin-bottom: 35px;
+}
+
+.modal-logout-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn-logout {
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-logout.confirmar {
+  background: #ff4d4d;
+  color: #fff;
+}
+.btn-logout.confirmar:hover {
+  background: #cc3a3a;
+}
+
+.btn-logout.cancelar {
+  background: #2b3b5e;
+  color: #fff;
+}
+.btn-logout.cancelar:hover {
+  background: #444f6a;
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes desaparecer {
+  from { transform: scale(1); opacity: 1; }
+  to   { transform: scale(0.9); opacity: 0; }
+}
+
+.modal-logout.fechando .modal-logout-content {
+  animation: desaparecer 0.4s ease forwards;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-/* footer */
-
+/* ==============================
+   FOOTER BASE
+============================== */
 .footer {
     background-color: #070b14;
     color: #cccccc;
@@ -312,33 +457,37 @@ header{
     margin-left: 10px;
 }
 
-/* redes sociais alinhadas embaixo da logo */
-.footer-social img {
-    width: 18px;
-    height: 18px;
-    margin-right: 12px;
-    vertical-align: middle;
-    display: inline-block;
+/* ==============================
+   REDES SOCIAIS (SVG)
+============================== */
+.footer-social {
+    display: flex;
+    gap: 14px;
+    align-items: center;
 }
 
-#footer-redes-sociais-youtube{
-    width: 28px;
-    height: 28px;
+.footer-rede-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
+    cursor: pointer;
 }
 
-#footer-redes-sociais-instagram:hover{
-    content: url("Imagem/footer/icon_instagram_hover.png");
+.footer-rede-social svg {
+    width: 22px;
+    height: 22px;
+    stroke: #cccccc;
+    transition: stroke 0.5s ease;
 }
 
-#footer-redes-sociais-youtube:hover{
-    content: url("Imagem/footer/icon_youtube_hover.png");
+.footer-rede-social:hover svg {
+    stroke: #ffffff;
 }
 
-#footer-redes-sociais-linkedin:hover{
-    content: url("Imagem/footer/icon_linkedin_hover.png");
-}
-
-  /* titulo das colunas */
+/* ==============================
+   TÍTULOS DAS COLUNAS
+============================== */
 .footer-titulo {
     color: #eeeeee;
     font-size: 16px;
@@ -348,7 +497,7 @@ header{
     font-family: "Sora", sans-serif;
 }
 
-#footer-titulo-sobre{
+#footer-titulo-sobre {
     margin-left: 5px;
 }
 
@@ -366,16 +515,18 @@ header{
 .footer a {
     color: #cccccc;
     text-decoration: none;
-    transition: color .18s ease;
+    transition: color 0.5s ease;
     font-size: 14px;
 }
 
 .footer a:hover {
-    color: #eeeeee;
+    color: #ffffff;
     text-decoration: underline;
 }
 
-/* COPYRIGHT rodapé */
+/* ==============================
+   COPYRIGHT
+============================== */
 .footer-copyright {
     text-align: center;
     border-top: 1px solid rgba(102, 102, 102, 0.28);
@@ -386,3 +537,44 @@ header{
     font-weight: 400;
 }
 
+
+
+/* ===== Breadcrumb ===== */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0px 0px;
+  font-size: 18px;
+  font-family: "Inter", sans-serif;
+  gap: 8px;
+  color: #cccccc;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  color: #cccccc;
+  transition: color 0.5s ease;
+}
+
+.breadcrumb a:hover {
+  color: #ffffff;
+}
+
+.breadcrumb svg {
+  width: 16px;
+  height: 16px;
+  stroke: #cccccc;
+}
+
+.breadcrumb .current {
+  color: #ffffff;
+  font-weight: 500;
+}

@@ -1,3 +1,70 @@
+/* ===== Hero Section Planos ===== */
+.hero-planos {
+  padding: 40px 20px 0px 20px;
+}
+
+.hero-planos-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+
+/* Texto */
+.hero-planos-text {
+  flex: 1 1 500px;
+  margin-top: -50px; /* sobe o texto */
+}
+
+.hero-planos-text h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 15px;
+  font-family: "Sora", sans-serif;
+}
+
+.hero-planos-text p {
+  font-size: 18px;
+  color: #cccccc;
+  margin-bottom: 30px;
+  margin-top: -5px;
+  line-height: 1.7;
+  font-family: "Inter", sans-serif;
+}
+
+/* Botão exclusivo da seção de planos */
+.btn-hero-planos {
+  background-color: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 25px;
+  padding: 18px 42px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: "Inter", sans-serif;
+  display: inline-block;
+}
+.btn-hero-planos:hover {
+  background-color: #006bcf;
+}
+
+/* Imagem */
+.hero-planos-image {
+  flex: 1 1 500px;
+  text-align: center;
+}
+.hero-planos-image img {
+  max-width: 140%; /* aumenta a proporção da imagem */
+  height: auto;
+}
+
+
 /* ======== Seção Planos ======== */
 .planos-container {
   display: flex;
@@ -10,8 +77,9 @@
   flex-wrap: wrap;
 }
 
+/* ======== Cards animados ======== */
 .plano-box {
-  background-color: #19284b;
+  background-color: #0e1730;
   border-radius: 12px;
   padding: 40px 30px;
   width: 100%;
@@ -23,47 +91,99 @@
   text-align: center;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
 }
 
+/* Cards só animam com .animate */
+.plano-box.animate:nth-child(1) { animation: slideInLeft 1s ease forwards; }
+.plano-box.animate:nth-child(2) { animation: slideInRight 1s ease forwards; }
+
+@keyframes slideInLeft {
+  from { transform: translateX(-120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideInRight {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Hover efeito */
 .plano-box:hover {
   transform: translateY(-10px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
+/* ======== Título ======== */
 .plano-box h2 {
   font-size: 32px;
   font-weight: 600;
-  color: #cccccc;
+  color: #ffffff;
   margin-bottom: 30px;
   text-align: center;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.plano-box.animate h2 {
+  animation: fadeInTitle 0.8s ease forwards;
+  animation-delay: 0.9s;
+}
+@keyframes fadeInTitle {
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Lista */
+/* ======== Lista animada (texto) ======== */
 .plano-box ul {
   list-style: none;
-  padding-left: 60px; /* empurra toda a lista mais para a direita */
+  padding-left: 80px;
   margin: 0 0 40px 0;
   width: 100%;
 }
-
 .plano-box ul li {
   font-size: 18px;
   color: #cccccc;
-  margin: 20px 0;
+  margin: 26px 0;
   text-align: left;
   display: flex;
   align-items: center;
-  gap: 12px; /* espaço entre ícone e texto */
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+.plano-box.animate ul li {
+  animation: fadeInText 0.6s ease forwards;
+}
+.plano-box.animate ul li:nth-child(1) { animation-delay: 1.2s; }
+.plano-box.animate ul li:nth-child(2) { animation-delay: 1.4s; }
+.plano-box.animate ul li:nth-child(3) { animation-delay: 1.6s; }
+.plano-box.animate ul li:nth-child(4) { animation-delay: 1.8s; }
+.plano-box.animate ul li:nth-child(5) { animation-delay: 2s; }
+
+@keyframes fadeInText {
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Ícone */
+/* ======== Ícone separado ======== */
 .icon {
   color: #0084ff;
   font-size: 20px;
   font-weight: bold;
+  opacity: 0;
+  transform: scale(0.5);
+}
+.plano-box.animate ul li .icon {
+  animation: popInIcon 0.3s ease forwards;
+}
+.plano-box.animate ul li:nth-child(1) .icon { animation-delay: 1.4s; }
+.plano-box.animate ul li:nth-child(2) .icon { animation-delay: 1.6s; }
+.plano-box.animate ul li:nth-child(3) .icon { animation-delay: 1.8s; }
+.plano-box.animate ul li:nth-child(4) .icon { animation-delay: 2s; }
+.plano-box.animate ul li:nth-child(5) .icon { animation-delay: 2.2s; }
+
+@keyframes popInIcon {
+  to { opacity: 1; transform: scale(1); }
 }
 
-/* Botão */
+/* ======== Botão animado ======== */
 .btn-obter-plano,
 .btn-escolher-plano {
   background-color: #0084ff;
@@ -75,15 +195,23 @@
   padding: 14px 28px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  align-self: center; /* centraliza dentro da box */
+  align-self: center;
+  opacity: 0;
+  transform: translateY(10px);
+  font-family: "Inter", sans-serif;
 }
-
+.plano-box.animate .btn-obter-plano,
+.plano-box.animate .btn-escolher-plano {
+  animation: fadeInButton 0.8s ease forwards;
+  animation-delay: 2.6s; /* vem só depois da lista + ícones */
+}
+@keyframes fadeInButton {
+  to { opacity: 1; transform: translateY(0); }
+}
 .btn-obter-plano:hover,
 .btn-escolher-plano:hover {
   background-color: #006bcf;
 }
-
-
 
 /* Bloco externo ocupa a largura total */
 .info-extra-planos {
@@ -152,8 +280,10 @@
     padding: 12px 26px;
     border-radius: 8px;
     font-weight: 600;
+    font-size: 16px;
     text-decoration: none;
     transition: background-color 0.2s ease, transform 0.2s ease;
+    font-family: "Inter", sans-serif;
 }
 
 .btn-funcionalidades-planos:hover,

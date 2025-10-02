@@ -60,6 +60,7 @@
     font-family: "Sora", sans-serif;
     margin-bottom: 20px;
     font-style: italic;
+    color: #ffffff;
 }
 
 /* Texto */
@@ -81,6 +82,7 @@
     text-decoration: none;
     border-radius: 6px;
     font-size: 16px;
+    font-family: "Inter", sans-serif;
     box-shadow: 0 4px 12px rgba(0, 132, 255, 0.2);
     transition: all 0.3s ease;
 }

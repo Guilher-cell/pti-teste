@@ -1,0 +1,121 @@
+/* ===== Página Verificação ===== */
+.conta-main-verificacao {
+  min-width: 0;
+  flex: 1;
+}
+
+/* Texto explicativo */
+.texto-verificacao {
+  font-size: 16px;
+  color: #cccccc;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  text-align: center;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Inter", sans-serif;
+}
+.texto-verificacao a {
+  color: #3da0fc;
+  text-decoration: none;
+}
+.texto-verificacao a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Layout dos Cards ===== */
+.cards-verificacao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 150px;
+  margin-top: 60px;
+  padding: 0 40px;
+}
+
+/* Card base */
+.card-verificacao {
+  position: relative;
+  border: 2px solid #2b3b5e;
+  border-radius: 10px;
+  padding: 22px 22px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100px;
+}
+  
+/* Cabeçalho do card (ícone + título lado a lado) */
+.card-header-verificacao {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.card-icone {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-icone svg {
+  width: 100%;
+  height: 100%;
+  stroke: #ffffff;
+}
+
+.card-verificacao h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: "Sora", sans-serif;
+  margin: 0;
+}
+
+/* Texto */
+.card-verificacao p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #cccccc;
+}
+
+/* Botão dentro do card */
+.btn-verificacao-meus-dados {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background-color: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+.btn-verificacao-meus-dados:hover {
+  background-color: #006bcf;
+}
+
+/* Status verificado */
+.status-verificado {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  color: #00ff6a;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 1080px) {
+  .cards-verificacao {
+    grid-template-columns: 1fr;
+  }
+}

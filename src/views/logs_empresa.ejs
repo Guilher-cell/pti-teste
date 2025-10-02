@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>logs empresa</title>
+</head>
+<body>
+    <h2>📑 Logs dos Funcionários</h2>
+<table border="1" cellpadding="8" cellspacing="0">
+<thead>
+    <tr>
+      <th>Data/Hora</th>
+      <th>Funcionário</th>
+      <th>Ação</th>
+      <th>Módulo</th>
+      <th>Documento</th>
+      <th>Arquivo</th>
+      <th>Aprovado Por</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% logs.forEach(log => { %>
+      <tr>
+        <td><%= log.criadoEm.toLocaleString() %></td>
+        <td><%= log.usuarioNome %></td>
+        <td><%= log.acao %></td>
+        <td><%= log.modulo %></td>
+        <td><%= log.nomeDocumento || '-' %></td>
+        <td><%= log.nomeArquivo || '-' %></td>
+        <td><%= log.aprovadoPor || '-' %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+</table>
+</body>
+</html>

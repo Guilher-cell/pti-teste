@@ -14,74 +14,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <a href="/"><img class="logo" src="/Imagem/header/logo.png" alt="logo"></a>
-        <nav class="menu">
-            <div class="menu-item">
-                <div class="menu-principal">
-                    <a href="/sobre">Sobre a Empresa</a>
-                    <a href="/funcionalidades">Funcionalidades</a>
-                    <a href="/dashboard">Dashbord</a>
-                    <a href="/planos">Planos</a>
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-demonstracao">
-                    <a href="/solicitar">Solicitar Demonstração</a>
-                </div>
-            </div>
-             <% if (locals.user) { %>
-            <div class="menu-item">
-            <div class="menu-notificacao">
-                <img class="menu-notificacao-img" src="Imagem/header/icon_notificacao_tema_escuro.png" alt="notificacao">
-                <div class="submenu-notificacao">
-                    <p>Nenhuma notificação encontrada</p>
-                </div>    
-                </div>   
-            </div>
-                <% } %>
-
-            <div class="menu-item"> 
-                <div class="menu-hamburguer" id="menuHamburguer">
-                    <img class="menu-hamburguer-img" src="Imagem/header/icon_hamburguer_tema_escuro.png" alt="menu hamburguer">
-
-                    <div class="submenu-hamburguer">
-                        <% if (locals.user) { %>
-                            <!-- Usuário logado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item">
-                                <span>Olá, <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %></span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/minha-conta"><span>Ver Minha Conta</span></a>
-                            <a href="#">
-                                <img class="menu-hamburguer-img-central-de-ajuda" src="/Imagem/header/submenu_hamburguer/icon_central_de_ajuda_tema_escuro.png" alt="central de ajuda">
-                                <span>Central de Ajuda</span>
-                            </a>
-                            <a href="#">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_documentos_tema_escuro.png" alt="documentos">
-                                <span>Documentos</span>
-                            </a>
-                            <a class="submenu-hamburguer-item" href="/logout">
-                                <img class="menu-hamburguer-img-documento" src="/Imagem/header/submenu_hamburguer/icon_exit" alt="Sair">
-                                <span>Sair</span>
-                            </a>
-                        <% } else { %>
-                            <!-- Usuário deslogado -->
-                            <a id="submenu-hamburguer-entrar" class="submenu-hamburguer-item" href="/login">
-                                <span>Entrar</span>
-                            </a>
-                        <% } %>
-
-                        <!-- Sempre visível se estiver deslogado ou nao-->
-                        <div id="submenu-hamburguer-tema-claro" class="submenu-hamburguer-item">
-                            <img class="menu-hamburguer-img-tema-claro" src="/Imagem/header/submenu_hamburguer/icon_tema_claro.png" alt="tema claro">
-                            <span>Tema Claro</span>
-                        </div>   
-                    </div> 
-                </div> 
-            </div>
-        </nav>
-    </header>
+    <%- include("includes/header", { user: user }) %>
 
 
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

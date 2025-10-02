@@ -1,132 +1,238 @@
-const DocumentoModel = require('../Schemas/documentoSchema');
-const FicheiroModel = require('../Schemas/ficheiroSchema');
+const DocumentoModel = require("../Schemas/documentoSchema");
+const FicheiroModel = require("../Schemas/fileSchema");
+const Log = require("../Schemas/logSchema");
+// Helper: resolve o escopo da empresa (compatível com legado)
+function empresaScope(req) {
+  const userId = req.session.user?._id;
+  const empresaId = req.session.user?.empresaId || userId; // master: empresa = ele mesmo
+  return { userId, empresaId };
+}
+
+// Query compatível: aceita registros antigos (owner) e novos (empresaId)
+function empresaFilter(empresaId, userId) {
+  return { $or: [{ empresaId }, { owner: userId }] };
+}
 
 // ===============================
-// MOSTRA A PÁGINA PRINCIPAL COM TODAS AS PASTAS
+// LISTA PASTAS (apenas da empresa)
 // ===============================
 exports.index = async (req, res) => {
   try {
-    const documentos = await DocumentoModel
-      .find({ owner: req.session.user._id })
-      .sort({ createdAt: -1 });
+    const { userId, empresaId } = empresaScope(req);
 
-    res.render('documentos', { documentos: documentos });
+    const documentos = await DocumentoModel.find(empresaFilter(empresaId, userId))
+      .sort({ createdAt: -1 })
+      .populate("ficheiros")
+      // pega nome de Cadastro (user) OU Funcionario (nome/usuario)
+      .populate({ path: "alteradoPor", select: "user nome usuario" });
+
+    return res.render("documentos", {
+      documentos,
+      user: req.session.user,
+    });
   } catch (e) {
-    console.log('ERRO AO BUSCAR DOCUMENTOS:', e);
-    req.flash('errors', 'Ocorreu um erro ao carregar os seus documentos.');
-    return req.session.save(() => res.redirect('/'));
+    console.log("ERRO AO BUSCAR DOCUMENTOS:", e);
+    req.flash("errors", "Ocorreu um erro ao carregar os seus documentos.");
+    return req.session.save(() => res.redirect("/"));
   }
 };
 
 // ===============================
-// PROCESSA A CRIAÇÃO DE UMA NOVA PASTA
+// CRIA NOVA PASTA (vincula à empresa)
 // ===============================
 exports.criar = async (req, res) => {
   try {
+    const { empresaId, userId } = empresaScope(req);
     const { nome, descricao } = req.body;
 
     if (!nome) {
-      req.flash('errors', 'O nome do documento é obrigatório.');
-      return req.session.save(() => res.redirect('/documentos'));
+      req.flash("errors", "O nome do documento é obrigatório.");
+      return req.session.save(() => res.redirect("/documentos"));
     }
 
-    await DocumentoModel.create({
-      nome: nome,
-      descricao: descricao,
-      owner: req.session.user._id
+    const novoDocumento = await DocumentoModel.create({
+      nome,
+      descricao,
+      empresaId,        // escopo empresa
+      owner: empresaId, // compat legado
+      criadoPor: userId,
+      ultimaAlteracao: new Date(),
+      alteradoPor: userId,
+      alteradoPorModel: req.session.user.role === "funcionario" ? "Funcionario" : "Cadastro",
     });
 
-    req.flash('success', `A pasta "${nome}" foi criada com sucesso!`);
-    return req.session.save(() => res.redirect('/documentos'));
+    // 🔹 Cria log da ação
+    await Log.create({
+      usuarioId: userId,
+      empresaId,
+      usuarioNome: req.session.user.user,
+      acao: "Criou documento",
+      modulo: "Documentos Gerais",
+      nomeDocumento: novoDocumento.nome
+    });
+
+    req.flash("success", `A pasta "${nome}" foi criada com sucesso!`);
+    return req.session.save(() => res.redirect("/documentos"));
   } catch (e) {
-    console.log('ERRO AO CRIAR DOCUMENTO:', e);
-    req.flash('errors', 'Ocorreu um erro no sistema ao tentar criar o documento.');
-    return req.session.save(() => res.redirect('/documentos'));
+    console.log("ERRO AO CRIAR DOCUMENTO:", e);
+    req.flash("errors", "Ocorreu um erro no sistema ao tentar criar o documento.");
+    return req.session.save(() => res.redirect("/documentos"));
   }
 };
 
 // ===============================
-// MOSTRA A PÁGINA DE DETALHES DE UMA PASTA (E SEUS FICHEIROS)
+// DETALHE DE UMA PASTA (escopo empresa)
 // ===============================
 exports.detalhe = async (req, res) => {
   try {
+    const { empresaId, userId } = empresaScope(req);
+
     const documento = await DocumentoModel.findOne({
       _id: req.params.id,
-      owner: req.session.user._id
-    }).populate('ficheiros'); // Busca os ficheiros completos
+      ...empresaFilter(empresaId, userId),
+    })
+      .populate("ficheiros")
+      .populate({ path: "alteradoPor", select: "user nome usuario" });
 
     if (!documento) {
-      req.flash('errors', 'Documento não encontrado ou você não tem permissão para acedê-lo.');
-      return req.session.save(() => res.redirect('/documentos'));
+      req.flash("errors", "Documento não encontrado ou você não tem permissão para acessá-lo.");
+      return req.session.save(() => res.redirect("/documentos"));
     }
 
-    console.log("Render documentoDetalhe:", documento._id);
-    res.render('documentoDetalhe', { documento: documento });
+    return res.render("documentoDetalhe", {
+      documento,
+      user: req.session.user,
+    });
   } catch (e) {
-    console.log('ERRO AO BUSCAR DETALHE DO DOCUMENTO:', e);
-    req.flash('errors', 'Ocorreu um erro ao carregar o documento.');
-    return req.session.save(() => res.redirect('/documentos'));
+    console.log("ERRO AO BUSCAR DETALHE DO DOCUMENTO:", e);
+    req.flash("errors", "Ocorreu um erro ao carregar o documento.");
+    return req.session.save(() => res.redirect("/documentos"));
   }
 };
 
 // ===============================
-// PROCESSA A EDIÇÃO DE UMA PASTA
+// EDITA PASTA (escopo empresa)
 // ===============================
 exports.editar = async (req, res) => {
   try {
+    const { empresaId, userId } = empresaScope(req);
     const { nome, descricao } = req.body;
 
     if (!nome) {
-      req.flash('errors', 'O nome do documento não pode ficar em branco.');
+      req.flash("errors", "O nome do documento não pode ficar em branco.");
       return req.session.save(() => res.redirect(`/documentos/${req.params.id}`));
     }
 
+    const alteradoPorModel = req.session.user.role === "funcionario" ? "Funcionario" : "Cadastro";
+
     const documento = await DocumentoModel.findOneAndUpdate(
-      { _id: req.params.id, owner: req.session.user._id },
-      { nome: nome, descricao: descricao },
+      { _id: req.params.id, ...empresaFilter(empresaId, userId) },
+      {
+        nome,
+        descricao,
+        ultimaAlteracao: new Date(),
+        alteradoPor: userId,
+        alteradoPorModel, // 🔑 importante
+      },
       { new: true, runValidators: true }
     );
 
     if (!documento) {
-      req.flash('errors', 'Documento não encontrado ou você não tem permissão para editá-lo.');
-      return req.session.save(() => res.redirect('/documentos'));
+      req.flash("errors", "Documento não encontrado ou você não tem permissão para editá-lo.");
+      return req.session.save(() => res.redirect("/documentos"));
     }
 
-    req.flash('success', 'Pasta atualizada com sucesso!');
+    req.flash("success", "Pasta atualizada com sucesso!");
     return req.session.save(() => res.redirect(`/documentos/${req.params.id}`));
   } catch (e) {
-    console.log('ERRO AO EDITAR DOCUMENTO:', e);
-    req.flash('errors', 'Ocorreu um erro no sistema ao tentar editar a pasta.');
+    console.log("ERRO AO EDITAR DOCUMENTO:", e);
+    req.flash("errors", "Ocorreu um erro no sistema ao tentar editar a pasta.");
     return req.session.save(() => res.redirect(`/documentos/${req.params.id}`));
   }
 };
 
 // ===============================
-// PROCESSA A EXCLUSÃO DE UMA PASTA
+// APAGA PASTA (escopo empresa)
 // ===============================
 exports.apagar = async (req, res) => {
   try {
+    const { empresaId, userId } = empresaScope(req);
+
     const documento = await DocumentoModel.findOne({
       _id: req.params.id,
-      owner: req.session.user._id
+      ...empresaFilter(empresaId, userId),
     });
 
     if (!documento) {
-      req.flash('errors', 'Documento não encontrado ou você não tem permissão para apagá-lo.');
-      return req.session.save(() => res.redirect('/documentos'));
+      req.flash("errors", "Documento não encontrado ou você não tem permissão para apagá-lo.");
+      return req.session.save(() => res.redirect("/documentos"));
     }
 
-    // Apaga todos os ficheiros associados (Mongo)
     await FicheiroModel.deleteMany({ documento: documento._id });
-
-    // Apaga o documento em si
     await documento.deleteOne();
 
-    req.flash('success', `A pasta "${documento.nome}" foi apagada com sucesso.`);
-    return req.session.save(() => res.redirect('/documentos'));
+     await Log.create({
+      usuarioId: userId,
+      empresaId,
+      usuarioNome: req.session.user.user,
+      acao: "Apagou Documento",
+      modulo: "Documentos Gerais",
+      nomeDocumento: documento.nome
+    });
+
+    req.flash("success", `A pasta "${documento.nome}" foi apagada com sucesso.`);
+    return req.session.save(() => res.redirect("/documentos"));
   } catch (e) {
-    console.log('ERRO AO APAGAR DOCUMENTO:', e);
-    req.flash('errors', 'Ocorreu um erro no sistema ao tentar apagar a pasta.');
-    return req.session.save(() => res.redirect('/documentos'));
+    console.log("ERRO AO APAGAR DOCUMENTO:", e);
+    req.flash("errors", "Ocorreu um erro no sistema ao tentar apagar a pasta.");
+    return req.session.save(() => res.redirect("/documentos"));
+  }
+};
+
+// ===============================
+// APROVAR FICHEIRO (escopo empresa)
+// ===============================
+exports.aprovarFicheiro = async (req, res) => {
+  try {
+    const { empresaId, userId } = empresaScope(req);
+    const { fileId, id: documentoId } = req.params;
+
+    const documento = await DocumentoModel.findOne({
+      _id: documentoId,
+      ...empresaFilter(empresaId, userId),
+    });
+
+    if (!documento) {
+      req.flash("errors", "Documento não encontrado ou sem permissão.");
+      return req.session.save(() => res.redirect("/documentos"));
+    }
+
+    const ficheiro = await FicheiroModel.findOneAndUpdate(
+      { _id: fileId, documento: documento._id },
+      { approvedBy: userId, approvedAt: new Date() },
+      { new: true }
+    ).populate("approvedBy", "user nome usuario");
+
+    if (!ficheiro) {
+      req.flash("errors", "Ficheiro não encontrado para este documento.");
+      return req.session.save(() => res.redirect(`/documentos/${documentoId}`));
+    }
+
+    // Atualiza auditoria do documento
+    const alteradoPorModel = req.session.user.role === "funcionario" ? "Funcionario" : "Cadastro";
+    await DocumentoModel.findByIdAndUpdate(documentoId, {
+      $set: {
+        ultimaAlteracao: new Date(),
+        alteradoPor: userId,
+        alteradoPorModel,
+      },
+    });
+
+    req.flash("success", "Ficheiro aprovado com sucesso!");
+    return req.session.save(() => res.redirect(`/documentos/${documentoId}`));
+  } catch (e) {
+    console.log("ERRO AO APROVAR FICHEIRO:", e);
+    req.flash("errors", "Ocorreu um erro ao aprovar o ficheiro.");
+    return req.session.save(() => res.redirect(`/documentos/${req.params.id}`));
   }
 };

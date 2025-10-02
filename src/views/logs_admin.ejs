@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs admin</title>
+</head>
+<body>
+    <h2>🌍 Logs Globais (FlowCerti)</h2>
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Data/Hora</th>
+      <th>Empresa</th>
+      <th>Funcionário</th>
+      <th>Ação</th>
+      <th>Módulo</th>
+      <th>Documento / Funcionário</th>
+      <th>Arquivo / Cargo</th>
+      <th>Aprovado Por / Permissões</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% logs.forEach(log => { %>
+      <tr>
+        <td><%= log.criadoEm.toLocaleString() %></td>
+        <td><%= log.empresaId?.user || "N/A" %></td>
+        <td><%= log.usuarioNome %></td>
+        <td><%= log.acao %></td>
+        <td><%= log.modulo %></td>
+        <td><%= log.nomeDocumento || '-' %></td>
+        <td><%= log.nomeArquivo || '-' %></td>
+        <td>
+      <% if (log.acao === "Criou funcionário") { %>
+      <% const perms = JSON.parse(log.aprovadoPor || "{}"); %>
+      Permissões:
+      <% if (perms.dashboardISO) { %> Dashboard ISO <% } %>
+      <% if (perms.documentosGerais) { %> Documentos Gerais <% } %>
+      <% } else { %>
+       <%= log.aprovadoPor || '-' %>
+      <% } %>
+      </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+</body>
+</html>

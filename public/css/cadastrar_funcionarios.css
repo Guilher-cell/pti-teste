@@ -1,0 +1,280 @@
+/* ===== Página Funcionários ===== */
+.conta-main-funcionarios {
+  min-width: 0;
+  flex: 1;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Header */
+.conta-header-funcionarios h2 {
+  margin: 0 0 6px 0;
+  font-size: 22px;
+  color: #ffffff;
+  font-family: "Sora", sans-serif;
+}
+.conta-header-funcionarios p {
+  margin: 0;
+  color: #cccccc;
+  font-size: 15px;
+}
+
+/* Cards */
+.card-funcionarios {
+  background: #0e1629;
+  border-radius: 10px;
+  padding: 20px;
+}
+.card-header-funcionarios h3 {
+  margin: 0 0 14px 0;
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 700;
+  font-family: "Sora", sans-serif;
+}
+
+/* Formulário */
+.form-funcionarios {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-grid-funcionarios {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px 60px; /* parecido com Minha Conta */
+}
+.field-funcionarios {
+  display: flex;
+  flex-direction: column;
+}
+.field-funcionarios label {
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-family: "Inter", sans-serif;
+}
+.field-funcionarios .req {
+  color: #ff6b6b;
+}
+/* Inputs */
+.field-funcionarios input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #2b3b5e;
+  background: #0e1629;
+  color: #ffffff;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* Inputs desabilitados */
+.field-funcionarios input:disabled {
+  color: #999999;        /* texto mais apagado */
+  cursor: not-allowed;   /* ícone de bloqueado */
+  border-color: #2b3b5e; /* mantém a borda */
+}
+
+
+.field-funcionarios input::placeholder {
+  color: #999999;
+  opacity: 0.5;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+}
+.field-funcionarios input:focus {
+  border-color: #0084ff;
+  box-shadow: 0 0 6px rgba(0,132,255,0.4);
+}
+
+/* ===== Olho de senha ===== */
+.input-senha-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-senha-container .input-senha {
+  width: 100%;
+  padding-right: 40px; /* espaço pro ícone */
+}
+.toggle-senha {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  transition: filter .2s ease, transform .12s ease;
+}
+
+/* Permissões */
+.permissoes-funcionarios label {
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+.permissoes-opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Checkbox customizado */
+.checkbox-custom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #ffffff;
+  user-select: none;
+  line-height: 1.4;
+  position: relative;
+}
+.checkbox-custom input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background-color: #1a2540;
+  border: 1px solid #2b3b5e;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  position: relative;
+  display: inline-block;
+}
+.checkbox-custom:hover .checkmark {
+  border-color: #0084ff;
+}
+.checkbox-custom input:checked ~ .checkmark {
+  background-color: #0084ff;
+  border-color: #0084ff;
+}
+.checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.checkbox-custom input:checked ~ .checkmark::after {
+  display: block;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -60%) rotate(45deg);
+}
+.checkbox-text {
+  display: inline-block;
+  position: relative;
+  top: -4px;
+  left: 5px;
+}
+
+/* Botão */
+.form-actions-funcionarios {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -30px;
+}
+.btn-cadastrar-funcionarios {
+  background: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+.btn-funcionarios:hover { background: #006bcf; }
+.btn-cancelar-funcionarios {
+  background: #2b3b5e;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  border: none;
+  margin-left: 12px;
+  transition: background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+.btn-cancelar-funcionarios:hover { background: #444f6a; }
+
+/* Tabela */
+.tabela-wrap-funcionarios { overflow-x: auto; }
+.tabela-funcionarios { width: 100%; border-collapse: collapse; }
+.tabela-funcionarios thead th {
+  text-align: left;
+  font-size: 13px;
+  color: #cccccc;
+  font-weight: 700;
+  padding: 10px;
+  border-bottom: 1px solid #2b3b5e;
+}
+.tabela-funcionarios tbody td {
+  padding: 12px 10px;
+  font-size: 14px;
+  color: #ffffff;
+  border-bottom: 1px solid #1a2540;
+}
+.link-funcionarios {
+  color: #3da0fc;
+  text-decoration: none;
+  font-size: 13px;
+}
+.link-funcionarios:hover { text-decoration: underline; }
+
+/* Badges */
+.badge-funcionarios {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+.badge-ativo {
+  background: rgba(0, 255, 106, .12);
+  color: #00ff6a;
+  border: 1px solid rgba(0, 255, 106, .4);
+}
+.badge-inativo {
+  background: rgba(255, 77, 77, .12);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 77, 77, .4);
+}
+.badge-permissao {
+  background: rgba(61, 160, 252, .15);
+  color: #3da0fc;
+  border: 1px solid rgba(61, 160, 252, .4);
+  margin-right: 4px;
+}
+
+/* Responsivo */
+@media (max-width: 1080px) {
+  .form-grid-funcionarios { grid-template-columns: 1fr; }
+}
+
+/* Botão salvar (igual cadastrar) */
+#btn-form.salvar { background: #0084ff; }
+#btn-form.salvar:hover { background: #006bcf; }

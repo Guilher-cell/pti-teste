@@ -1,0 +1,179 @@
+/* ===== Main ===== */
+.conta-main{ min-width: 0; }
+
+/* Header de boas-vindas */
+.conta-header{
+  border: 2px solid #2b3b5e;
+  border-radius: 10px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+/* Avatar (SVG) */
+.conta-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #2b3b5e;
+  background: #0E1629;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conta-avatar svg {
+  width: 100%;   /* ocupa toda a largura do círculo */
+  height: 100%;  /* ocupa toda a altura do círculo */
+  margin-bottom: 5px;
+  stroke: #ffffff;
+}
+
+.conta-texto h2{
+  margin: 0 0 6px 0;
+  font-size: 22px;
+  color: #ffffff;
+  font-family: "Sora", sans-serif;
+}
+.conta-texto p{
+  margin: 0;
+  font-size: 16px;
+  color: #cccccc;
+}
+
+/* ===== Boxes ===== */
+.conta-boxes{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 30px;
+  margin-top: 50px; /* aumenta o espaço em cima das boxes */
+}
+
+/* Box padrão */
+.conta-box{
+  position: relative;
+  border: 2px solid #2b3b5e;
+  border-radius: 10px;
+  padding: 20px 20px 64px; /* espaço extra pro botão fixo */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 200px;
+}
+
+/* ===== Box 1 (Tudo validado) ===== */
+.conta-box-large{ display: flex; flex-direction: column; }
+
+.conta-box-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.conta-box-large .conta-box-title{
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.status-validado{
+  color: #00ff6a;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.status-invalido{
+  color: #ffbb33;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* Conteúdo com ícone + texto */
+.conta-box-content{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.box-icon{
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box-icon svg{
+  width: 100%;
+  height: 100%;
+}
+
+.box-text{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ===== Títulos e textos ===== */
+.conta-box-title{
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: "Sora", sans-serif;
+}
+
+.conta-box:not(.conta-box-large) .conta-box-title{
+  margin: 0 0 24px 0;
+}
+
+.conta-box p{
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #cccccc;
+}
+.conta-box p strong{
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ===== Botões ===== */
+.btn-conta-verificacao,
+.btn-conta-sugestao,
+.btn-conta-bug{
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background-color: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+
+.btn-conta-verificacao:hover,
+.btn-conta-sugestao:hover,
+.btn-conta-bug:hover{
+  background-color: #006bcf;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 1080px){
+  .conta-boxes{ grid-template-columns: 1fr 1fr; }
+  .conta-box-large{ grid-column: span 2; }
+}
+@media (max-width: 720px){
+  .conta-boxes{ grid-template-columns: 1fr; }
+  .conta-box-large{ grid-column: span 1; }
+}

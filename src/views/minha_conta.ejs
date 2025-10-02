@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCerti</title>
+
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/minha_conta.css">
+    <link rel="stylesheet" href="/css/conta_geral.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+   <%- include("includes/header", { user: user }) %>
+
+   <!-- Breadcrumb -->
+    <ul class="breadcrumb">
+      <li><a href="index.html">Início</a></li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </li>
+      <li><a href="conta.html">Conta</a></li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </li>
+      <li class="current">Minha Conta</li>
+    </ul>
+
+    <div class="conta-wrapper"> 
+  <!-- ===== Sidebar (menu da Minha Conta) ===== -->
+  <aside class="account-sidebar">
+    <div class="account-sidebar-inner">
+      <div class="menu-title">MENU</div>
+      <nav class="account-menu">
+        <a href="/resumo" class="menu-link">Resumo</a>
+        <a href="/minha-conta" class="menu-link active" aria-current="page">Minha Conta</a>
+        <a href="/meus-dados" class="menu-link">Meus Dados</a>
+        <a href="/verificacao" class="menu-link">Verificação</a>
+        <a href="/seguranca" class="menu-link">Segurança</a>
+        <a href="/pagamento" class="menu-link">Pagamento</a>
+        <a href="/cadastrar-funcionario" class="menu-link">Cadastrar Funcionários</a>
+        <a href="#" class="menu-link sair">Sair</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ===== Modal Logout ===== -->
+<div id="modal-logout" class="modal-logout">
+  <div class="modal-logout-content">
+    <h3>Deseja realmente sair?</h3>
+    <p>Você será desconectado da sua conta FlowCerti.</p>
+    <div class="modal-logout-actions">
+      <form method="POST" action="/logout">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn-logout confirmar">Sair</button>
+      </form>
+      <button class="btn-logout cancelar" id="btn-cancelar-logout">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+   <!-- ===== Conteúdo principal ===== -->
+<main class="conta-main-minha-conta">
+  <!-- Header -->
+  <div class="conta-header-line-minha-conta">
+    <div class="conta-avatar-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </div>
+    <h2><%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %></h2>
+  </div>
+
+    <!-- Formulário -->
+  <section class="conta-form-minha-conta">
+    <form class="form-conta-minha-conta">
+      <div class="form-grid-2-minha-conta">
+        <div class="field-minha-conta">
+          <label for="usuario">Usuário <span class="req">*</span></label>
+            <input type="text" id="usuario" value= <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %> readonly>
+          </div>
+
+          <div class="field-minha-conta">
+            <label for="email">Email <span class="req">*</span></label>
+            <input type="email" id="email" value= <%= locals.user.email %> readonly>
+          </div>
+
+          <div class="field-minha-conta">
+          <label for="senha">Senha</label>
+          <div class="input-senha-container">
+            <input type="password" id="senha" class="input-senha senha-minha-conta" placeholder="Preencha se deseja trocar">
+            <img src="Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
+          </div>
+
+          <!-- Lista de requisitos da senha -->
+          <ul class="password-rules hidden" id="password-rules-minha-conta">
+            <li id="length">Senha deve ter entre 8 e 24 caracteres</li>
+            <li id="uppercase">Senha deve ter letras maiúsculas e minúsculas</li>
+            <li id="number">Senha deve ter pelo menos um número</li>
+            <li id="special">Senha deve ter pelo menos um caractere especial (#@*…)</li>
+          </ul>
+        </div>
+
+          <div class="field-minha-conta">
+          <label for="confirmar">Confirmar Senha</label>
+          <div class="input-senha-container">
+            <input type="password" id="confirmar" class="input-senha" placeholder="Confirme a nova senha">
+            <img src="Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
+          </div>
+        </div>
+      </div>
+
+        <div class="form-footer-minha-conta">
+        <button type="submit" class="btn-minha-conta-alterar-senha">Alterar senha</button>
+      </div>
+    </form>
+  </section>
+</main>
+</div>
+
+
+
+    <footer class="footer">
+        <div class="footer-container">
+            
+            <!-- Coluna Sobre -->
+            <div class="footer-colunas footer-sobre">
+                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
+
+                <div class="footer-sobre-inner">
+
+                    <!-- Lado esquerdo: logo + redes sociais -->
+                    <div class="footer-sobre-left">
+                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
+
+                        <div class="footer-social">
+                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
+                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
+                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
+                        </div>
+                    </div>     
+                    
+                    <!-- Lado direito: texto -->
+                    <div class="footer-sobre-text">
+                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- Coluna Acesso Rápido -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Perguntas frequentes</a></li>
+                    <li><a href="#">Centro de ajuda</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Acessos Buscados -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
+                <ul>
+                    <li><a href="#">DashBoard</a></li>
+                    <li><a href="#">Solicitar Demonstração</a></li>
+                    <li><a href="#">Documentos</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Institucional -->
+            <div class="footer-colunas">
+                <h3 class="footer-titulo">INSTITUCIONAL</h3>
+                <ul>
+                    <li><a href="#">Termos e uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="footer-copyright">
+            <span>Copyright © FlowCerti 2025</span>
+        </div>
+    </footer>
+    
+    <script src="/assets/js/minha_conta.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

@@ -1,56 +1,36 @@
-// Em: src/config/multerConfig.js
-const multer = require('multer');
-const path = require('path');
-const crypto = require('crypto');
+const multer = require("multer");
+const path = require("path");
 
-// Define o diretório onde os ficheiros serão guardados
-const uploadDir = path.resolve(__dirname, '..', '..', 'public', 'uploads');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.resolve("public", "uploads")); 
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + "-" + file.originalname);
+  }
+});
 
-module.exports = {
-    // Diretório de destino para os uploads
-    dest: uploadDir,
-    
-    // Configuração do armazenamento
-    storage: multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, uploadDir);
-        },
-        filename: (req, file, cb) => {
-            // Gera 16 bytes de dados aleatórios em formato hexadecimal
-            crypto.randomBytes(16, (err, hash) => {
-                if (err) cb(err);
+function fileFilter(req, file, cb) {
+  const allowedMimes = [
+    "application/pdf",
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "application/msword", // Word antigo (.doc)
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Word novo (.docx)
+    "application/vnd.ms-excel", // Excel antigo (.xls)
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel novo (.xlsx)
+    "application/vnd.ms-powerpoint", // PowerPoint antigo (.ppt)
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation" // PowerPoint novo (.pptx)
+  ];
 
-                // Cria um nome de ficheiro único para evitar sobreposições
-                // Ex: 1a2b3c4d5e6f7g8h-meu_documento.pdf
-                const fileName = `${hash.toString('hex')}-${file.originalname}`;
-                
-                cb(null, fileName);
-            });
-        },
-    }),
-    
-    // Limites para o upload
-    limits: {
-        fileSize: 5 * 1024 * 1024, // Limite de 5MB por ficheiro
-    },
-    
-    // Filtro de ficheiros (opcional, mas recomendado)
-    fileFilter: (req, file, cb) => {
-        const allowedMimes = [
-            'image/jpeg',
-            'image/pjpeg',
-            'image/png',
-            'image/gif',
-            'application/pdf',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // .docx
-        ];
+  if (allowedMimes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error("Formato inválido. Apenas imagens, PDF, Word, Excel e PowerPoint são permitidos."));
+  }
+}
 
-        if (allowedMimes.includes(file.mimetype)) {
-            cb(null, true); // Aceita o ficheiro
-        } else {
-            // Rejeita o ficheiro com uma mensagem de erro
-            cb(new Error('Tipo de ficheiro inválido.'));
-        }
-    },
-};
+
+module.exports = multer({ storage, fileFilter });

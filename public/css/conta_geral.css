@@ -1,0 +1,156 @@
+/* ===== Layout geral da página de conta ===== */
+.conta-wrapper{
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  max-width: 1500px;
+  margin: 40px auto 80px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* ===== Sidebar ===== */
+.account-sidebar{
+  border: 2px solid #2b3b5e;
+  border-radius: 10px;
+  height: fit-content;
+}
+.account-sidebar-inner{ padding: 16px; }
+
+.menu-title{
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  color: #b3b3b3;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.account-menu{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.menu-link{
+  display: block;
+  text-decoration: none;
+  color: #cccccc;
+  font-size: 15px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+.menu-link:hover{
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+}
+.menu-link.active{
+  background: rgba(0,132,255,0.10);
+  border-color: #0084ff;
+  color: #ffffff;
+  pointer-events: none;   /* desativa o clique */
+  cursor: default;        /* cursor normal */
+}
+
+.menu-link.sair{ color: #ff6b6b; }
+.menu-link.sair:hover{
+  background: rgba(255,107,107,0.08);
+  border-color: rgba(255,107,107,0.3);
+}
+
+/* =========================
+   Modal Logout
+   ========================= */
+.modal-logout {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(14, 22, 41, 0.95);
+  backdrop-filter: blur(4px);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.modal-logout-content {
+  background: #0e1629;
+  padding: 60px 50px 40px 50px; /* mais espaçamento */
+  border-radius: 12px;
+  width: 380px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  animation: aparecer 0.6s ease forwards;
+  font-family: "Inter", sans-serif;
+  color: #ffffff;
+}
+
+/* título */
+.modal-logout-content h3 {
+  font-size: 24px;
+    font-weight: 800;
+    font-family: "Sora", sans-serif;
+    margin-top: -10px;
+}
+
+/* descrição */
+.modal-logout-content p {
+  font-size: 15px;
+  color: #cccccc;
+  margin-bottom: 35px;
+}
+
+/* botões */
+.modal-logout-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn-logout {
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+/* botão sair */
+.btn-logout.confirmar {
+  background: #ff4d4d;
+  color: #fff;
+}
+.btn-logout.confirmar:hover {
+  background: #cc3a3a;
+}
+
+/* botão cancelar */
+.btn-logout.cancelar {
+  background: #2b3b5e;
+  color: #fff;
+}
+.btn-logout.cancelar:hover {
+  background: #444f6a;
+}
+
+/* animações */
+@keyframes aparecer {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes desaparecer {
+  from { transform: scale(1); opacity: 1; }
+  to   { transform: scale(0.9); opacity: 0; }
+}
+
+.modal-logout.fechando .modal-logout-content {
+  animation: desaparecer 0.4s ease forwards;
+}

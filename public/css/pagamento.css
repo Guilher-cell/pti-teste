@@ -1,0 +1,172 @@
+/* ===== Página Pagamento ===== */
+.conta-main-pagamento {
+  min-width: 0;
+  flex: 1;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Header */
+.conta-header-pagamento h2 {
+  margin: 0 0 6px 0;
+  font-size: 22px;
+  color: #ffffff;
+  font-family: "Sora", sans-serif;
+}
+.conta-header-pagamento p {
+  margin: 0;
+  color: #cccccc;
+  font-size: 15px;
+}
+
+/* Grid (Plano + Faturas) */
+.conta-grid-pagamento {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 30px;
+}
+
+/* Card base */
+.card-pagamento {
+  position: relative;
+  border: 2px solid #2b3b5e;
+  border-radius: 10px;
+  background: #0e1629;
+  padding: 20px;
+}
+
+.card-header-pagamento {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.card-header-pagamento h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 700;
+  font-family: "Sora", sans-serif;
+}
+
+/* Status */
+.status-pagamento {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.status-ativo { color: #00ff6a; }
+
+/* Plano */
+.plano-row-pagamento {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.plano-nome-pagamento {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 16px;
+}
+.plano-preco-pagamento {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+}
+.plano-preco-pagamento span {
+  color: #cccccc;
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.divider-pagamento {
+  height: 1px;
+  margin: 14px 0;
+  background: #2b3b5e;
+  border-radius: 2px;
+}
+
+.plano-datas-pagamento p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #cccccc;
+}
+.plano-datas-pagamento strong {
+  color: #ffffff;
+}
+
+/* Ações */
+.acoes-pagamento {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* Conteúdo do card */
+.card-body-pagamento {
+  color: #cccccc;
+  font-size: 15px;
+}
+
+/* ===== Botões ===== */
+
+/* Botões pequenos (Alterar / Cancelar) */
+.btn-pagamento-sm {
+  background: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+.btn-pagamento-sm:hover { background: #006bcf; }
+
+/* Botão secundário */
+.btn-pagamento-sec {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #2b3b5e;
+}
+.btn-pagamento-sec:hover {
+  background: #0b1324;
+}
+
+/* Botão grande (Ver todas) */
+.btn-pagamento-lg {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: #0084ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 12px 24px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+.btn-pagamento-lg:hover { background: #006bcf; }
+
+/* Responsivo */
+@media (max-width: 1080px) {
+  .conta-grid-pagamento {
+    grid-template-columns: 1fr;
+  }
+}
