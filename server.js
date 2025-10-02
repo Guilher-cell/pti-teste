@@ -3,8 +3,12 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.CONNECTIONSTRING)
-  .then(() => app.emit('pronto'))
+mongoose.connect(process.env.CONNECTIONSTRING, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  ssl: true
+})
+.then(() => app.emit('pronto'))
   .catch(e => console.log(e));
 
 const session = require('express-session');
