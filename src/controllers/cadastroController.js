@@ -1,5 +1,6 @@
-const Cadastro = require('../models/cadastroModel'); // importa sua classe Cadastro
+const Cadastro = require('../models/cadastroModel'); // Classe Cadastro
 const TokenModel = require('../models/tokenModel');
+const cadastroModel = require('../Schemas/cadastroSchema'); // ✅ Importa o Schema real do usuário
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
@@ -12,7 +13,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Página de cadastro
+// =============================
+// PÁGINA DE CADASTRO
+// =============================
 exports.criar = (req, res) => {
   if (req.session.user) return res.redirect('/');
   res.render('cadastro', { csrfToken: req.csrfToken() });
@@ -41,7 +44,7 @@ exports.register = async (req, res) => {
       token: token,
     });
 
-    // link para o usuário confirmar
+    // link para confirmar
     const link = `${req.protocol}://${req.get('host')}/verificar-email/${token}`;
 
     await transporter.sendMail({
@@ -77,8 +80,8 @@ exports.verificarEmail = async (req, res) => {
       return res.redirect('/login');
     }
 
-    // ativa a conta
-    await User.findByIdAndUpdate(tokenDoc.userId, { ativo: true });
+    // ✅ ativa a conta
+    await cadastroModel.findByIdAndUpdate(tokenDoc.userId, { ativo: true });
 
     // apaga o token
     await tokenDoc.deleteOne();
