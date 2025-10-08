@@ -61,9 +61,7 @@ route.get("/logs/admin", middleware.isAuthenticated, middleware.isAdmin, logCont
 route.get("/central_ajuda", middleware.isAuthenticated, centralAjudaController.index )
 route.get("/plano_premium", middleware.isAuthenticated , planoPremiumController.index)
 route.get("/pagamento/:plano", pagamentoController.criarPagamento);
-route.get("/pagamento/sucesso",  pagamentoController.sucesso);
-route.get("/pagamento/erro",     pagamentoController.erro);
-route.get("/pagamento/pendente", pagamentoController.pendente);
+
 
 
 route.get("/api/cep/:cep", middleware.isAuthenticated, async (req, res) => {
