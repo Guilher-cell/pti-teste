@@ -82,8 +82,9 @@
       <div class="form-grid-2-meus-dados">
         <div class="field-meus-dados">
           <label>Razão Social <span class="req">*</span></label>
-          <input type="text" name="razaoSocial" value="<%= empresa.razaoSocial || '' %>"
-                 <%= empresa.razaoSocial ? 'readonly' : '' %>
+          <input type="text" name="razaoSocial" 
+                 value="<%= empresa.razaoSocial || '' %>"
+                 <%= (empresa.dadosCompletos || empresa.razaoSocial) ? 'readonly' : '' %>
                  placeholder="Digite a razão social" required>
         </div>
         <div class="field-meus-dados">
@@ -103,46 +104,54 @@
       <div class="form-grid-multi-meus-dados">
         <div class="field-meus-dados">
           <label>CEP <span class="req">*</span></label>
-          <input id="CEP" type="text" name="cep" value="<%= empresa.endereco?.cep || '' %>"
-                 <%= empresa.endereco?.cep ? 'readonly' : '' %>
+          <input id="CEP" type="text" name="cep" 
+                 value="<%= empresa.endereco?.cep || '' %>"
+                 <%= (empresa.dadosCompletos || empresa.endereco?.cep) ? 'readonly' : '' %>
                  placeholder="00000-000" required>
         </div>
         <div class="field-meus-dados">
           <label>Endereço <span class="req">*</span></label>
           <input type="text" name="endereco" id="Endereco"
                  value="<%= empresa.endereco?.logradouro || '' %>"
-                 <%= empresa.endereco?.logradouro ? 'readonly' : '' %>
+                 <%= (empresa.dadosCompletos || empresa.endereco?.logradouro) ? 'readonly' : '' %>
                  placeholder="Rua, Avenida..." required>
         </div>
         <div class="field-meus-dados">
           <label>Número <span class="req">*</span></label>
-          <input type="text" name="numero" value="<%= empresa.endereco?.numero || '' %>"
-                 <%= empresa.endereco?.numero ? 'readonly' : '' %> required>
+          <input type="text" name="numero" 
+                 value="<%= empresa.endereco?.numero || '' %>"
+                 <%= (empresa.dadosCompletos || empresa.endereco?.numero) ? 'readonly' : '' %> required>
         </div>
         <div class="field-meus-dados">
           <label>Complemento</label>
-          <input type="text" name="complemento" value="<%= empresa.endereco?.complemento || '' %>"
-                 <%= empresa.endereco?.complemento ? 'readonly' : '' %>>
+          <input type="text" name="complemento" 
+                 value="<%= empresa.endereco?.complemento || '' %>"
+                 <%= empresa.dadosCompletos ? 'readonly' : '' %>
+                 placeholder="<%= empresa.dadosCompletos ? '' : 'Opcional' %>">
         </div>
         <div class="field-meus-dados">
           <label>Bairro <span class="req">*</span></label>
-          <input type="text" id="Bairro" name="bairro" value="<%= empresa.endereco?.bairro || '' %>"
-                 <%= empresa.endereco?.bairro ? 'readonly' : '' %> required>
+          <input type="text" id="Bairro" name="bairro" 
+                 value="<%= empresa.endereco?.bairro || '' %>"
+                 <%= (empresa.dadosCompletos || empresa.endereco?.bairro) ? 'readonly' : '' %> required>
         </div>
         <div class="field-meus-dados">
           <label>Cidade <span class="req">*</span></label>
-          <input type="text" id="Cidade" name="cidade" value="<%= empresa.endereco?.cidade || '' %>"
-                 <%= empresa.endereco?.cidade ? 'readonly' : '' %> required>
+          <input type="text" id="Cidade" name="cidade" 
+                 value="<%= empresa.endereco?.cidade || '' %>"
+                 <%= (empresa.dadosCompletos || empresa.endereco?.cidade) ? 'readonly' : '' %> required>
         </div>
         <div class="field-meus-dados">
           <label>Estado <span class="req">*</span></label>
-          <input type="text" id="Estado" name="estado" value="<%= empresa.endereco?.estado || '' %>"
-                 <%= empresa.endereco?.estado ? 'readonly' : '' %> required>
+          <input type="text" id="Estado" name="estado" 
+                 value="<%= empresa.endereco?.estado || '' %>"
+                 <%= (empresa.dadosCompletos || empresa.endereco?.estado) ? 'readonly' : '' %> required>
         </div>
         <div class="field-meus-dados">
           <label>País <span class="req">*</span></label>
-          <input type="text" name="pais" value="<%= empresa.endereco?.pais || '' %>"
-                 <%= empresa.endereco?.pais ? 'readonly' : '' %> required>
+          <input type="text" name="pais" 
+                 value="<%= empresa.endereco?.pais || '' %>"
+                 <%= (empresa.dadosCompletos || empresa.endereco?.pais) ? 'readonly' : '' %> required>
         </div>
       </div>
     </section>
@@ -160,58 +169,10 @@
 </main>
     </div>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <!-- Colunas do footer -->
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-                <div class="footer-sobre-inner">
-                    <div class="footer-sobre-left">
-                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-                
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
+    <%- include('includes/footer') %>
     
     <script src="/assets/js/meus_dados.js"></script>
+    <script src="/assets/js/conta_geral.js"></script>
     <script src="/assets/js/script.js"></script>
 </body>
 </html>

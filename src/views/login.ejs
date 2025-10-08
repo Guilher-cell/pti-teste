@@ -5,45 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar - FlowCerti</title>
 
-    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+    <link rel="icon" type="image/png" href="/Imagem/footer/logo_pequena.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Sora:wght@400;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/pages_modais.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="page">
-        <div class="page-content">
+<div class="page">
+  <div class="page-content">
 
-            <div class="page-content-forms"> 
-               <a href="/">
-                <span class="close">&times;</span>      
-                </a>
-                <h2>Entrar</h2>   
-        
-                <form action="/login" method="POST">
-                    <input type="hidden" name="_csrf" value=<%= csrfToken %>>
-                    <input type="text" placeholder="Usuário"  name="user" id="user" required>
-                    <div class="input-senha-container">
-                        <input type="password" placeholder="Senha" name="password" id="password" class="input-senha" required>
-                        <img src="Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
-                    </div>
+    <div class="page-content-forms"> 
+        <a href="/"><span class="close">&times;</span></a>
+        <h2>Entrar</h2>   
 
-                    <button type="submit" class="btn-entrar-modal">ENTRAR</button>
-                </form>
+        <form action="/login" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+            <input type="text" placeholder="Usuário ou e-mail" name="user" id="user" required>
+
+            <div class="input-senha-container">
+                <input type="password" placeholder="Senha" name="password" id="password" class="input-senha" required>
+                <img src="/Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
             </div>
-            <%- include('includes/messages') %>
-            <div class="page-content-options">
-                <div class="links">
-                    <a href="/criar">Criar uma conta</a>
-                    <a href="/esqueci">Esqueci minha senha</a>
-                </div>
-            </div>
-        </div>
+
+            <button type="submit" class="btn-entrar-modal">ENTRAR</button>
+        </form>
     </div>
-    <script src="/assets/js/pages_modais.js"></script>
+
+    <%- include('includes/messages') %>
+
+    <div class="page-content-options">
+      <div class="links">
+        <a href="/criar">Criar uma conta</a>
+        <a href="/esqueci">Esqueci minha senha</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/pages_modais.js"></script>
 </body>
 </html>

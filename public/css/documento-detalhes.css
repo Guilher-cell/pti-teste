@@ -1,0 +1,536 @@
+/* ===== Página Detalhe Documento ===== */
+.container-documentos-detalhe {
+  padding: 60px 0;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Header */
+.detalhe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #2b3b5e;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+  gap: 20px;
+  position: relative;
+}
+.detalhe-titulo {
+  font-family: 'Sora', sans-serif;
+  font-size: 32px;
+  color: #e0e0e0;
+  margin: 0;
+}
+.detalhe-descricao {
+  font-size: 16px;
+  color: #99aaff;
+  margin-top: 10px;
+}
+
+/* ===== Opções (3 pontinhos) ===== */
+.pasta-opcoes {
+  position: relative;
+}
+.btn-opcoes {
+  width: 38px;
+  height: 38px;
+  border: 0.5px solid rgba(102, 102, 102, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  cursor: pointer;
+  transition: border 0.3s ease, background 0.3s ease;
+  color: #999999;
+}
+.btn-opcoes:hover {
+  border-color: rgba(204, 204, 204, 0.5);
+  background: rgba(255, 255, 255, 0.01);
+}
+.btn-opcoes svg {
+  width: 20px;
+  height: 20px;
+  stroke: #999999;
+  transition: stroke 0.3s ease;
+}
+.btn-opcoes:hover svg {
+  stroke: #cccccc;
+}
+
+/* ===== Submenu 3 pontinhos ===== */
+.menu-opcoes {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  min-width: 130px;
+  background: #19284b;
+  border: 0.5px solid rgba(102, 102, 102, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 100;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.pasta-opcoes.ativo .menu-opcoes {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.menu-opcoes li {
+  width: 100%;
+}
+.menu-opcoes a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  color: #999999;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.menu-opcoes a:hover { 
+  color: #cccccc;
+}
+#btn-editar-pasta {
+  border-bottom: 0.5px solid rgba(102, 102, 102, 0.4);
+}
+
+/* ===== Upload ===== */
+.subcap-upload {
+  background: #0e1629;
+  border: 2px solid #2b3b5e;
+  border-radius: 12px;
+  padding: 18px 16px;
+  font-family: "Inter", sans-serif;
+}
+.upload-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.btn-anexo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 12px 20px;
+  border: 1px solid #2b3b5e;
+  border-radius: 8px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif;
+}
+.btn-anexo svg {
+  width: 18px;
+  height: 18px;
+  stroke: #ffffff;
+}
+.btn-anexo:hover {
+  border-color: #0084ff;
+}
+
+/* Pré-visualização (JS) */
+#file-preview {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #cfe3ff;
+}
+#file-preview.vazio {
+  opacity: 0.6;
+  font-style: italic;
+}
+
+/* Arquivos já anexados */
+.subcap-arquivos {
+  margin-top: 12px;
+}
+
+/* Linha de arquivo */
+.file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed #2a3a5a;
+}
+.file-name {
+  color: #cfe3ff;
+  font-size: 14px;
+  flex: 1;
+}
+.file-name a {
+  color: #7fb6ff;
+  text-decoration: none;
+}
+.file-name a:hover {
+  text-decoration: underline;
+}
+.file-size {
+  color: #7aa7ff;
+  font-size: 12px;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* Input aprovado */
+.file-row input {
+  width: 220px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #2b3b5e;
+  background: #0e1629;
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+}
+.file-row input::placeholder {
+  color: #999999;
+  opacity: 0.5;
+  font-size: 13px;
+}
+.file-row input:focus {
+  border-color: #0084ff;
+  box-shadow: 0 0 6px rgba(0, 132, 255, 0.4);
+}
+
+/* Estado readonly */
+.file-row input[readonly] {
+  color: #999999;
+  cursor: not-allowed;
+  border-color: #2b3b5e;
+}
+.file-row input[readonly]:focus {
+  border-color: #2b3b5e;
+  box-shadow: none;
+}
+.file-row .aprovado-label {
+  font-size: 13px;
+  color: #8aa0c8;
+  margin-right: 6px;
+  white-space: nowrap;
+}
+
+/* Botão excluir */
+.btn-apagar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.btn-apagar svg {
+  width: 20px;
+  height: 20px;
+  stroke: #ff4d4d;
+}
+.btn-apagar:hover {
+  background: rgba(255, 77, 77, 0.1);
+}
+
+/* ===== Botões Upload ===== */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.btn-subcap-salvar,
+.btn-subcap-editar,
+.btn-subcap-cancelar {
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+.btn-subcap-salvar,
+.btn-subcap-editar {
+  background-color: #0084ff;
+  color: #fff;
+}
+.btn-subcap-salvar:hover,
+.btn-subcap-editar:hover {
+  background-color: #006bcf;
+}
+.btn-subcap-cancelar {
+  background: #2b3b5e;
+  color: #ffffff;
+}
+.btn-subcap-cancelar:hover {
+  background: #444f6a;
+}
+
+/* ===== Modais (Criar / Editar) ===== */
+.modal {
+  display: none;   /* começa escondido */
+  position: fixed;
+  z-index: 9999;
+  left: 0; 
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  background: rgba(14, 22, 41, 0.95);
+  backdrop-filter: blur(4px);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.modal-content {
+  background: #0e1629;
+  padding: 60px 50px 30px 50px;
+  border-radius: 12px;
+  width: 380px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+  animation: aparecer 0.6s ease forwards;
+}
+.modal-content h2 {
+  font-size: 26px;
+  font-weight: 800;
+  font-family: "Sora", sans-serif;
+  margin-bottom: 35px;
+  margin-top: -10px;
+}
+.modal-content-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal.fechando .modal-content {
+  animation: desaparecer 0.4s ease forwards;
+}
+.close {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #00aaff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.close:hover {
+  color: #ffffff;
+}
+
+/* Inputs e textarea */
+.modal-content-forms input,
+.modal-content-forms textarea {
+  width: 100%;
+  padding: 13px 12px 12px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #2b3b5e;
+  background: #0e1629;
+  color: #ffffff;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+.modal-content-forms input::placeholder,
+.modal-content-forms textarea::placeholder {
+  color: #999999;
+  opacity: 0.6;
+}
+.modal-content-forms input:focus,
+.modal-content-forms textarea:focus {
+  border-color: #0084ff;
+  box-shadow: 0 0 6px rgba(0,132,255,0.4);
+}
+.modal-content-forms textarea {
+  resize: none;
+  height: 100px;
+}
+
+/* Botões padrão */
+.btn-criar-modal {
+  width: 100%;
+  background: #0084ff;
+  border: none;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 13px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+.btn-criar-modal:hover {
+  background: #006bcf;
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.1);
+}
+
+/* Botão excluir em vermelho */
+.btn-criar-modal.excluir {
+  background: #ff4d4d;
+}
+.btn-criar-modal.excluir:hover {
+  background: #cc0000;
+}
+
+/* Botão cancelar */
+.btn-criar-modal.btn-cancelar {
+  background: #2b3b5e;
+}
+.btn-criar-modal.btn-cancelar:hover {
+  background: #444f6a;
+}
+
+/* Container dos botões */
+.modal-botoes-excluir {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* =========================
+   Modal Excluir
+   ========================= */
+.modal-excluir {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(14, 22, 41, 0.95);
+  backdrop-filter: blur(4px);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.modal-excluir-content {
+  background: #0e1629;
+  padding: 60px 50px 40px 50px;
+  border-radius: 12px;
+  width: 420px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  animation: aparecer 0.6s ease forwards;
+  font-family: "Inter", sans-serif;
+  color: #ffffff;
+}
+
+/* botão X */
+.modal-excluir-content .close {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #00aaff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.modal-excluir-content .close:hover {
+  color: #ffffff;
+}
+
+/* título */
+.modal-excluir-content h3 {
+  font-size: 24px;
+  font-weight: 800;
+  font-family: "Sora", sans-serif;
+  margin-top: -10px;
+}
+
+/* descrição */
+.modal-excluir-content p {
+  font-size: 15px;
+  color: #cccccc;
+  margin-bottom: 35px;
+}
+
+/* botões */
+.modal-excluir-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn-excluir {
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+  border: none;
+  cursor: pointer;
+  transition: background 0.5s ease, transform 0.5s ease;
+}
+
+/* botão confirmar (vermelho) */
+.btn-excluir.confirmar {
+  background: #ff4d4d;
+  color: #fff;
+  margin-right: 10px;
+}
+.btn-excluir.confirmar:hover {
+  background: #cc3a3a;
+}
+
+/* botão cancelar (cinza) */
+.btn-excluir.cancelar {
+  background: #2b3b5e;
+  color: #fff;
+}
+.btn-excluir.cancelar:hover {
+  background: #444f6a;
+}
+
+/* animações */
+.modal-excluir.fechando .modal-excluir-content {
+  animation: desaparecer 0.4s ease forwards;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 640px) {
+  .upload-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .form-actions {
+    justify-content: center;
+    flex-direction: column;
+  }
+  .form-actions button {
+    width: 100%;
+  }
+}

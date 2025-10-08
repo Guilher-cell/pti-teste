@@ -5,65 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Conta - FlowCerti</title>
     
-    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+    <link rel="icon" type="image/png" href="/Imagem/footer/logo_pequena.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Sora:wght@400;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/pages_modais.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="page">
-        <div class="page-content">
+<div class="page">
+  <div class="page-content">
 
-            <div class="page-content-forms">
-                 <a href="/">
-                <span class="close">&times;</span>      
-                </a>
-                <h2>Criar Conta</h2> 
-                
-                <form class="criar-conta" action="/login/register" method="POST">
-                    <input type="hidden" name="_csrf" value=<%= csrfToken %>>
-                    <input type="text" placeholder="Usuário" id="user" name="user" required> 
-                    <input type="email" placeholder="E-mail" id="email" name="email" required>
-                    <input type="text" placeholder="CNPJ" id="cnpj" name="cnpj" class="input-cnpj" required>
+    <div class="page-content-forms">
+        <a href="/"><span class="close">&times;</span></a>
+        <h2>Criar Conta</h2> 
+        
+        <form class="criar-conta" action="/login/register" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-                    <div class="senha-dupla-container">
-                        <div class="input-senha-container">
-                            <input type="password" id="password" name="password" placeholder="Senha" class="input-senha senha-principal" required>
-                            <img src="Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
-                        </div>
+            <input type="text" placeholder="Usuário" id="user" name="user" required> 
+            <input type="email" placeholder="E-mail" id="email" name="email" required>
+            <input type="text" placeholder="CNPJ" id="cnpj" name="cnpj" class="input-cnpj" required>
 
-                        <div class="input-senha-container">
-                            <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Confirmar senha" class="input-senha" required>
-                            <img src="Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
-                        </div>
-                    </div>
-
-                    <!-- Lista de requisitos da senha -->
-                    <ul class="password-rules" id="password-rules">
-                        <li id="length">Senha deve ter entre 8 e 24 caracteres</li>
-                        <li id="uppercase">Senha deve ter letras maiúsculas e minúsculas</li>
-                        <li id="number">Senha deve ter pelo menos um número</li>
-                        <li id="special">Senha deve ter pelo menos um caractere especial (#@*…)</li>
-                    </ul>
-
-                    <button type="submit" class="btn-cadastrar-modal">CADASTRAR</button>
-                </form>
-            </div>
-
-            <div class="page-content-options">
-                <div class="links">
-                    <a href="/login">Entrar em uma conta já existente</a>
-                    <a href="/esqueci">Esqueci minha senha</a>
+            <div class="senha-dupla-container">
+                <div class="input-senha-container">
+                    <input type="password" id="password" name="password" placeholder="Senha" class="input-senha senha-principal" required>
+                    <img src="/Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
                 </div>
-                <%- include('includes/messages') %>
+
+                <div class="input-senha-container">
+                    <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Confirmar senha" class="input-senha" required>
+                    <img src="/Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
+                </div>
             </div>
-        </div>
+
+            <ul class="password-rules" id="password-rules">
+                <li>Senha deve ter entre 8 e 24 caracteres</li>
+                <li>Senha deve ter letras maiúsculas e minúsculas</li>
+                <li>Senha deve ter pelo menos um número</li>
+                <li>Senha deve ter pelo menos um caractere especial (#@*…)</li>
+            </ul>
+
+            <button type="submit" class="btn-cadastrar-modal" id="btn-cadastrar" disabled>CADASTRAR</button>
+        </form>
     </div>
 
-    <script src="/assets/js/pages_modais.js"></script>
+    <div class="page-content-options">
+        <div class="links">
+            <a href="/login">Entrar em uma conta já existente</a>
+            <a href="/esqueci">Esqueci minha senha</a>
+        </div>
+        <%- include('includes/messages') %>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/pages_modais.js"></script>
 </body>
 </html>

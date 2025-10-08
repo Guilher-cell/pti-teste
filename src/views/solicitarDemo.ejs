@@ -41,25 +41,26 @@
             <p class="form-texto-solicite-demonstracao">Caso você for uma <strong>pessoa física, autônomo ou MEI</strong>, infelizmente não podemos ajudá-lo.  
           Na FlowCerti, atendemos exclusivamente empresas para a centralização e o controle de seus certificados ISO.</p>
 
-            <form class="form-solicite-demonstracao" id="form-solicite-demonstracao">
-                <input type="text" class="input-solicite-demonstracao" placeholder="Nome do responsável" required>
-                <input type="text" class="input-solicite-demonstracao" placeholder="Razão Social" required>
-                <input type="email" class="input-solicite-demonstracao" placeholder="E-mail (Corporativo)" required>
+               <form class="form-solicite-demonstracao" id="form-solicite-demonstracao" method="POST" action="/solicitar-demonstracao">
+            <input type="hidden" name="_csrf" value=<%= csrfToken %>>
+            <input type="text" name="nomeResponsavel" class="input-solicite-demonstracao" placeholder="Nome do responsável" required>
+            <input type="text" name="razaoSocial" class="input-solicite-demonstracao" placeholder="Razão Social" required>
+            <input type="email" name="email" class="input-solicite-demonstracao" placeholder="E-mail (Corporativo)" required>
 
-                <div class="form-row-solicite-demonstracao">
-                    <input type="text" class="input-solicite-demonstracao" placeholder="CNPJ" required>
-                    <input type="text" class="input-solicite-demonstracao" placeholder="Ramo da Empresa" required>
-                </div>
+            <div class="form-row-solicite-demonstracao">
+            <input type="text" name="cnpj" class="input-solicite-demonstracao" placeholder="CNPJ" required>
+            <input type="text" name="ramoEmpresa" class="input-solicite-demonstracao" placeholder="Ramo da Empresa" required>
+            </div>
 
-                <textarea class="textarea-solicite-demonstracao" placeholder="Mensagem adicional (opcional)"></textarea>
+            <textarea name="mensagem" name="mensagem" class="textarea-solicite-demonstracao" placeholder="Mensagem adicional (opcional)"></textarea>
 
-                <label class="checkbox-solicite-demonstracao">
+            <label class="checkbox-solicite-demonstracao">
                     <input type="checkbox" required>
                     <span class="checkmark"></span>
                     <span>Li e aceito a <a href="#" class="link-politica">Política de Privacidade da FlowCerti</a></span>
                 </label>
-                
-                <button type="submit" class="btn-enviar-solicite-demonstracao">ENVIAR</button>
+
+            <button type="submit" class="btn-enviar-solicite-demonstracao">ENVIAR</button>
             </form>
         </div>
     </div>
@@ -81,68 +82,7 @@
     </div>
 
 
-    <footer class="footer">
-        <div class="footer-container">
-            
-            <!-- Coluna Sobre -->
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-
-                <div class="footer-sobre-inner">
-
-                    <!-- Lado esquerdo: logo + redes sociais -->
-                    <div class="footer-sobre-left">
-                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    
-                    <!-- Lado direito: texto -->
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Coluna Acesso Rápido -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Acessos Buscados -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Institucional -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- COPYRIGHT -->
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
+    <%- include('includes/footer') %>
     
     <script src="/assets/js/solicitar_demonstracao.js"></script>
     <script src="/assets/js/script.js"></script>

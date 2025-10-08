@@ -125,3 +125,44 @@ exports.updatePassword = async (req, res) => {
     return res.redirect('/esqueci-senha');
   }
 };
+
+// usuario altera a senha quando esta logado na tela ver minha conta
+exports.updatePasswordLogged = async (req, res) => {
+  try {
+    // pega o usuário da sessão
+    const user = await CadastroModel.findById(req.session.user._id);
+
+    if (!user) {
+      req.flash('errors', 'Usuário não encontrado.');
+      return req.session.save(() => res.redirect('/conta'));
+    }
+
+    // valida senhas
+    if (!req.body.password || !req.body.passwordConfirm) {
+      req.flash('errors', 'Preencha os dois campos de senha.');
+      return req.session.save(() => res.redirect('/conta'));
+    }
+
+    if (req.body.password !== req.body.passwordConfirm) {
+      req.flash('errors', 'As senhas não coincidem.');
+      return req.session.save(() => res.redirect('/conta'));
+    }
+
+    if (req.body.password.length < 8 || req.body.password.length > 24) {
+      req.flash('errors', 'A senha deve ter entre 8 e 24 caracteres.');
+      return req.session.save(() => res.redirect('/conta'));
+    }
+
+    // altera a senha (o hash é feito no pre-save do schema)
+    user.password = req.body.password;
+    await user.save();
+
+    req.flash('success', 'Senha alterada com sucesso!');
+    return req.session.save(() => res.redirect('/conta'));
+
+  } catch (err) {
+    console.error('❌ ERRO AO ATUALIZAR SENHA LOGADO:', err);
+    req.flash('errors', 'Erro ao alterar a senha. Tente novamente.');
+    return req.session.save(() => res.redirect('/conta'));
+  }
+};

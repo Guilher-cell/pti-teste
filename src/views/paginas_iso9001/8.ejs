@@ -30,6 +30,7 @@
 
 <!-- ===== Página Capítulo 8 ===== -->
 <main class="capitulos">
+  <%- include('../includes/messages') %>
 
   <div class="capitulos-header">
     <h2>8. Operação</h2>
@@ -38,49 +39,49 @@
 
   <div class="capitulos-grid">
     <div class="capitulos-card">
-      <span class="capitulos-progress">0%</span>
+       <span class="capitulos-progress"><%= progressoCapitulo["8-1"] || 0 %>%</span>
       <h3>8.1 Planejamento e controle operacionais</h3>
       <p>Critérios, controles e mudanças operacionais.</p>
         <a href="/iso9001/8-1" class="btn-capitulos-gerenciar">GERENCIAR</a>
     </div>
 
     <div class="capitulos-card">
-      <span class="capitulos-progress">0%</span>
+       <span class="capitulos-progress"><%= progressoCapitulo["8-2"] || 0 %>%</span>
       <h3>8.2 Requisitos para produtos e serviços</h3>
       <p>Comunicação com clientes e análise de requisitos.</p>
       <a href="/iso9001/8-2" class="btn-capitulos-gerenciar">GERENCIAR</a>
     </div>
 
     <div class="capitulos-card">
-      <span class="capitulos-progress">0%</span>
+       <span class="capitulos-progress"><%= progressoCapitulo["8-3"] || 0 %>%</span>
       <h3>8.3 Projeto e desenvolvimento</h3>
       <p>Planejamento, entradas, saídas, verificação e validação.</p>
       <a href="/iso9001/8-3" class="btn-capitulos-gerenciar">GERENCIAR</a>
     </div>
 
     <div class="capitulos-card">
-      <span class="capitulos-progress">0%</span>
+       <span class="capitulos-progress"><%= progressoCapitulo["8-4"] || 0 %>%</span>
       <h3>8.4 Processos, produtos e serviços externos</h3>
       <p>Critérios, avaliação e comunicação a fornecedores.</p>
       <a href="/iso9001/8-4" class="btn-capitulos-gerenciar">GERENCIAR</a>
     </div>
 
     <div class="capitulos-card">
-      <span class="capitulos-progress">0%</span>
+       <span class="capitulos-progress"><%= progressoCapitulo["8-5"] || 0 %>%</span>
       <h3>8.5 Produção e provisão de serviços</h3>
       <p>Condições controladas, rastreabilidade e mudanças.</p>
       <a href="/iso9001/8-5" class="btn-capitulos-gerenciar">GERENCIAR</a>
     </div>
 
     <div class="capitulos-card">
-      <span class="capitulos-progress">0%</span>
+       <span class="capitulos-progress"><%= progressoCapitulo["8-6"] || 0 %>%</span>
       <h3>8.6 Liberação de produtos e serviços</h3>
       <p>Verificações de conformidade e autorização.</p>
      <a href="/iso9001/8-6" class="btn-capitulos-gerenciar">GERENCIAR</a>
     </div>
 
     <div class="capitulos-card">
-      <span class="capitulos-progress">0%</span>
+       <span class="capitulos-progress"><%= progressoCapitulo["8-7"] || 0 %>%</span>
       <h3>8.7 Controle de saídas não conformes</h3>
       <p>Registros, ações e concessões controladas.</p>
       <a href="/iso9001/8-7" class="btn-capitulos-gerenciar">GERENCIAR</a>
@@ -88,68 +89,7 @@
   </div>
 </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            
-            <!-- Coluna Sobre -->
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-
-                <div class="footer-sobre-inner">
-
-                    <!-- Lado esquerdo: logo + redes sociais -->
-                    <div class="footer-sobre-left">
-                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    
-                    <!-- Lado direito: texto -->
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Coluna Acesso Rápido -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Acessos Buscados -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Institucional -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- COPYRIGHT -->
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
+    <%- include('../includes/footer') %>
     
     <script src="/assets/js/gerenciar_capitulos.js"></script>
     <script src="/assets/js/script.js"></script>

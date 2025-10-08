@@ -32,6 +32,7 @@
 
     <!-- ===== Subcapítulo 10.3 ===== -->
 <main class="subcap">
+  <%- include('../includes/messages') %>
 
     <div class="subcap-header">
       <h2>10.3 Melhoria contínua</h2>
@@ -53,152 +54,90 @@
   
     <!-- Checklist -->
     <section class="subcap-checklist">
-      <h3>Checklist do Documento</h3>
-      <ul>
-        <li>
-          <label class="chk"><input type="checkbox"><span class="checkmark"></span>
-            <span>Planos e registros de melhoria contínua</span>
-          </label>
-          <button class="more" data-target="o103-1">Ler mais</button>
-          <div id="o103-1" class="more-body" hidden>
-            Documente planos de melhoria e ações realizadas para aprimorar processos.
-          </div>
-        </li>
-        <li>
-          <label class="chk"><input type="checkbox"><span class="checkmark"></span>
-            <span>Evidência de resultados alcançados</span>
-          </label>
-          <button class="more" data-target="o103-2">Ler mais</button>
-          <div id="o103-2" class="more-body" hidden>
-            Mostre indicadores ou relatórios que provam os ganhos obtidos.
-          </div>
-        </li>
-      </ul>
-      <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>
-    </section>
+  <h3>Checklist do Documento</h3>
+  <form action="/iso9001/<%= capitulo %>/checklist" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <ul>
+      <li><label class="chk"><input type="checkbox" name="chk_o103_1" <%= documentos[0]?.checklist?.includes("chk_o103_1") ? "checked" : "" %>> <span class="checkmark"></span> Planos e registros de melhoria contínua</label></li>
+      <li><label class="chk"><input type="checkbox" name="chk_o103_2" <%= documentos[0]?.checklist?.includes("chk_o103_2") ? "checked" : "" %>> <span class="checkmark"></span> Evidência de resultados alcançados</label></li>
+    </ul>
+    <button type="submit" class="btn-subcap-salvar">Salvar Checklist</button>
+  </form>
+</section>
+
   
     <!-- Upload -->
-    <section class="subcap-upload">
-  <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" class="upload-form" id="form-upload-capitulo">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+   <section class="subcap-upload">
+    <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-    <div class="upload-card">
-      <h3>Carregar Novos Ficheiros</h3>
-
-      <!-- input escondido -->
-      <input type="file" id="file-upload" name="ficheiros" multiple hidden required>
-
-      <!-- botões -->
       <div class="upload-actions">
-        <label for="file-upload" class="btn-escolher">Escolher ficheiros</label>
+        <!-- Botão de anexo -->
+        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
+        <label for="file-upload" class="btn-anexo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="M12 5v14"/>
+          </svg>
+          Adicionar anexo
+        </label>
 
-        <div class="aprovado-por">
-          <label for="aprovado-por-input">Aprovado por:</label>
-          <input type="text" id="aprovado-por-input" placeholder="Nome de quem aprovou" required>
+        <!-- Botões de ação -->
+        <div class="form-actions">
+          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
+          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
         </div>
-
-        <button type="submit" id="btn-carregar" class="btn-carregar" disabled>Carregar</button>
       </div>
 
-      <!-- pré-visualização -->
+      <!-- Pré-visualização -->
       <div id="file-preview" class="file-preview vazio">
         <em>Nenhum arquivo selecionado.</em>
       </div>
-    </div>
-  </form>
+    </form>
 
-  <!-- Lista de arquivos já enviados -->
-  <% if (documentos && documentos.length > 0) { %>
-    <div class="subcap-arquivos">
-      <h4>Arquivos anexados:</h4>
-      <% documentos.forEach(doc => { %>
-        <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
-         <ul>
-  <% doc.ficheiros.forEach(f => { %>
-    <li class="arquivo-item">
-      <span class="file-name"><a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a></span>
-      <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
-      <% if (f.aprovadoPor) { %>
-        <span class="aprovado">Aprovado por: <%= f.aprovadoPor %> em <%= (f.aprovadoEm || f.createdAt).toLocaleDateString("pt-BR") %></span>
-      <% } %>
-      <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit" class="btn-apagar">Apagar</button>
-      </form>
-    </li>
-  <% }) %>
-</ul>
+    <!-- Arquivos já anexados -->
+    <% if (documentos && documentos.length > 0) { %>
+      <div class="subcap-arquivos">
+        <% documentos.forEach(doc => { %>
+          <% doc.ficheiros.forEach(f => { %>
+            <div class="file-row">
+              <!-- Nome -->
+              <span class="file-name">
+                <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
+              </span>
 
-        <% } %>
-      <% }) %>
-    </div>
-  <% } %>
-</section>
+              <!-- Tamanho -->
+              <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
+
+              <!-- Input aprovado por -->
+              <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
+
+              <!-- Ícone excluir -->
+              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn-apagar" title="Excluir arquivo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                       viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round"
+                       class="lucide lucide-trash-2">
+                    <path d="M10 11v6"/><path d="M14 11v6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                    <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  </svg>
+                </button>
+              </form>
+            </div>
+          <% }) %>
+        <% }) %>
+      </div>
+    <% } %>
+  </section>
+
   
   </main>  
 
-    <footer class="footer">
-        <div class="footer-container">
-            
-            <!-- Coluna Sobre -->
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-
-                <div class="footer-sobre-inner">
-
-                    <!-- Lado esquerdo: logo + redes sociais -->
-                    <div class="footer-sobre-left">
-                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    
-                    <!-- Lado direito: texto -->
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Coluna Acesso Rápido -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Acessos Buscados -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Institucional -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- COPYRIGHT -->
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
+    <%- include('../includes/footer') %>
     
     <script src="/assets/js/subcapitulo.js"></script>
     <script src="/assets/js/script.js"></script>

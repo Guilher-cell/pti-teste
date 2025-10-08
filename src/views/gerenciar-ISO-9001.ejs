@@ -40,49 +40,49 @@
   <!-- Grid de Capítulos -->
   <div class="gerenciar-grid">
     <div class="cap-card">
-      <span class="cap-progress">0%</span>
+       <span class="cap-progress"><%= progressoCapitulos["4"] || 0 %>%</span>
       <h3>4. Contexto da Organização </h3>
       <p>Compreensão da organização e de seu contexto.</p>
       <a href="/iso9001/4" class="btn-gerenciar-abrir">ABRIR</a>
     </div>
 
     <div class="cap-card">
-      <span class="cap-progress">0%</span>
+      <span class="cap-progress"><%= progressoCapitulos["5"] || 0 %>%</span>
       <h3>5. Liderança</h3>
       <p>Comprometimento e responsabilidades da alta direção.</p>
       <a href="/iso9001/5" class="btn-gerenciar-abrir">ABRIR</a>
     </div>
 
     <div class="cap-card">
-      <span class="cap-progress">0%</span>
+      <span class="cap-progress"><%= progressoCapitulos["6"] || 0 %>%</span>
       <h3>6. Planejamento</h3>
       <p>Riscos, oportunidades e objetivos da qualidade.</p>
       <a href="/iso9001/6" class="btn-gerenciar-abrir">ABRIR</a>
     </div>
 
     <div class="cap-card">
-      <span class="cap-progress">0%</span>
+      <span class="cap-progress"><%= progressoCapitulos["7"] || 0 %>%</span>
       <h3>7. Apoio</h3>
       <p>Recursos, competências, conscientização e comunicação.</p>
      <a href="/iso9001/7" class="btn-gerenciar-abrir">ABRIR</a>
     </div>
 
     <div class="cap-card">
-      <span class="cap-progress">0%</span>
+      <span class="cap-progress"><%= progressoCapitulos["8"] || 0 %>%</span>
       <h3>8. Operação</h3>
       <p>Processos operacionais, requisitos e produção.</p>
       <a href="/iso9001/8" class="btn-gerenciar-abrir">ABRIR</a>
     </div>
 
     <div class="cap-card">
-      <span class="cap-progress">0%</span>
+      <span class="cap-progress"><%= progressoCapitulos["9"] || 0 %>%</span>
       <h3>9. Avaliação de Desempenho</h3>
       <p>Monitoramento, auditorias e análise crítica.</p>
       <a href="/iso9001/9" class="btn-gerenciar-abrir">ABRIR</a>
     </div>
 
     <div class="cap-card">
-      <span class="cap-progress">0%</span>
+      <span class="cap-progress"><%= progressoCapitulos["10"] || 0 %>%</span>
       <h3>10. Melhoria</h3>
       <p>Não conformidades, ações corretivas e melhoria contínua.</p>
       <a href="/iso9001/10" class="btn-gerenciar-abrir">ABRIR</a>
@@ -90,69 +90,7 @@
   </div>
 </main>
 
-
-    <footer class="footer">
-        <div class="footer-container">
-            
-            <!-- Coluna Sobre -->
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-
-                <div class="footer-sobre-inner">
-
-                    <!-- Lado esquerdo: logo + redes sociais -->
-                    <div class="footer-sobre-left">
-                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    
-                    <!-- Lado direito: texto -->
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Coluna Acesso Rápido -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Acessos Buscados -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Institucional -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- COPYRIGHT -->
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
+    <%- include('includes/footer') %>
     
     <script src="/assets/js/gerenciar-ISO-9001.js"></script>
     <script src="/assets/js/script.js"></script>

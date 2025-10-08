@@ -20,7 +20,8 @@
     </tr>
   </thead>
   <tbody>
-    <% logs.forEach(log => { %>
+  <% logs.forEach(log => { %>
+    <% if (log.acao !== "Criou funcionário") { %> 
       <tr>
         <td><%= log.criadoEm.toLocaleString() %></td>
         <td><%= log.usuarioNome %></td>
@@ -30,8 +31,10 @@
         <td><%= log.nomeArquivo || '-' %></td>
         <td><%= log.aprovadoPor || '-' %></td>
       </tr>
-    <% }) %>
-  </tbody>
+    <% } %>
+  <% }) %>
+</tbody>
+
 </table>
 </table>
 </body>

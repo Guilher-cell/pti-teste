@@ -48,23 +48,30 @@
   font-family: "Inter", sans-serif;
 }
 .subcap-hint-toggle .chev {
-  width: 20px; height: 20px;
-  fill: none; stroke: #8fb8ff; stroke-width: 2; transform: rotate(-90deg);
-  transition: transform .2s ease;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #8fb8ff;
+  stroke-width: 2;
+  transform: rotate(-90deg);
+  transition: transform 0.2s ease;
 }
-.subcap-hint-toggle[aria-expanded="true"] .chev { transform: rotate(0deg); }
+.subcap-hint-toggle[aria-expanded="true"] .chev {
+  transform: rotate(0deg);
+}
 .subcap-hint-body {
   padding: 0 16px;
   color: #cccccc;
   border-top: 1px solid #2b3b5e;
   font-size: 15px;
 }
-
-.subcap-hint-body strong{ 
+.subcap-hint-body strong {
   color: #ffffff;
   font-weight: 600;
 }
-.subcap-hint-body .muted { color: #cccccc; }
+.subcap-hint-body .muted {
+  color: #cccccc;
+}
 
 /* ===== Checklist ===== */
 .subcap-checklist {
@@ -104,15 +111,11 @@
   position: relative;
   user-select: none;
 }
-
-/* Esconde checkbox nativo */
 .subcap-checklist .chk input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
-
-/* Caixinha customizada */
 .subcap-checklist .chk .checkmark {
   width: 18px;
   height: 18px;
@@ -126,14 +129,10 @@
 .subcap-checklist .chk:hover .checkmark {
   border-color: #0084ff;
 }
-
-/* Marcado */
 .subcap-checklist .chk input:checked ~ .checkmark {
   background-color: #0084ff;
   border-color: #0084ff;
 }
-
-/* Check interno */
 .subcap-checklist .chk .checkmark::after {
   content: "";
   position: absolute;
@@ -160,7 +159,9 @@
   cursor: pointer;
   padding: 0;
 }
-.subcap-checklist .more:hover { text-decoration: underline; }
+.subcap-checklist .more:hover {
+  text-decoration: underline;
+}
 
 /* Texto expandido */
 .subcap-checklist .more-body {
@@ -181,39 +182,35 @@
   font-style: italic;
 }
 
-/* ===== Upload + Botões ===== */
+/* ===== Upload ===== */
 .subcap-upload {
   background: #0e1629;
   border: 2px solid #2b3b5e;
   border-radius: 12px;
   padding: 18px 16px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: center;
   font-family: "Inter", sans-serif;
 }
 
-/* Botão de anexo */
-.upload-area {
+.upload-actions {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
 }
+
 .btn-anexo {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-
   padding: 12px 20px;
   border: 1px solid #2b3b5e;
   border-radius: 8px;
-
   background: transparent;
   color: #ffffff;
   font-size: 14px;
   font-weight: 500;
-
   transition: all 0.2s ease;
   font-family: "Inter", sans-serif;
 }
@@ -226,10 +223,116 @@
   border-color: #0084ff;
 }
 
-/* Botão salvar (padrão global) */
-.btn-subcap-salvar {
-  background-color: #0084ff;
+/* Pré-visualização */
+#file-preview {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #cfe3ff;
+}
+#file-preview.vazio {
+  opacity: 0.6;
+  font-style: italic;
+}
+
+/* Linha arquivo */
+.file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed #2a3a5a;
+}
+.file-name {
+  color: #cfe3ff;
+  font-size: 14px;
+  flex: 1;
+}
+.file-name a {
+  color: #7fb6ff;
+  text-decoration: none;
+}
+.file-name a:hover {
+  text-decoration: underline;
+}
+.file-size {
+  color: #7aa7ff;
+  font-size: 12px;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* Input aprovado por */
+.file-row input {
+  width: 220px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #2b3b5e;
+  background: #0e1629;
   color: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+}
+.file-row input::placeholder {
+  color: #999999;
+  opacity: 0.5;
+  font-size: 13px;
+}
+.file-row input:focus {
+  border-color: #0084ff;
+  box-shadow: 0 0 6px rgba(0, 132, 255, 0.4);
+}
+
+/* Estado readonly */
+.file-row input[readonly] {
+  color: #999999;
+  cursor: not-allowed;
+  border-color: #2b3b5e;
+}
+.file-row input[readonly]:focus {
+  border-color: #2b3b5e;
+  box-shadow: none;
+}
+.file-row .aprovado-label {
+  font-size: 13px;
+  color: #8aa0c8;
+  margin-right: 6px;
+  white-space: nowrap;
+}
+
+/* Excluir só ícone */
+.btn-apagar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.btn-apagar svg {
+  width: 20px;
+  height: 20px;
+  stroke: #ff4d4d;
+}
+.btn-apagar:hover {
+  background: rgba(255, 77, 77, 0.1);
+}
+
+/* ===== Botões ===== */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.btn-subcap-salvar,
+.btn-subcap-editar,
+.btn-subcap-cancelar {
   font-weight: 600;
   font-size: 15px;
   border-radius: 8px;
@@ -239,68 +342,34 @@
   transition: background-color 0.3s ease;
   font-family: "Inter", sans-serif;
 }
-.btn-subcap-salvar:hover {
+.btn-subcap-salvar,
+.btn-subcap-editar {
+  background-color: #0084ff;
+  color: #fff;
+}
+.btn-subcap-salvar:hover,
+.btn-subcap-editar:hover {
   background-color: #006bcf;
 }
+.btn-subcap-cancelar {
+  background: #2b3b5e;
+  color: #ffffff;
+}
+.btn-subcap-cancelar:hover {
+  background: #444f6a;
+}
 
-/* Responsivo */
+/* ===== Responsivo ===== */
 @media (max-width: 640px) {
-  .subcap-upload { 
+  .upload-actions {
     flex-direction: column;
     align-items: stretch;
   }
+  .form-actions {
+    justify-content: center;
+    flex-direction: column;
+  }
+  .form-actions button {
+    width: 100%;
+  }
 }
-
-/* ===== Upload Avançado ===== */
-.upload-card {
-  background: #0e1629;
-  border: 2px solid #2b3b5e;
-  border-radius: 12px;
-  padding: 16px;
-  margin: 20px 0;
-}
-
-.upload-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.aprovado-por {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font-size: 14px;
-  color: #fff;
-}
-.aprovado-por input {
-  background: #0f1726;
-  border: 1px solid #23324f;
-  border-radius: 6px;
-  color: #fff;
-  padding: 8px 10px;
-  min-width: 200px;
-  font-size: 14px;
-}
-
-#file-preview {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #cfe3ff;
-}
-#file-preview.vazio {
-  opacity: .6;
-  font-style: italic;
-}
-.file-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 6px 0;
-  border-bottom: 1px dashed #2a3a5a;
-}
-.file-name { color: #cfe3ff; }
-.file-size { color: #7aa7ff; font-size: 12px; }
-

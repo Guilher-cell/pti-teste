@@ -1,71 +1,63 @@
-  // Toggle da orientação do documento
-  document.querySelectorAll('.subcap-hint-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-      const body = btn.parentElement.querySelector('.subcap-hint-body');
-      body.hidden = expanded;
-    });
-  });
+(() => {
+  const form      = document.getElementById("form-subcap");
+  const fileInput = document.getElementById("file-upload");
+  const preview   = document.getElementById("file-preview");
+  const btnSalvar = document.getElementById("btn-salvar");
+  const btnCancelar = document.getElementById("btn-cancelar");
 
-  // Toggles "Ler mais" de cada item
-  document.querySelectorAll('.subcap-checklist .more').forEach(link => {
-    link.addEventListener('click', () => {
-      const id = link.getAttribute('data-target');
-      const body = document.getElementById(id);
-      if (!body) return;
-      body.hidden = !body.hidden;
-      link.textContent = body.hidden ? 'Ler mais' : 'Ocultar';
-    });
-  });
-
-  // Pré-visualização e campo "Aprovado por"
-(function () {
-  const form = document.getElementById('form-upload-capitulo');
-  if (!form) return;
-
-  const fileInput = document.getElementById('file-upload');
-  const preview = document.getElementById('file-preview');
-  const btnCarregar = document.getElementById('btn-carregar');
-  const aprovadoBatch = document.getElementById('aprovado-por-input');
+  if (!form || !fileInput || !preview || !btnSalvar) return;
 
   function formatKB(bytes) {
-    return Math.max(1, Math.round(bytes / 1024)) + ' KB';
+    const kb = bytes / 1024;
+    return kb < 1024 ? `${Math.max(1, Math.round(kb))} KB` : `${(kb/1024).toFixed(2)} MB`;
   }
 
-  fileInput.addEventListener('change', () => {
-    preview.innerHTML = '';
+  function renderPreview() {
     const files = Array.from(fileInput.files || []);
+    preview.innerHTML = "";
+
     if (!files.length) {
-      preview.classList.add('vazio');
-      preview.innerHTML = '<em>Nenhum arquivo selecionado.</em>';
-      btnCarregar.disabled = true;
+      preview.classList.add("vazio");
+      preview.innerHTML = "<em>Nenhum arquivo selecionado.</em>";
+      btnSalvar.disabled = true;
+      if (btnCancelar) btnCancelar.hidden = true;
       return;
     }
-    preview.classList.remove('vazio');
+
+    preview.classList.remove("vazio");
     files.forEach((f) => {
-      const row = document.createElement('div');
-      row.className = 'file-row';
+      const row = document.createElement("div");
+      row.className = "file-row";
       row.innerHTML = `
         <span class="file-name">${f.name}</span>
         <span class="file-size">${formatKB(f.size)}</span>
+        <input type="text" name="aprovadoPor[]" placeholder="Aprovado por...">
       `;
       preview.appendChild(row);
     });
-    btnCarregar.disabled = false;
+
+    btnSalvar.disabled = false;
+    if (btnCancelar) btnCancelar.hidden = false;
+  }
+
+  // QUANDO SELECIONA ARQUIVO
+  fileInput.addEventListener("change", () => renderPreview());
+
+  // BOTÃO CANCELAR
+  if (btnCancelar) {
+    btnCancelar.addEventListener("click", () => {
+      fileInput.value = "";
+      renderPreview();
+    });
+  }
+
+  // SUBMIT
+  form.addEventListener("submit", () => {
+    if (!fileInput.files || !fileInput.files.length) return;
+    btnSalvar.disabled = true;
+    btnSalvar.innerHTML = "Enviando...";
   });
 
-  // Antes de enviar: cria inputs ocultos aprovador
-  form.addEventListener('submit', () => {
-    form.querySelectorAll('input[name="aprovadoPor[]"]').forEach(el => el.remove());
-    const val = (aprovadoBatch.value || '').trim();
-    const files = Array.from(fileInput.files || []);
-    files.forEach(() => {
-      const hid = document.createElement('input');
-      hid.type = 'hidden';
-      hid.name = 'aprovadoPor[]';
-      hid.value = val;
-      form.appendChild(hid);
-    });
-  });
+  // 🔹 Chamada inicial
+  renderPreview();
 })();

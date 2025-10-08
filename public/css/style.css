@@ -117,7 +117,7 @@ header{
   border: 0.5px solid rgba(102, 102, 102, 0.4);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
   white-space: normal;
-  z-index: 100;
+  z-index: 9999;
 }
 .menu-notificacao.aberto .submenu-notificacao {
     max-height: 500px;
@@ -170,7 +170,7 @@ header{
   border: 0.5px solid rgba(102, 102, 102, 0.4);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
   flex-direction: column;
-  z-index: 100;
+  z-index: 9999;
 }
 .menu-hamburguer.active .submenu-hamburguer {
     max-height: 500px;
@@ -339,16 +339,19 @@ header{
 .btn-logout {
   padding: 12px 28px;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 15px;
+  font-family: "Inter", sans-serif;
   border: none;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition: background 0.5s ease, transform 0.5s ease;
 }
 
+/* botão sair */
 .btn-logout.confirmar {
   background: #ff4d4d;
   color: #fff;
+  margin-right: 10px;
 }
 .btn-logout.confirmar:hover {
   background: #cc3a3a;
@@ -536,8 +539,6 @@ header{
     color: #999999;
     font-weight: 400;
 }
-
-
 
 /* ===== Breadcrumb ===== */
 .breadcrumb {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentos - FlowCerti</title>
+    <title>Documentos Gerais - FlowCerti</title>
     
     <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
 
@@ -18,144 +18,94 @@
    <%- include("includes/header", { user: user }) %>
 
    <!-- Breadcrumb -->
-    <ul class="breadcrumb">
-        <li><a href="index.html">Início</a></li>
-        <li>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-        </li>
-        <li class="current">Documentos Gerais</li>
-    </ul>
+<ul class="breadcrumb">
+  <li><a href="/">Início</a></li>
+  <li>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m9 18 6-6-6-6"/>
+    </svg>
+  </li>
+  <li class="current">Documentos Gerais</li>
+</ul>
 
-    <div class="container-documentos">
-        <%- include('includes/messages') %>
-        <p class="texto-documentos">Organize todos os seus documentos em pastas personalizadas, mantendo-os centralizados e acessíveis. Essa funcionalidade facilita a gestão e garante que, no momento da auditoria, seus arquivos estejam estruturados e prontos para apresentação.</p>
+<div class="container-documentos">
+  <%- include('includes/messages') %>
+  <p class="texto-documentos">
+    Organize todos os seus documentos em pastas personalizadas, mantendo-os centralizados e acessíveis. 
+    Essa funcionalidade facilita a gestão e garante que, no momento da auditoria, seus arquivos estejam estruturados e prontos para apresentação.
+  </p>
 
-        <button id="btn-criar-pasta" class="btn-modal-criar-pasta">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
-                <path d="M5 12h14"/><path d="M12 5v14"/>
+  <button id="btn-criar-pasta" class="btn-modal-criar-pasta">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+      <path d="M5 12h14"/><path d="M12 5v14"/>
+    </svg>
+    Criar Pasta
+  </button>
+</div>
+
+<div class="pastas-grid">
+  <% if (documentos && documentos.length > 0) { %>
+    <% documentos.forEach(doc => { %>
+      <div class="pasta-card">
+        <a href="/documentos/<%= doc._id %>" class="pasta-link">
+          <div class="pasta-icon">
+            <!-- Substituição do IMG pelo SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" 
+                 fill="none" stroke="currentColor" stroke-width="1.5" 
+                 stroke-linecap="round" stroke-linejoin="round" 
+                 class="lucide lucide-folder">
+              <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
             </svg>
-            Criar Pasta
-        </button>
+          </div>
+          <div class="pasta-info">
+            <h3 class="pasta-nome"><%= doc.nome %></h3>
+            <p class="pasta-descricao"><%= doc.descricao || 'Sem descrição' %></p>
+          </div>
+        </a>
+
+        <div class="pasta-data">
+          <div class="linha">
+            <strong>Criado em:</strong>
+            <span><%= doc.createdAt ? doc.createdAt.toLocaleDateString('pt-BR') : "Indisponível" %></span>
+          </div>
+          <div class="linha">
+            <strong>Última alteração:</strong>
+            <span><%= doc.ultimaAlteracao ? doc.ultimaAlteracao.toLocaleDateString('pt-BR') : "Nunca" %></span>
+          </div>
+          <div class="linha">
+            <strong>Alterado por:</strong>
+            <span><%= doc.alteradoPor ? (doc.alteradoPor.user || doc.alteradoPor.nome || doc.alteradoPor.usuario) : '—' %></span>
+          </div>
+          <div class="linha">
+            <strong>Arquivos:</strong>
+            <span><%= doc.ficheiros.length %></span>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p class="nenhuma-pasta">Nenhuma pasta foi criada ainda. Clique em "Criar Pasta" para começar.</p>
+  <% } %>
+</div>
+
+<!-- Modal Criar Pasta -->
+<div id="modal-criar-pasta" class="modal">
+  <div class="modal-content">
+    <div class="modal-content-forms">
+      <span class="close">&times;</span>
+      <h2>Criar Nova Pasta</h2>
+      <form id="form-criar-pasta" method="POST" action="/documentos/criar">
+        <input type="hidden" name="_csrf" value=<%= csrfToken %>>
+        <input type="text" name="nome" placeholder="Nome da Pasta" id="nomePasta" required>
+        <textarea name="descricao" placeholder="Descrição (opcional)" id="descricaoPasta" rows="4"></textarea>
+        <button type="submit" class="btn-criar-modal">CRIAR PASTA</button>
+      </form>
     </div>
-    
-    <div class="pastas-grid">
-    <% if (documentos && documentos.length > 0) { %>
-        <% documentos.forEach(doc => { %>
-            <div class="pasta-card">
-                <a href="/documentos/<%= doc._id %>" class="pasta-link">
-                    <div class="pasta-icon">
-                        <img src="\Imagem\documento/pasta.png" alt="Ícone de Pasta">
-                    </div>
-                    <div class="pasta-info">
-                        <h3 class="pasta-nome"><%= doc.nome %></h3>
-                        <p class="pasta-descricao"><%= doc.descricao || 'Sem descrição' %></p>
-                    </div>
-                </a>
-          <div class="pasta-data">
-  <div class="linha">
-    <strong>Criado em:</strong>
-    <span><%= doc.createdAt ? doc.createdAt.toLocaleDateString('pt-BR') : "Indisponível" %></span>
   </div>
-  <div class="linha">
-    <strong>Última alteração:</strong>
-    <span>
-      <%= doc.ultimaAlteracao ? doc.ultimaAlteracao.toLocaleDateString('pt-BR') : "Nunca" %>
-    </span>
-  </div>
-  <div class="linha">
-    <strong>Alterado por:</strong>
-   <span><%= doc.alteradoPor ? (doc.alteradoPor.user || doc.alteradoPor.nome || doc.alteradoPor.usuario) : '—' %></span>
-  </div>
-  <div class="linha">
-  <strong>Arquivos:</strong>
-  <span><%= doc.ficheiros.length %></span>
-</div>
-</div>
-            </div>
-        <% }) %>
-    <% } else { %>
-        <p class="nenhuma-pasta">Nenhuma pasta foi criada ainda. Clique em "Criar Pasta" para começar.</p>
-    <% } %>
-</div>
+</div> 
 
-    <!-- Modal Criar Pasta -->
-    <div id="modal-criar-pasta" class="modal">
-        <div class="modal-content">
-            <div class="modal-content-forms">
-                <span class="close">&times;</span>
-                <h2>Criar Nova Pasta</h2>
-                <form id="form-criar-pasta" method="POST" action="/documentos/criar">
-                    <input type="hidden" name="_csrf" value=<%= csrfToken %>>
-                    <input type="text" name="nome" placeholder="Nome da Pasta" id="nomePasta" required>
-                    <textarea name="descricao" placeholder="Descrição (opcional)" id="descricaoPasta" rows="4"></textarea>
-                    <button type="submit" class="btn-criar-modal">CRIAR PASTA</button>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <footer class="footer">
-        <div class="footer-container">
-            
-            <!-- Coluna Sobre -->
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-
-                <div class="footer-sobre-inner">
-
-                    <!-- Lado esquerdo: logo + redes sociais -->
-                    <div class="footer-sobre-left">
-                        <img src="/Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="/Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="/Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="/Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    
-                    <!-- Lado direito: texto -->
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Coluna Acesso Rápido -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Acessos Buscados -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Institucional -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- COPYRIGHT -->
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
+    <%- include('includes/footer') %>
     
     <script src="/assets/js/documentos.js"></script>
     <script src="/assets/js/script.js"></script>

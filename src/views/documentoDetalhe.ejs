@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- O título da página agora é dinâmico -->
-    <title><%= documento.nome %> - FlowCerti</title>
+    <title> Documentos - <%= documento.nome %> - FlowCerti</title>
     
     <link rel="icon" type="image/png" href="/Imagem/footer/logo_pequena.png">
 
@@ -14,181 +14,171 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
 
     <!-- Usaremos o mesmo CSS da página de documentos por enquanto -->
-    <link rel="stylesheet" href="/css/documentos.css">
+    <link rel="stylesheet" href="/css/documento-detalhes.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <%- include("includes/header", { user: user }) %>
 
-    <!-- ======================================================= -->
-    <!-- CONTEÚDO PRINCIPAL DA PÁGINA -->
-    <!-- ======================================================= -->
-    <div class="container-documentos-detalhe">
-        <nav class="breadcrumb">
-            <a href="/documentos">Meus Documentos</a>
-            <span>></span>
-            <span><%= documento.nome %></span>
-        </nav>
+   <!-- Breadcrumb -->
+<ul class="breadcrumb">
+  <li><a href="/">Início</a></li>
+  <li>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+         viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" 
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="m9 18 6-6-6-6"/>
+    </svg>
+  </li>
+  <li><a href="/documentos">Documentos Gerais</a></li>
+  <li>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+         viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" 
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="m9 18 6-6-6-6"/>
+    </svg>
+  </li>
+  <li class="current"><%= documento.nome %></li>
+</ul>
 
-        <div class="detalhe-header">
-            <div>
-                <h1 class="detalhe-titulo"><%= documento.nome %></h1>
-                <p class="detalhe-descricao"><%= documento.descricao || 'Nenhuma descrição fornecida.' %></p>
-            </div>
-            <div class="detalhe-acoes">
-                <button id="btn-editar-pasta" class="btn-acao editar">Editar</button>
-                <button id="btn-apagar-pasta" class="btn-acao apagar">Apagar</button>
-            </div>
-        </div>
-
-        <%- include('includes/messages') %>
-
-        <div class="upload-area">
-            <h2>Carregar Novos Ficheiros</h2>
-            <form id="form-upload" action="/documentos/<%= documento._id %>/upload" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-                <!-- Botão escolher -->
-                <label for="ficheiros" class="btn-escolher-arquivo">Escolher Ficheiros</label>
-                <input type="file" name="ficheiros" id="ficheiros" multiple>
-
-                <!-- Lista de pré-visualização -->
-                <ul id="preview-list" class="lista-preview"></ul>
-
-                <!-- Inputs de aprovado por -->
-                <div id="aprovadores-wrapper"></div>
-
-                <!-- Botão carregar -->
-                <button type="submit" class="btn-primario">Carregar</button>
-            </form>
-        </div>
-
-        <!-- Botão salvar separado -->
-        <div class="salvar-container">
-            <button id="btn-salvar-ficheiros" class="btn-primario">Salvar alterações</button>
-        </div>
-
-        <% if (documento.ficheiros && documento.ficheiros.length > 0) { %>
-            <ul class="lista-de-ficheiros">
-                <% documento.ficheiros.forEach(ficheiro => { %>
-                    <li class="item-ficheiro">
-                        <div class="ficheiro-info">
-                            <a href="/uploads/<%= ficheiro.path %>" target="_blank" class="link-ficheiro">
-                                <span class="nome-ficheiro"><%= ficheiro.nomeOriginal %></span>
-                                <span class="tamanho-ficheiro"><%= (ficheiro.size / 1024).toFixed(2) %> KB</span>
-                            </a>
-
-                            <% if (ficheiro.aprovadoPor) { %>
-                                <span class="status-aprovado">
-                                        Aprovado por: <%= ficheiro.aprovadoPor %>
-                                    <% if (ficheiro.aprovadoEm) { %>
-                                        em <%= ficheiro.aprovadoEm.toLocaleDateString("pt-BR") %>
-                                    <% } %>
-                                </span>
-                            <% } else { %>
-                                <span class="status-pendente">Aguardando aprovação</span>
-                            <% } %>
-
-                            <form method="POST" action="/documentos/<%= documento._id %>/ficheiro/<%= ficheiro._id %>/apagar">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <button type="submit" class="btn-perigo">Apagar</button>
-                            </form>
-                        </div>
-                    </li>
-                <% }) %>
-            </ul>
-        <% } else { %>
-            <p class="nenhum-ficheiro">Nenhum ficheiro foi carregado para esta pasta ainda.</p>
-        <% } %>
-    </div>
-
-    <!-- ======================================================= -->
-    <!-- MODAIS -->
-    <!-- ======================================================= -->
-    <div id="modal-editar-pasta" class="modal">
-        <div class="modal-content">
-            <div class="modal-content-forms">
-                <span class="close">&times;</span>
-                <h2>Editar Pasta</h2>
-                <form id="form-editar-pasta" method="POST" action="/documentos/editar/<%= documento._id %>">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <input type="text" name="nome" placeholder="Nome da Pasta" value="<%= documento.nome %>" required>
-                    <textarea name="descricao" placeholder="Descrição (opcional)" rows="4"><%= documento.descricao %></textarea>
-                    <button type="submit" class="btn-criar-modal">SALVAR ALTERAÇÕES</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-apagar-pasta" class="modal">
-        <div class="modal-content">
-            <div class="modal-content-forms">
-                <span class="close">&times;</span>
-                <h2>Confirmar Exclusão</h2>
-                <p class="confirmacao-texto">Tem a certeza de que deseja apagar a pasta <strong>"<%= documento.nome %>"</strong>?
-                    Esta ação é irreversível e todos os ficheiros dentro dela serão perdidos.
-                </p>
-                <form id="form-apagar-pasta" method="POST" action="/documentos/apagar/<%= documento._id %>">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <div class="confirmacao-botoes">
-                        <button type="button" class="btn-cancelar">Cancelar</button>
-                        <button type="submit" class="btn-confirmar-apagar">Sim, Apagar Pasta</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- ======================================================= -->
-    <!-- FOOTER -->
-    <!-- ======================================================= -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-                <div class="footer-sobre-inner">
-                    <div class="footer-sobre-left">
-                        <img src="/Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="/Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="/Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="/Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
+<div class="container-documentos-detalhe">
   
+  <!-- Header Detalhe -->
+  <div class="detalhe-header">
+    <div>
+      <h1 class="detalhe-titulo"><%= documento.nome %></h1>
+      <p class="detalhe-descricao"><%= documento.descricao || 'Nenhuma descrição fornecida.' %></p>
+    </div>
+
+    <!-- 3 Pontinhos -->
+    <div class="pasta-opcoes">
+      <button class="btn-opcoes" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+             stroke-linecap="round" stroke-linejoin="round" 
+             class="lucide lucide-ellipsis-vertical">
+          <circle cx="12" cy="12" r="1"/>
+          <circle cx="12" cy="5" r="1"/>
+          <circle cx="12" cy="19" r="1"/>
+        </svg>
+      </button>
+      <ul class="menu-opcoes">
+        <li><a href="#" id="btn-editar-pasta">Editar</a></li>
+        <li><a href="#" id="btn-excluir-pasta">Excluir</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <%- include('includes/messages') %>
+
+  <!-- Upload + Ações -->
+  <section class="subcap-upload">
+    <form action="/documentos/<%= documento._id %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="upload-actions">
+        <!-- Botão de anexo -->
+        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
+        <label for="file-upload" class="btn-anexo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="M12 5v14"/>
+          </svg>
+          Adicionar anexo
+        </label>
+
+        <!-- Botões de ação -->
+        <div class="form-actions">
+          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
+          <button type="button" id="btn-editar" class="btn-subcap-editar" hidden>Editar</button>
+          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
+        </div>
+      </div>
+
+      <!-- Pré-visualização (JS) -->
+      <div id="file-preview" class="file-preview vazio">
+        <em>Nenhum arquivo selecionado.</em>
+      </div>
+    </form>
+
+    <!-- Arquivos já anexados -->
+    <% if (documento.ficheiros && documento.ficheiros.length > 0) { %>
+      <div class="subcap-arquivos">
+        <% documento.ficheiros.forEach(f => { %>
+          <div class="file-row">
+            <!-- Nome -->
+            <span class="file-name">
+              <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
+            </span>
+
+            <!-- Tamanho -->
+            <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
+
+            <!-- Input aprovado por -->
+            <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
+
+            <!-- Botão excluir -->
+            <form action="/documentos/<%= documento._id %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="btn-apagar" title="Excluir arquivo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-trash-2">
+                  <path d="M10 11v6"/><path d="M14 11v6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                  <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+              </button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </section>
+</div>
+
+<!-- ==================== Modais ==================== -->
+
+<!-- Modal Editar Pasta -->
+<div id="modal-editar-pastas" class="modal">
+  <div class="modal-content">
+    <div class="modal-content-forms">
+      <span class="close">&times;</span>
+      <h2>Editar Pasta</h2>
+      <form id="form-editar-pasta" method="POST" action="/documentos/editar/<%= documento._id %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input type="text" name="nome" placeholder="Nome da Pasta" value="<%= documento.nome %>" required>
+        <textarea name="descricao" placeholder="Descrição (opcional)" rows="4"><%= documento.descricao %></textarea>
+        <button type="submit" class="btn-criar-modal">SALVAR ALTERAÇÕES</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Excluir Pasta -->
+<div id="modal-excluir-pasta" class="modal-excluir">
+  <div class="modal-excluir-content">
+    <span class="close" id="close-excluir">&times;</span>
+    <h3>Excluir Pasta</h3>
+    <p>
+      Tem certeza que deseja excluir a pasta <strong>"<%= documento.nome %>"</strong>?<br>
+      Esta ação não poderá ser desfeita e todos os ficheiros nela serão perdidos.
+    </p>
+    <div class="modal-excluir-actions">
+      <form id="form-excluir-pasta" method="POST" action="/documentos/apagar/<%= documento._id %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn-excluir confirmar">Excluir</button>
+      </form>
+      <button type="button" class="btn-excluir cancelar" id="btn-cancelar-excluir">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+  <%- include('includes/footer') %>
+    
+    <script src="/assets/js/documentos.js"></script>
     <script src="/assets/js/script.js"></script>
 </body>
 </html>

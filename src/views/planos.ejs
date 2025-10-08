@@ -19,7 +19,7 @@
 
     <!-- Breadcrumb -->
     <ul class="breadcrumb">
-        <li><a href="index.html">Início</a></li>
+        <li><a href="/">Início</a></li>
         <li>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </li>
@@ -35,7 +35,7 @@
             <div class="hero-planos-text">
                 <h2>Gerenciamento fácil de certificações ISO</h2>
                 <p>Gerencie certificações de forma inteligente, sem burocracia e sem preocupação!</p>
-                <a href="solicitar_demonstracao.html" class="btn-hero-planos">SOLICITE DEMONSTRAÇÃO</a>
+                <a href="/solicitar" class="btn-hero-planos">SOLICITE DEMONSTRAÇÃO</a>
             </div>
 
             <!-- Imagem -->
@@ -79,79 +79,18 @@
             <div class="info-box-planos">
                 <h3>Quais são as funcionalidades?</h3>
                 <p>Acesse a aba Funcionalidades e descubra os recursos que tornam a Flowcerti a solução ideal para a gestão de certificações. Confira cada funcionalidade detalhada em vídeos explicativos que mostram na prática como a plataforma pode transformar os processos da sua empresa.</p>
-                <a href="funcionalidades.html" class="btn-funcionalidades-planos">Funcionalidades</a>
+                <a href="/funcionalidades" class="btn-funcionalidades-planos">Funcionalidades</a>
             </div>
 
             <div class="info-box-planos">
                 <h3>Quer saber sobre a Empresa?</h3>
                 <p>Conheça a nossa história e como surgiu a Flowcerti. Acesse a aba Sobre a Empresa e entenda como transformamos um projeto acadêmico em uma plataforma inovadora de gestão de certificações, ajudando empresas a eliminar barreiras burocráticas e a se preparar com eficiência para auditorias.</p>
-                <a href="sobre_a_empresa.html" class="btn-sobre-a-empresa-planos">Sobre a Empresa</a>
+                <a href="/sobre" class="btn-sobre-a-empresa-planos">Sobre a Empresa</a>
             </div>
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="footer-container">
-            
-            <!-- Coluna Sobre -->
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-
-                <div class="footer-sobre-inner">
-
-                    <!-- Lado esquerdo: logo + redes sociais -->
-                    <div class="footer-sobre-left">
-                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    
-                    <!-- Lado direito: texto -->
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Coluna Acesso Rápido -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Acessos Buscados -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Institucional -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- COPYRIGHT -->
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
+    <%- include('includes/footer') %>
 
     <script src="/assets/js/planos.js"></script>
     <script src="/assets/js/script.js"></script>

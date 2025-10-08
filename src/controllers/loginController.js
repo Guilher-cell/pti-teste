@@ -28,17 +28,19 @@ exports.login = async function (req, res) {
   try {
     const { user, password } = req.body;
 
-    // 1) Tenta login no Cadastro (admin ou master)
-    let cadastro = await Cadastro.findOne({ user }).select('+password');
-    if (cadastro && await cadastro.isCorrectPassword(password)) {
+    // 1) Tenta login no Cadastro (admin/master) usando user OU email
+    let cadastro = await Cadastro.findOne({
+      $or: [{ user: user }, { email: user }]
+    }).select('+password');
 
+    if (cadastro && await cadastro.isCorrectPassword(password)) {
       if (!cadastro.ativo) {
         req.flash('errors', 'Conta ainda não confirmada. Verifique seu e-mail!');
         return req.session.save(() => res.redirect('/login'));
       }
 
-      // 🔑 Sessão
-      req.session.user = {
+      // prepara objeto do usuário
+      const tempUser = {
         _id: cadastro._id,
         user: cadastro.user,
         email: cadastro.email,
@@ -51,7 +53,7 @@ exports.login = async function (req, res) {
 
       // Se tiver 2FA ativado
       if (cadastro.twoFAEnabled) {
-        req.session.tempUser = req.session.user;
+        req.session.tempUser = tempUser;
 
         const code = Math.floor(100000 + Math.random() * 900000).toString();
         req.session.temp2FACode = code;
@@ -67,12 +69,17 @@ exports.login = async function (req, res) {
         return req.session.save(() => res.redirect('/login/2fa'));
       }
 
+      // Sem 2FA → login direto
+      req.session.user = tempUser;
       req.flash('success', `Login realizado como ${cadastro.role}!`);
       return req.session.save(() => res.redirect('/'));
     }
 
-    // 2) Se não achou no Cadastro, tenta funcionário
-    const funcionario = await Funcionario.findOne({ usuario: user }).select('+senha');
+    // 2) Se não achou no Cadastro → tenta funcionário (usuário OU email)
+    const funcionario = await Funcionario.findOne({
+      $or: [{ usuario: user }, { email: user }]
+    }).select('+senha');
+
     if (funcionario && await funcionario.isCorrectPassword(password)) {
       req.session.user = {
         _id: funcionario._id,
@@ -88,8 +95,8 @@ exports.login = async function (req, res) {
       return req.session.save(() => res.redirect('/'));
     }
 
-    // 3) Se não achou em nenhum dos dois
-    req.flash('errors', 'Usuário ou senha inválidos.');
+    // 3) Se não achou em nenhum
+    req.flash('errors', 'Usuário/e-mail ou senha inválidos.');
     return req.session.save(() => res.redirect('/login'));
 
   } catch (e) {
@@ -98,7 +105,6 @@ exports.login = async function (req, res) {
     return req.session.save(() => res.redirect('/login'));
   }
 };
-
 
 // =============================
 // PÁGINA DE VERIFICAÇÃO 2FA
@@ -137,6 +143,6 @@ exports.logout = function (req, res) {
       return res.redirect('/'); // fallback
     }
     res.clearCookie('connect.sid'); 
-    return res.redirect('/'); // manda para tela de login
+    return res.redirect('/'); // manda para tela inicial
   });
 };

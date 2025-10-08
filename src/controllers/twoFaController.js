@@ -34,7 +34,7 @@ exports.habilitar2FA = async (req, res) => {
   } catch (err) {
     console.error("❌ Erro ao enviar e-mail 2FA:", err);
     req.flash("errors", "Não foi possível enviar o e-mail de ativação.");
-    return req.session.save(() => res.redirect("/meus-dados"));
+    return req.session.save(() => res.redirect("/seguranca"));
   }
 };
 
@@ -52,7 +52,7 @@ exports.confirmarAtivacao = async (req, res) => {
   delete req.session.twoFASetupCode;
 
   req.flash("success", "2FA ativada com sucesso!");
-  return req.session.save(() => res.redirect("/meus-dados"));
+  return req.session.save(() => res.redirect("/seguranca"));
 };
 
 // ============================

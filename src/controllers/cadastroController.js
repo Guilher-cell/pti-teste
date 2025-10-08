@@ -1,4 +1,4 @@
-const User = require('../Schemas/cadastroSchema');
+const Cadastro = require('../models/cadastroModel'); // importa sua classe Cadastro
 const TokenModel = require('../models/tokenModel');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
@@ -23,7 +23,16 @@ exports.criar = (req, res) => {
 // =============================
 exports.register = async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    const cadastro = new Cadastro(req.body);
+    await cadastro.register();
+
+    if (cadastro.errors.length > 0) {
+      req.flash('errors', cadastro.errors);
+      return req.session.save(() => res.redirect('/criar'));
+    }
+
+    // usuário criado
+    const user = cadastro.user;
 
     // gera token de verificação
     const token = crypto.randomBytes(32).toString('hex');

@@ -5,44 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alterar Senha - FlowCerti</title>
 
-    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+    <link rel="icon" type="image/png" href="/Imagem/footer/logo_pequena.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Sora:wght@400;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/pages_modais.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="page">
-        <div class="page-content">
+<div class="page">
+  <div class="page-content">
 
-            <div class="page-content-forms">
-                <a href="/">
-                <span class="close">&times;</span>      
-                </a> 
-                <h2>Alterar Senha</h2>
-                <%- include('includes/messages') %>
+    <div class="page-content-forms">
+        <a href="/"><span class="close">&times;</span></a> 
+        <h2>Alterar Senha</h2>
+        <%- include('includes/messages') %>
 
-                <form action="/redefinir-senha/<%= token %>" method="POST">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <div class="input-senha-container">
-                        <input type="password" name="password" placeholder="Nova Senha" class="input-senha" required>
-                        <img src="/Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
-                    </div>
+        <form class="form-alterar-senha" action="/redefinir-senha/<%= token %>" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-                    <div class="input-senha-container">
-                         <input type="password" name="passwordConfirm" placeholder="Confirmar senha" class="input-senha" required>
-                        <img src="/Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
-                    </div>
-
-                    <button type="submit" class="btn-alterar-modal">ALTERAR SENHA</button>
-                </form>
+            <div class="input-senha-container">
+                <input type="password" name="password" placeholder="Nova Senha" class="input-senha senha-alterar" required>
+                <img src="/Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
             </div>
-        </div>
-    </div>
 
-    <script src="/assets/js/pages_modais.js"></script>
+            <div class="input-senha-container">
+                <input type="password" name="passwordConfirm" placeholder="Confirmar senha" class="input-senha" required>
+                <img src="/Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
+            </div>
+
+            <ul class="password-rules hidden" id="password-rules-alterar">
+                <li>Senha deve ter entre 8 e 24 caracteres</li>
+                <li>Senha deve ter letras maiúsculas e minúsculas</li>
+                <li>Senha deve ter pelo menos um número</li>
+                <li>Senha deve ter pelo menos um caractere especial (#@*…)</li>
+            </ul>
+
+            <button type="submit" class="btn-alterar-modal" id="btn-alterar" >ALTERAR SENHA</button>
+        </form>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/pages_modais.js"></script>
 </body>
 </html>

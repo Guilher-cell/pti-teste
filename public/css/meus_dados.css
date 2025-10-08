@@ -115,7 +115,7 @@
 }
 
 .field-meus-dados input[readonly]:focus {
-  border-color: #2b3b5e; /* mantém a borda */
+  border-color: #2b3b5e; 
   box-shadow: none;
 }
 

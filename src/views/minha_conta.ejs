@@ -76,13 +76,16 @@
     </div>
     <h2><%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %></h2>
   </div>
+    <%- include('includes/messages') %>
+
 
     <!-- Formulário -->
   <section class="conta-form-minha-conta">
-    <form class="form-conta-minha-conta">
+    <form class="form-conta-minha-conta" action="/minha-conta/alterar-senha" method="POST">
       <div class="form-grid-2-minha-conta">
         <div class="field-minha-conta">
           <label for="usuario">Usuário <span class="req">*</span></label>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="text" id="usuario" value= <%= locals.user.user.charAt(0).toUpperCase() + locals.user.user.slice(1) %> readonly>
           </div>
 
@@ -94,7 +97,7 @@
           <div class="field-minha-conta">
           <label for="senha">Senha</label>
           <div class="input-senha-container">
-            <input type="password" id="senha" class="input-senha senha-minha-conta" placeholder="Preencha se deseja trocar">
+            <input type="password" name="password" id="senha" class="input-senha senha-minha-conta" placeholder="Preencha se deseja trocar">
             <img src="Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
           </div>
 
@@ -110,7 +113,7 @@
           <div class="field-minha-conta">
           <label for="confirmar">Confirmar Senha</label>
           <div class="input-senha-container">
-            <input type="password" id="confirmar" class="input-senha" placeholder="Confirme a nova senha">
+            <input type="password" name="passwordConfirm" id="confirmar" class="input-senha" placeholder="Confirme a nova senha">
             <img src="Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
           </div>
         </div>
@@ -124,72 +127,10 @@
 </main>
 </div>
 
-
-
-    <footer class="footer">
-        <div class="footer-container">
-            
-            <!-- Coluna Sobre -->
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-
-                <div class="footer-sobre-inner">
-
-                    <!-- Lado esquerdo: logo + redes sociais -->
-                    <div class="footer-sobre-left">
-                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    
-                    <!-- Lado direito: texto -->
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Coluna Acesso Rápido -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Acessos Buscados -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Institucional -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- COPYRIGHT -->
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
+ <%- include('includes/footer') %>
     
     <script src="/assets/js/minha_conta.js"></script>
+    <script src="/assets/js/conta_geral.js"></script>
     <script src="/assets/js/script.js"></script>
 </body>
 </html>

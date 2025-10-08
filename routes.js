@@ -31,7 +31,6 @@ const logController = require("./src/controllers/logController");
 // =======================
 route.get('/', homeController.index);
 route.get('/login', loginController.index);
-route.post('/logout', middleware.isAuthenticated, loginController.logout);
 route.get('/criar', cadastroController.criar);
 route.get('/verificar-email/:token', cadastroController.verificarEmail);
 route.get('/esqueci', esqueciSenhaController.esqueci);
@@ -88,6 +87,7 @@ route.post('/', homeController.index);
 route.post('/login', loginController.login);
 route.post('/login/2fa', loginController.confirm2FA); // Confirma login 2FA
 route.post('/login/register', cadastroController.register);
+route.post('/logout', middleware.isAuthenticated, loginController.logout);
 route.post('/redefinir-senha/:token', passwordController.updatePassword);
 route.post('/solicitar-demonstracao', solicitarController.enviar);
 route.post('/esqueci-senha', passwordController.sendResetToken);
@@ -104,7 +104,8 @@ route.post('/meus-dados/salvar', middleware.isAuthenticated, myDataController.sa
 route.post('/minha-conta/alterar-senha', middleware.isAuthenticated, accountController.alterarSenha);
 route.post("/iso9001/:capitulo/upload", middleware.isAuthenticated, permissao("dashboardISO"),iso9001Controller.uploadCapitulo);
 route.post("/iso9001/:capitulo/ficheiro/:fileId/apagar", middleware.isAuthenticated, permissao("dashboardISO"), iso9001Controller.apagarFicheiroCapitulo);
-
+route.post("/iso9001/:capitulo/checklist", middleware.isAuthenticated, permissao("dashboardISO"), iso9001Controller.salvarChecklist);
+route.post('/minha-conta/alterar-senha', passwordController.updatePasswordLogged);
 // ========== 2FA ==========
 // Ativação (usuário logado)
 route.post('/seguranca/2fa/enviar', middleware.isAuthenticated, twoFaController.habilitar2FA);

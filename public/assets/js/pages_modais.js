@@ -147,14 +147,14 @@
     btn.addEventListener("click", () => {
       if (rules) rules.classList.add("hidden");
       if (rulesAlterar) rulesAlterar.classList.add("hidden");
-      window.location.href = "index.html";
+      window.location.href = "/";
     });
   });
   window.addEventListener("keydown", e => {
     if (e.key === "Escape") {
       if (rules) rules.classList.add("hidden");
       if (rulesAlterar) rulesAlterar.classList.add("hidden");
-      window.location.href = "index.html";
+      window.location.href = "/";
     }
   });
 

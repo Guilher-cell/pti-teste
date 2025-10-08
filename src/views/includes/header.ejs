@@ -24,11 +24,13 @@
     </div>
 
     
+      <% if (!user || (user && user.role !== "funcionario")) { %>
       <div class="menu-item">
         <div class="menu-demonstracao">
-          <a href="/solicitar">Solicitar Demonstração</a>
-        </div>
+      <a href="/solicitar">Solicitar Demonstração</a>
       </div>
+        </div>
+      <% } %>
     
 
     <% if (user) { %>
@@ -129,7 +131,7 @@
             <% } else { %>
                   <!-- Funcionário só vê botão Sair -->
                  <!-- Botão sair (abre modal) -->
-            <a href="#" class="submenu-hamburguer-item sair">
+            <a href="/logout" class="submenu-hamburguer-item sair">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
                   viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5" 
                   stroke-linecap="round" stroke-linejoin="round" 

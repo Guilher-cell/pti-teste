@@ -17,17 +17,42 @@ function empresaScope(req) {
 // ===============================
 exports.mostrarCapitulo = async (req, res) => {
   try {
-    const capitulo = req.params.capitulo;
+    const capitulo = req.params.capitulo;          // "4"  ou  "4-1"
     const empresaId = req.session.user.empresaId;
+    const isSubcap = capitulo.includes("-");
 
-    const documentos = await DocumentoISO.find({ capitulo, empresaId })
-      .populate("ficheiros")
-      .populate("alteradoPor", "user");
+    if (isSubcap) {
+      // 🔹 SUBCAPÍTULO (ex.: "4-1") → carrega UM doc
+      const doc = await DocumentoISO.findOne({ capitulo, empresaId })
+        .populate("ficheiros")
+        .populate("alteradoPor", "user");
+
+      const documentos = doc ? [doc] : []; // seu EJS espera array
+      return res.render(`paginas_iso9001/${capitulo}`, {
+        documentos,
+        capitulo,
+        user: req.session.user,
+        csrfToken: req.csrfToken(),
+      });
+    }
+
+    // 🔹 CAPÍTULO (ex.: "4") → lista TODOS subcaps "4-*"
+    const documentos = await DocumentoISO.find({
+      capitulo: new RegExp(`^${capitulo}-`),
+      empresaId
+    }).populate("ficheiros");
+
+    const progressoCapitulo = {};
+    documentos.forEach(d => {
+      progressoCapitulo[d.capitulo] = d.progresso || 0;
+    });
 
     return res.render(`paginas_iso9001/${capitulo}`, {
       documentos,
       capitulo,
-      user: req.session.user
+      progressoCapitulo,
+      user: req.session.user,
+      csrfToken: req.csrfToken(),
     });
   } catch (e) {
     console.error("❌ Erro mostrarCapitulo:", e);
@@ -35,6 +60,7 @@ exports.mostrarCapitulo = async (req, res) => {
     return req.session.save(() => res.redirect("/"));
   }
 };
+
 
 // ===============================
 // UPLOAD DE ARQUIVOS NO CAPÍTULO
@@ -103,6 +129,11 @@ exports.uploadCapitulo = (req, res) => {
       documento.alteradoPor = userId;
       await documento.save();
 
+      documento.ultimaAlteracao = new Date();
+      documento.alteradoPor = userId;
+      documento.progresso = calcularProgresso(documento, 3);
+      await documento.save();
+
       req.flash("success", "Arquivos enviados com sucesso!");
       return res.redirect(`/iso9001/${capitulo}`);
     } catch (e) {
@@ -111,6 +142,7 @@ exports.uploadCapitulo = (req, res) => {
       return res.redirect(`/iso9001/${capitulo}`);
     }
   });
+  
 };
 
 // ===============================
@@ -127,14 +159,12 @@ exports.apagarFicheiroCapitulo = async (req, res) => {
       return res.redirect(`/iso9001/${capitulo}`);
     }
 
-    // Confere se pertence ao documento da empresa
     const documento = await DocumentoISO.findOne({ capitulo, empresaId });
     if (!documento) {
       req.flash("errors", "Documento do capítulo não encontrado.");
       return res.redirect(`/iso9001/${capitulo}`);
     }
 
-    // Confere permissão
     if (
       String(ficheiro.owner) !== String(userId) &&
       String(documento.empresaId) !== String(empresaId)
@@ -143,10 +173,8 @@ exports.apagarFicheiroCapitulo = async (req, res) => {
       return res.redirect(`/iso9001/${capitulo}`);
     }
 
-    // Apaga o ficheiro
     await ficheiro.deleteOne();
 
-    // Remove a referência no documento ISO
     await DocumentoISO.findOneAndUpdate(
       { capitulo, empresaId },
       {
@@ -156,13 +184,19 @@ exports.apagarFicheiroCapitulo = async (req, res) => {
       }
     );
 
-    // 🔹 LOG: exclusão de arquivo ISO
+    // 🔹 Recalcula progresso após apagar
+    const docAtual = await DocumentoISO.findOne({ capitulo, empresaId }).populate("ficheiros");
+    if (docAtual) {
+      docAtual.progresso = calcularProgresso(docAtual, 3);
+      await docAtual.save();
+    }
+
     await Log.create({
       usuarioId: userId,
       empresaId,
       usuarioNome: req.session.user.user,
       acao: `Apagou arquivo`,
-      modulo: `ISO 9001 `,
+      modulo: `ISO 9001`,
       nomeDocumento: `Capítulo ${capitulo}`,
       nomeArquivo: ficheiro.nomeOriginal,
     });
@@ -172,6 +206,54 @@ exports.apagarFicheiroCapitulo = async (req, res) => {
   } catch (e) {
     console.error("❌ Erro apagarFicheiroCapitulo:", e);
     req.flash("errors", "Erro ao apagar o arquivo.");
+    return res.redirect(`/iso9001/${req.params.capitulo}`);
+  }
+};
+
+function calcularProgresso(documento, totalChecks) {
+  let progresso = 0;
+
+  // Upload vale 50%
+  if (documento.ficheiros && documento.ficheiros.length > 0) {
+    progresso += 50;
+  }
+
+  // Checklist divide os outros 50%
+  const marcados = documento.checklist ? documento.checklist.length : 0;
+  if (totalChecks > 0) {
+    progresso += Math.round((marcados / totalChecks) * 50);
+  }
+
+  return progresso;
+}
+
+
+exports.salvarChecklist = async (req, res) => {
+  try {
+    const { capitulo } = req.params;
+    const { userId, empresaId } = empresaScope(req);
+
+    // 🔹 Pega APENAS os campos de checkbox (começam com "chk_")
+    const checks = Object.keys(req.body).filter(k => k.startsWith("chk_"));
+
+    let documento = await DocumentoISO.findOne({ capitulo, empresaId });
+    if (!documento) {
+      documento = new DocumentoISO({ capitulo, empresaId, criadoPor: userId });
+    }
+
+    documento.checklist = checks;
+    documento.ultimaAlteracao = new Date();
+    documento.alteradoPor = userId;
+
+    // Recalcula progresso (3 checkboxes neste subcap)
+    documento.progresso = calcularProgresso(documento, 3);
+    await documento.save();
+
+    req.flash("success", "Checklist salva com sucesso!");
+    return res.redirect(`/iso9001/${capitulo}`);
+  } catch (e) {
+    console.error("❌ Erro salvarChecklist:", e);
+    req.flash("errors", "Erro ao salvar checklist.");
     return res.redirect(`/iso9001/${req.params.capitulo}`);
   }
 };

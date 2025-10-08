@@ -17,37 +17,34 @@
 <body>
    <%- include("../includes/header", { user: user }) %>
 
+    <!-- Breadcrumb -->
     <ul class="breadcrumb">
-  <li><a href="/">Início</a></li>
-  <li>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-  </li>
-  <li><a href="/dashboard">Dashboard</a></li>
-  <li>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-  </li>
-  <li><a href="/gerenciar">ISO 9001:2015</a></li>
-  <li>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-  </li>
-  <li><a href="/iso9001/4">4. Contexto da Organização</a></li>
-  <li>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-  </li>
-  <li class="current">4.1 Entendendo a organização e seu contexto</li>
-</ul>
-
+      <li><a href="/">Início</a></li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="#ccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="#ccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
+      <li><a href="/gerenciar">ISO 9001:2015</a></li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="#ccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
+      <li><a href="/iso9001/4">4. Contexto da Organização</a></li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="#ccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
+      <li class="current">4.1 Entendendo a organização e seu contexto</li>
+    </ul>
 
 <!-- ===== Subcapítulo 4.1 ===== -->
 <main class="subcap">
+  <!-- Mensagens -->
+  <%- include('../includes/messages') %>
+
   <!-- Header -->
-   <%- include('../includes/messages') %>
   <div class="subcap-header">
     <h2>4.1 Entendendo a organização e seu contexto</h2>
     <p>Envie o documento principal que comprove este requisito e utilize o checklist apenas como lembrete do conteúdo que ele deve cobrir.</p>
+
+    <!-- 🔹 Mostra o progresso salvo -->
+    
   </div>
 
-  <!-- Orientação do documento (colapsável) -->
+  <!-- Orientação do documento -->
   <section class="subcap-hint">
     <button class="subcap-hint-toggle" aria-expanded="false">
       <span>Ver orientação do documento</span>
@@ -60,184 +57,128 @@
     </div>
   </section>
 
-  <!-- Checklist (com checkboxes estilizados) -->
+  <!-- Checklist -->
   <section class="subcap-checklist">
     <h3>Checklist do Documento</h3>
-    <ul>
-      <li>
-        <label class="chk">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-          <span>Descrição das questões internas (valores, cultura, desempenho, recursos, etc.)</span>
-        </label>
-        <button class="more" data-target="m1">Ler mais</button>
-        <div id="m1" class="more-body" hidden>
-          Você deve registrar fatores internos que influenciam o desempenho da empresa.
-          Isso inclui a cultura organizacional (como a empresa se comporta), valores,
-          nível de conhecimento, desempenho de processos, recursos financeiros e humanos.
-          Esse levantamento ajuda a entender a realidade da empresa por dentro.
-        </div>
-      </li>
+    <form action="/iso9001/<%= capitulo %>/checklist" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <li>
-        <label class="chk">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-          <span>Descrição das questões externas (fatores legais, tecnológicos, de mercado, sociais, econômicos, etc.)</span>
-        </label>
-        <button class="more" data-target="m2">Ler mais</button>
-        <div id="m2" class="more-body" hidden>
-          Aqui entram as condições externas que podem afetar sua empresa.
-          Exemplos: novas leis, inovações tecnológicas, mudanças no mercado,
-          fatores sociais (como comportamento do consumidor),
-          condições econômicas e concorrência. O objetivo é identificar riscos
-          e oportunidades que vêm de fora.
-        </div>
-      </li>
+      <ul>
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_interno" <%= documentos[0]?.checklist?.includes("chk_interno") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Descrição das questões internas (valores, cultura, desempenho, recursos, etc.)</span>
+          </label>
+          <button type="button" class="more" data-target="m1">Ler mais</button>
+          <div id="m1" class="more-body" hidden>
+            Você deve registrar fatores internos que influenciam o desempenho da empresa.
+            Inclui cultura organizacional, valores, processos, recursos financeiros e humanos.
+          </div>
+        </li>
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_externo" <%= documentos[0]?.checklist?.includes("chk_externo") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Descrição das questões externas (legais, tecnológicos, de mercado, sociais, econômicos, etc.)</span>
+          </label>
+          <button type="button" class="more" data-target="m2">Ler mais</button>
+          <div id="m2" class="more-body" hidden>
+            Condições externas que podem afetar sua empresa: leis, tecnologia, mercado,
+            comportamento do consumidor, economia e concorrência.
+          </div>
+        </li>
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_monitoramento" <%= documentos[0]?.checklist?.includes("chk_monitoramento") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Evidências de monitoramento e análise crítica periódica</span>
+          </label>
+          <button type="button" class="more" data-target="m3">Ler mais</button>
+          <div id="m3" class="more-body" hidden>
+            Mostre que os fatores são revisados periodicamente. Exemplos: atas de reunião,
+            relatórios de risco, SWOT atualizada.
+          </div>
+        </li>
+      </ul>
 
-      <li>
-        <label class="chk">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-          <span>Evidências de monitoramento e análise crítica periódica dessas questões</span>
-        </label>
-        <button class="more" data-target="m3">Ler mais</button>
-        <div id="m3" class="more-body" hidden>
-          Não basta listar os fatores, é preciso mostrar que eles são revisados periodicamente.
-          Exemplos: atas de reuniões de análise crítica, relatórios de risco ou SWOT atualizada.
-          Isso garante que a empresa acompanha as mudanças internas e externas de forma contínua.
-        </div>
-      </li>
-    </ul>
-    <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>
+      <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>
+
+      <button type="submit" class="btn-subcap-salvar">Salvar Checklist</button>
+    </form>
   </section>
 
-  <!-- Upload + Botão Salvar -->
-<section class="subcap-upload">
-  <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" class="upload-form" id="form-upload-capitulo">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <!-- Upload + Ações -->
+  <section class="subcap-upload">
+    <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-    <div class="upload-card">
-      <h3>Carregar Novos Ficheiros</h3>
-
-      <!-- input escondido -->
-      <input type="file" id="file-upload" name="ficheiros" multiple hidden required>
-
-      <!-- botões -->
       <div class="upload-actions">
-        <label for="file-upload" class="btn-escolher">Escolher ficheiros</label>
+        <!-- Botão de anexo -->
+        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
+        <label for="file-upload" class="btn-anexo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="M12 5v14"/>
+          </svg>
+          Adicionar anexo
+        </label>
 
-        <div class="aprovado-por">
-          <label for="aprovado-por-input">Aprovado por:</label>
-          <input type="text" id="aprovado-por-input" placeholder="Nome de quem aprovou" required>
+        <!-- Botões de ação -->
+        <div class="form-actions">
+          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
+          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
         </div>
-
-        <button type="submit" id="btn-carregar" class="btn-carregar" disabled>Carregar</button>
       </div>
 
-      <!-- pré-visualização -->
+      <!-- Pré-visualização -->
       <div id="file-preview" class="file-preview vazio">
         <em>Nenhum arquivo selecionado.</em>
       </div>
-    </div>
-  </form>
+    </form>
 
-  <!-- Lista de arquivos já enviados -->
-  <% if (documentos && documentos.length > 0) { %>
-    <div class="subcap-arquivos">
-      <h4>Arquivos anexados:</h4>
-      <% documentos.forEach(doc => { %>
-        <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
-         <ul>
-  <% doc.ficheiros.forEach(f => { %>
-    <li class="arquivo-item">
-      <span class="file-name"><a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a></span>
-      <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
-      <% if (f.aprovadoPor) { %>
-        <span class="aprovado">Aprovado por: <%= f.aprovadoPor %> em <%= (f.aprovadoEm || f.createdAt).toLocaleDateString("pt-BR") %></span>
-      <% } %>
-      <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit" class="btn-apagar">Apagar</button>
-      </form>
-    </li>
-  <% }) %>
-</ul>
+    <!-- Arquivos já anexados -->
+    <% if (documentos && documentos.length > 0) { %>
+      <div class="subcap-arquivos">
+        <% documentos.forEach(doc => { %>
+          <% doc.ficheiros.forEach(f => { %>
+            <div class="file-row">
+              <!-- Nome -->
+              <span class="file-name">
+                <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
+              </span>
 
-        <% } %>
-      <% }) %>
-    </div>
-  <% } %>
+              <!-- Tamanho -->
+              <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
+
+              <!-- Input aprovado por -->
+              <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
+
+              <!-- Ícone excluir -->
+              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn-apagar" title="Excluir arquivo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                       viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round"
+                       class="lucide lucide-trash-2">
+                    <path d="M10 11v6"/><path d="M14 11v6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                    <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  </svg>
+                </button>
+              </form>
+            </div>
+          <% }) %>
+        <% }) %>
+      </div>
+    <% } %>
   </section>
-
-
-
 </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            
-            <!-- Coluna Sobre -->
-            <div class="footer-colunas footer-sobre">
-                <h3 class="footer-titulo" id="footer-titulo-sobre">SOBRE</h3>
-
-                <div class="footer-sobre-inner">
-
-                    <!-- Lado esquerdo: logo + redes sociais -->
-                    <div class="footer-sobre-left">
-                        <img src="Imagem/footer/logo_pequena.png" alt="Logo" class="footer-logo">
-
-                        <div class="footer-social">
-                            <a href="#"><img id="footer-redes-sociais-instagram" src="Imagem/footer/icon_instagram.png" alt="Instagram"></a>
-                            <a href="#"><img id="footer-redes-sociais-youtube" src="Imagem/footer/icon_youtube.png" alt="YouTube"></a>
-                            <a href="#"><img id="footer-redes-sociais-linkedin" src="Imagem/footer/icon_linkedin.png" alt="LinkedIn"></a>
-                        </div>
-                    </div>     
-                    
-                    <!-- Lado direito: texto -->
-                    <div class="footer-sobre-text">
-                        <p>A FlowCerti é uma plataforma que moderniza a gestão de certificações empresariais. Reduzimos a burocracia, organizamos processos e garantimos conformidade com eficiência, segurança e confiabilidade.</p>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Coluna Acesso Rápido -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSO RÁPIDO</h3>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                    <li><a href="#">Centro de ajuda</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Acessos Buscados -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">ACESSOS BUSCADOS</h3>
-                <ul>
-                    <li><a href="#">DashBoard</a></li>
-                    <li><a href="#">Solicitar Demonstração</a></li>
-                    <li><a href="#">Documentos</a></li>
-                </ul>
-            </div>
-
-            <!-- Coluna Institucional -->
-            <div class="footer-colunas">
-                <h3 class="footer-titulo">INSTITUCIONAL</h3>
-                <ul>
-                    <li><a href="#">Termos e uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- COPYRIGHT -->
-        <div class="footer-copyright">
-            <span>Copyright © FlowCerti 2025</span>
-        </div>
-    </footer>
-    
-    <script src="/assets/js/subcapitulo.js"></script>
-    <script src="/assets/js/script.js"></script>
+<%- include('../includes/footer') %>
+<script src="/assets/js/subcapitulo.js"></script>
+<script src="/assets/js/script.js"></script>
 </body>
 </html>
