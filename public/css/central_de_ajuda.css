@@ -1,0 +1,174 @@
+/* ===== Central de Ajuda ===== */
+.ajuda-main {
+  padding: 60px 20px;
+  color: #cccccc;
+  max-width: 1200px; /* limita a largura */
+  margin: 0 auto; /* centraliza */
+  font-family: "Inter", sans-serif;
+}
+
+.ajuda-header {
+  text-align: center; 
+  margin: 0 auto 50px auto;
+}
+
+.ajuda-header h2 {
+  font-size: 32px;
+  font-weight: 800;
+  font-family: "Sora", sans-serif;
+  margin-bottom: 15px;
+  color: #ffffff; 
+}
+
+.ajuda-header p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #cccccc;
+}
+
+/* Grid principal */
+.ajuda-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* sempre 2 colunas */
+  gap: 30px 40px; /* espaço entre linhas e colunas */
+}
+
+/* Cards */
+.ajuda-card {
+  background: #0e1629;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 5px 25px 20px;
+  box-shadow: 0 6px 16px rgba(33, 67, 117, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ajuda-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0px;
+}
+
+.ajuda-card p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #cccccc;
+  margin-bottom: 12px;
+}
+
+.ajuda-card strong {
+  color: #ffffff;
+}
+
+.ajuda-card a {
+  color: #3da0fc; 
+  text-decoration: none; 
+}
+.ajuda-card a:hover { 
+  text-decoration: underline; 
+} 
+
+/* Botão Ver FAQ */
+.btn-ajuda {
+  align-self: flex-end; /* manda para a direita */
+  background: #0084ff;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: auto; /* empurra para o final do card */
+}
+.btn-ajuda:hover {
+  background: #006bcf; 
+}
+
+/* E-mail destacado */
+.ajuda-email {
+  color: #3da0fc;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.ajuda-email:hover {
+  color: #66b5ff;
+  text-decoration: underline;
+}
+
+/* Sociais */
+
+.ajuda-card-sociais p{
+  margin-top: 10px;
+}
+.ajuda-sociais {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 40px;
+}
+
+.ajuda-sociais a svg {
+  width: 36px;
+  height: 36px;
+  stroke: #cccccc; /* cor padrão */
+  transition: stroke 0.5s ease, transform 0.2s ease;
+}
+
+.ajuda-sociais a:hover svg {
+  stroke: #3da0fc; /* azul tema no hover */
+  transform: scale(1.15);
+}
+
+/* Links úteis */
+.ajuda-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* mais espaço entre links */
+}
+
+.ajuda-card ul li {
+  position: relative;
+  padding-left: 22px; /* espaço pro ícone */
+  font-size: 15px;
+}
+
+.ajuda-card ul li::before {
+  content: "›"; /* seta como marcador */
+  position: absolute;
+  left: 0;
+  top: -2px; 
+  color: #3da0fc; /* cor azul do tema */
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.ajuda-card ul li a {
+  color: #cccccc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+
+.ajuda-card ul li a:hover {
+  color: #3da0fc;
+  text-decoration: underline;
+}
+
+    
+/* Responsivo */
+@media (max-width: 800px) {
+  .ajuda-grid {
+    grid-template-columns: 1fr; /* em telas menores fica 1 card por linha */
+  }
+}

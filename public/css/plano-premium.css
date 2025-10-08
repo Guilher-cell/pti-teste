@@ -1,0 +1,115 @@
+/* ===== Tela de Planos ===== */
+.planos-main {
+  padding: 60px 20px;
+  color: #cccccc;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+}
+
+.planos-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.planos-header h2 {
+  font-size: 32px;
+  font-weight: 800;
+  font-family: "Sora", sans-serif;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+.planos-header p {
+  font-size: 16px;
+  color: #cccccc;
+}
+
+/* Grid */
+.planos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+/* Card do Plano */
+.plano-card {
+  background: #0e1629;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.plano-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.55);
+}
+
+.plano-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: "Sora", sans-serif;
+  color: #3da0fc;
+  margin-bottom: 15px;
+}
+
+.plano-preco {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 10px 0;
+}
+
+.plano-economia {
+  font-size: 14px;
+  font-weight: 600;
+  color: #00ff88;
+  margin-bottom: 10px;
+}
+
+.plano-descricao {
+  font-size: 14px;
+  color: #cccccc;
+  margin-bottom: 20px;
+}
+
+/* Botão */
+.btn-plano {
+  background: #0084ff;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.btn-plano:hover {
+  background: #006bcf;
+  transform: scale(1.05);
+}
+
+/* Destaque */
+.destaque {
+  border: 1.5px solid #3da0fc;
+  box-shadow: 0 0 15px rgba(61, 160, 252, 0.4);
+  position: relative;
+}
+.destaque::before {
+  content: "Recomendado";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3da0fc;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 10px;
+  border-radius: 12px;
+}

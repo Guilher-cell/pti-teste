@@ -1,6 +1,6 @@
 const Cadastro = require('../models/cadastroModel'); // Classe Cadastro
 const TokenModel = require('../models/tokenModel');
-const cadastroModel = require('../Schemas/cadastroSchema'); // ✅ Importa o Schema real do usuário
+const cadastroModel = require('../Schemas/cadastroSchema'); // Schema real do usuário
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
@@ -18,7 +18,15 @@ const transporter = nodemailer.createTransport({
 // =============================
 exports.criar = (req, res) => {
   if (req.session.user) return res.redirect('/');
-  res.render('cadastro', { csrfToken: req.csrfToken() });
+
+  res.render('cadastro', { 
+    csrfToken: req.csrfToken(),
+    dados: req.flash('formdata')[0] || {}, // dados antigos (se existirem)
+    messages: {
+      errors: req.flash('errors'),
+      success: req.flash('success')
+    }
+  });
 };
 
 // =============================
@@ -30,21 +38,28 @@ exports.register = async (req, res) => {
     await cadastro.register();
 
     if (cadastro.errors.length > 0) {
+      // Salva erros e os dados do form (sem senha)
       req.flash('errors', cadastro.errors);
+      req.flash('formdata', {
+        email: req.body.email,
+        user: req.body.user,
+        cnpj: req.body.cnpj
+      });
+
       return req.session.save(() => res.redirect('/criar'));
     }
 
-    // usuário criado
+    // Usuário criado
     const user = cadastro.user;
 
-    // gera token de verificação
+    // Gera token de verificação
     const token = crypto.randomBytes(32).toString('hex');
     await TokenModel.create({
       userId: user._id,
       token: token,
     });
 
-    // link para confirmar
+    // Link de confirmação
     const link = `${req.protocol}://${req.get('host')}/verificar-email/${token}`;
 
     await transporter.sendMail({
@@ -80,10 +95,10 @@ exports.verificarEmail = async (req, res) => {
       return res.redirect('/login');
     }
 
-    // ✅ ativa a conta
+    // Ativa a conta
     await cadastroModel.findByIdAndUpdate(tokenDoc.userId, { ativo: true });
 
-    // apaga o token
+    // Remove token
     await tokenDoc.deleteOne();
 
     req.flash('success', 'Conta ativada com sucesso! Faça login.');

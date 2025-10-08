@@ -1,10 +1,11 @@
 (() => {
-  const closedSrc = "Imagem/olho_senha/olho_fechado_tema_escuro.png";
-  const openSrc   = "Imagem/olho_senha/olho_aberto_azul.png";
+  const closedSrc = "/Imagem/olho_senha/olho_fechado_tema_escuro.png";
+  const openSrc   = "/Imagem/olho_senha/olho_aberto_azul.png";
 
   // =========================
   // 1) Toggle de senha (mostrar/ocultar)
-  // =========================
+  // ========================= 
+  
   document.querySelectorAll('.toggle-senha').forEach(toggle => {
     toggle.addEventListener('mousedown', e => e.preventDefault()); 
     toggle.addEventListener('click', () => {
@@ -15,7 +16,8 @@
       input.type = visible ? 'password' : 'text';
       toggle.src = visible ? closedSrc : openSrc;
     });
-  });
+  }); 
+
 
   // =========================
   // 2) Máscara CNPJ

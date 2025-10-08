@@ -22,3 +22,32 @@ if (inputCEP) {
     inputCEP.value = valor.substring(0, 9); // máximo 9 caracteres
   });
 }
+
+
+if (inputCEP) {
+  inputCEP.addEventListener("input", async (e) => {
+    const cep = e.target.value.replace(/\D/g, '');
+    if (cep.length === 8) {
+      try {
+        const res = await fetch(`/api/cep/${cep}`);
+        if (!res.ok) throw new Error("Erro ao consultar o servidor");
+
+        const data = await res.json();
+
+        const endereco = document.getElementById("Endereco");
+        const bairro = document.getElementById("Bairro");
+        const cidade = document.getElementById("Cidade");
+        const estado = document.getElementById("Estado");
+
+        if (endereco) endereco.value = data.logradouro || '';
+        if (bairro) bairro.value = data.bairro || '';
+        if (cidade) cidade.value = data.localidade || '';
+        if (estado) estado.value = data.uf || '';
+
+      } catch (err) {
+        console.error("Erro ao buscar CEP:", err);
+      }
+    }
+  });
+}
+

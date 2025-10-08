@@ -1,21 +1,26 @@
 // src/controllers/accountController.js
 const CadastroModel = require('../Schemas/cadastroSchema');
+const PasswordValidator = require('../models/minhaContaModel'); // ✅ importar
 
-exports.index = (req,res)=>{
-    res.render('minha_conta')
-}
+exports.index = (req, res) => {
+  res.render('minha_conta', {
+    messages: {
+      errors: req.flash('errors'),
+      success: req.flash('success')
+    }
+  });
+};
 
 exports.alterarSenha = async (req, res) => {
   try {
     const { password, passwordConfirm } = req.body;
 
-    if (!password || !passwordConfirm) {
-      req.flash('errors', 'Preencha todos os campos.');
-      return req.session.save(() => res.redirect('/minha-conta'));
-    }
+    // 🔹 valida senha com model separado
+    const validator = new PasswordValidator(password, passwordConfirm);
+    validator.valida();
 
-    if (password !== passwordConfirm) {
-      req.flash('errors', 'As senhas não coincidem.');
+    if (validator.errors.length > 0) {
+      req.flash('errors', validator.errors);
       return req.session.save(() => res.redirect('/minha-conta'));
     }
 
@@ -25,8 +30,7 @@ exports.alterarSenha = async (req, res) => {
       return req.session.save(() => res.redirect('/login'));
     }
 
-    // O hook pre-save do seu Schema já deve criptografar (argon2/bcrypt)
-    user.password = password;
+    user.password = password; // hook do Schema aplica hash
     await user.save();
 
     req.flash('success', 'Senha alterada com sucesso!');

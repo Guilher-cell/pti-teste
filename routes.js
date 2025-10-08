@@ -26,6 +26,9 @@ const dashboardController = require('./src/controllers/dashboardController');
 const gerenciarIsoController = require('./src/controllers/gerenciarIsoController');
 const iso9001Controller = require("./src/controllers/iso9001Controller");
 const logController = require("./src/controllers/logController");
+const centralAjudaController = require("./src/controllers/centralAjudaController");
+const planoPremiumController = require("./src/controllers/planoPremiumController");
+const pagamentoController = require("./src/controllers/pagamentoController");
 // =======================
 // ROTAS GET
 // =======================
@@ -55,6 +58,13 @@ route.get('/gerenciar',middleware.isAuthenticated, gerenciarIsoController.index)
 route.get("/iso9001/:capitulo",middleware.isAuthenticated, permissao("dashboardISO"), iso9001Controller.mostrarCapitulo);
 route.get("/logs/empresa", middleware.isAuthenticated, logController.logsEmpresa);
 route.get("/logs/admin", middleware.isAuthenticated, middleware.isAdmin, logController.logsAdmin);
+route.get("/central_ajuda", middleware.isAuthenticated, centralAjudaController.index )
+route.get("/plano_premium", middleware.isAuthenticated , planoPremiumController.index)
+route.get("/pagamento/:plano", pagamentoController.criarPagamento);
+route.get("/pagamento/sucesso",  pagamentoController.sucesso);
+route.get("/pagamento/erro",     pagamentoController.erro);
+route.get("/pagamento/pendente", pagamentoController.pendente);
+
 
 route.get("/api/cep/:cep", middleware.isAuthenticated, async (req, res) => {
   try {

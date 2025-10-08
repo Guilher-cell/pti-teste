@@ -25,18 +25,48 @@
         <form class="criar-conta" action="/login/register" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-            <input type="text" placeholder="Usuário" id="user" name="user" required> 
-            <input type="email" placeholder="E-mail" id="email" name="email" required>
-            <input type="text" placeholder="CNPJ" id="cnpj" name="cnpj" class="input-cnpj" required>
+            <input type="text" 
+                   placeholder="Usuário" 
+                   id="user" 
+                   name="user" 
+                   value="<%= dados?.user || '' %>" 
+                   required> 
+
+            <input type="email" 
+                   placeholder="E-mail" 
+                   id="email" 
+                   name="email" 
+                   value="<%= dados?.email || '' %>" 
+                   required>
+
+            <input type="text" 
+                   placeholder="CNPJ" 
+                   id="cnpj" 
+                   name="cnpj" 
+                   class="input-cnpj" 
+                   value="<%= dados?.cnpj || '' %>" 
+                   required>
 
             <div class="senha-dupla-container">
                 <div class="input-senha-container">
-                    <input type="password" id="password" name="password" placeholder="Senha" class="input-senha senha-principal" required>
+                    <input type="password" 
+                           id="password" 
+                           name="password" 
+                           placeholder="Senha" 
+                           class="input-senha senha-principal" 
+                           value="" 
+                           required>
                     <img src="/Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
                 </div>
 
                 <div class="input-senha-container">
-                    <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Confirmar senha" class="input-senha" required>
+                    <input type="password" 
+                           id="passwordConfirm" 
+                           name="passwordConfirm" 
+                           placeholder="Confirmar senha" 
+                           class="input-senha" 
+                           value="" 
+                           required>
                     <img src="/Imagem/olho_senha/olho_fechado_tema_escuro.png" class="toggle-senha" alt="Mostrar senha">
                 </div>
             </div>
