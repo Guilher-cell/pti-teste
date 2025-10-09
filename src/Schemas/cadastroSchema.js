@@ -10,11 +10,28 @@ const cadastroSchema = new mongoose.Schema({
   twoFACode: { type: String },                     
   twoFACodeExpires: { type: Date },
   ativo: { type: Boolean, default: false },  
-  role: {type: String , enum: ["admin","master"], default: "master"},
+  role: { type: String , enum: ["admin","master"], default: "master" },
+  
+
   permissoes: {
-  dashboardISO: { type: Boolean, default: true },
-  documentosGerais: { type: Boolean, default: true }
-  }}, { timestamps: true });
+    dashboardISO: { type: Boolean, default: true },
+    documentosGerais: { type: Boolean, default: true }
+  },
+
+
+  plano: {
+    type: String,
+    enum: ["freemium", "mensal", "trimestral", "semestral", "anual"],
+    default: "freemium"
+  },
+
+
+  planoExpiraEm: {
+    type: Date,
+    default: () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+  }
+
+}, { timestamps: true });
 
 cadastroSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
@@ -25,7 +42,6 @@ cadastroSchema.pre('save', async function(next) {
     next(e);
   }
 });
-
 
 cadastroSchema.methods.isCorrectPassword = async function(candidatePassword) {
   try {

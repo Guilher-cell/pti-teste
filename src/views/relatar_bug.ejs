@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitar Demonstração - FlowCerti</title>
+
+  <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+  <!-- mantém exatamente seus paths -->
+  <link rel="stylesheet" href="/css/propor-relatar.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+
+  <!-- Breadcrumb (mantido idêntico ao seu HTML) -->
+  <ul class="breadcrumb">
+    <li><a href="/">Início</a></li>
+    <li>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </li>
+    <li class="current">Relatar Bug</li>
+  </ul>
+
+  <!-- mensagens flash (adicionado, sem alterar seus elementos) -->
+  <%- include('includes/messages') %>
+
+  <main class="relatar-main">
+    <div class="texto-header">
+      <p>
+        Encontrou algum erro na plataforma?  
+        Informe aqui para que possamos corrigir o mais rápido possível e garantir uma melhor experiência para todos os usuários.
+      </p>
+    </div>
+  <%- include("includes/header", { user: user }) %>
+    <div class="form-container-bug">
+      <div class="form-content-bug">
+        <!-- mantém o mesmo form, só acrescentei CSRF e (opcional) method/action se você quiser usar POST servidor -->
+        <form class="form-bug" id="form-bug" method="POST" action="/bugs/novo">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="text" class="input-bug" name="titulo" placeholder="Título do erro" required>
+          <textarea class="textarea-bug" name="descricao" placeholder="Descrição do ocorrido" required></textarea>
+          <button type="submit" class="btn-enviar-bug">Relatar Bug</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- footer dinâmico no lugar do HTML estático -->
+  <%- include("includes/footer") %>
+
+  <!-- mantém exatamente seu path -->
+  <script src="/assets/script.js"></script>
+</body>
+</html>

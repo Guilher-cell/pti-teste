@@ -48,6 +48,29 @@ auto_return: "approved",
   }
 };
 
-exports.sucesso  = (req, res) => res.send("✅ Pagamento aprovado! Obrigado.");
+exports.sucesso = async (req, res) => {
+  try {
+    const plano = req.query.plano; // pode vir na URL se você enviar
+    const userId = req.session.user._id;
+
+    let dias = 0;
+    if (plano === "mensal") dias = 30;
+    if (plano === "trimestral") dias = 90;
+    if (plano === "semestral") dias = 180;
+    if (plano === "anual") dias = 365;
+
+    await cadastroModel.findByIdAndUpdate(userId, {
+      plano: plano,
+      planoExpiraEm: new Date(Date.now() + dias*24*60*60*1000)
+    });
+
+    req.flash("success", "Pagamento aprovado! Seu plano foi ativado.");
+    res.redirect("/dashboard");
+  } catch (err) {
+    console.error("Erro ao salvar plano pago:", err);
+    res.redirect("/planos");
+  }
+};
+
 exports.erro     = (req, res) => res.send("❌ O pagamento falhou. Tente novamente.");
 exports.pendente = (req, res) => res.send("⏳ Pagamento pendente. Aguardando confirmação.");

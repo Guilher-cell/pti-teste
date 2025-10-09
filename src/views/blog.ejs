@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog  - FlowCerti</title>
+    
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/blog.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("includes/header", { user: user }) %>
+
+    <!-- Breadcrumb -->
+    <ul class="breadcrumb">
+        <li><a href="/">Início</a></li>
+        <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </li> 
+        <li class="current">Blog</li>
+    </ul>  
+
+    <div class="blogs-grid">
+  <!-- Blog 1 -->
+  <article class="blog-card">
+    <a href="/blog1" class="blog-img-link">
+      <img src="Imagem/blogs/ISO-90012026.png" alt="ISO 9001:2026">
+    </a>
+    <div class="blog-content">
+      <a href="blog-1-ISO-90012026.html" class="blog-title"> 
+        O Impacto da Atualização da ISO 9001:2026 – O Que as Empresas Precisam Saber
+      </a>
+      <p>
+        A nova versão 2026 trará mudanças ligadas a sustentabilidade, digitalização,
+        cultura organizacional e resiliência.
+      </p>
+      <div class="blog-meta">
+        <span>09/10/25</span> • <span>4 min. de leitura</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- Blog 2 -->
+  <article class="blog-card">
+    <a href="/blog2" class="blog-img-link">
+      <img src="Imagem/blogs/certificacoes-empresariais.png" alt="Certificações Empresariais">
+    </a>
+    <div class="blog-content">
+      <a href="blog-2-certificacoes-empresariais.html" class="blog-title">
+        Certificações Empresariais: Quais Sua Empresa Precisa Ter e Por Que São Importantes
+      </a>
+      <p>
+        As certificações empresariais funcionam como selos que comprovam
+        credibilidade e responsabilidade no mercado.
+      </p>
+      <div class="blog-meta">
+        <span>09/10/25</span> • <span>6 min. de leitura</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- Blog 3 -->
+  <article class="blog-card">
+    <a href="/blog3" class="blog-img-link">
+      <img src="Imagem/blogs/certificacao-vs-acreditacao.png" alt="Certificação, Acreditação, Selo ou Declaração">
+    </a>
+    <div class="blog-content">
+      <a href="blog-3-certificacao-vs-acreditacao.html" class="blog-title">
+        Certificação, Acreditação, Selo ou Declaração: Qual a Diferença?
+      </a>
+      <p>
+        Entenda de forma prática e objetiva os conceitos de certificação,
+        acreditação, selo e declaração – e como cada um impacta a credibilidade
+        da sua empresa.
+      </p>
+      <div class="blog-meta">
+        <span>09/10/25</span> • <span>5 min. de leitura</span>
+      </div>
+    </div>
+  </article> 
+
+  <!-- Blog 4 -->
+  <article class="blog-card">
+    <a href="/blog4" class="blog-img-link">
+      <img src="Imagem/blogs/ISO9001_o_que.png" alt="ISO 9001: O Que é, Para Que Serve e Quais os 7 Princípios">
+    </a>
+    <div class="blog-content">
+      <a href="blog-4-iso-9001.html" class="blog-title">
+        ISO 9001: O Que é, Para Que Serve e Quais os 7 Princípios da Norma
+      </a>
+      <p>
+        Descubra os benefícios da ISO 9001, sua aplicação prática e os 7 princípios
+        fundamentais da gestão da qualidade que sustentam a norma.
+      </p>
+      <div class="blog-meta">
+        <span>09/10/25</span> • <span>5 min. de leitura</span>
+      </div>
+    </div>
+  </article>
+</div>
+ 
+ <%- include('includes/footer') %>
+    <script src="/assets/script.js"></script>
+</body>
+</html>

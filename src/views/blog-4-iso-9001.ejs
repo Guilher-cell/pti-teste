@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos - FlowCerti</title>
+    
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/page-blogs.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("includes/header", { user: user }) %>
+
+    <main class="blog-page">
+  <!-- Breadcrumb -->
+  <ul class="breadcrumb">
+    <li><a href="/">Início</a></li>
+    <li>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+           viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" 
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+    </li>
+    <li><a href="/blogs">Blog</a></li>
+    <li>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+           viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" 
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+    </li>
+    <li class="current">ISO 9001 Guia Completo</li>
+  </ul>
+
+  <!-- Conteúdo do Blog -->
+  <article class="blog-article">
+    <header>
+      <h1>ISO 9001: O Que é, Para Que Serve e Quais os 7 Princípios da Norma</h1>
+      <div class="blog-info">
+        <span>09/10/25</span> • <span>5 min. de leitura</span>
+      </div>
+      <!-- Capa -->
+      <img src="Imagem/blogs/ISO9001_o_que.png" alt="ISO 9001 Guia Completo" class="blog-cover">
+    </header>
+
+    <!-- Introdução -->
+    <section>
+      <p>
+        A ISO 9001 é uma norma internacional que estabelece os critérios para um Sistema de Gestão da Qualidade (SGQ).
+        Ela define os requisitos que uma organização deve cumprir para demonstrar sua capacidade de fornecer produtos e
+        serviços que atendam, de forma consistente, às necessidades e expectativas dos clientes, além dos requisitos
+        legais e regulamentares aplicáveis.
+      </p>
+      <p>
+        A norma segue a lógica da melhoria contínua, utilizando o ciclo PDCA (Plan-Do-Check-Act).
+        Também reforça a importância do envolvimento da alta direção e da implementação de processos eficazes
+        para alcançar a satisfação do cliente e elevar o desempenho organizacional.
+      </p>
+    </section>
+
+    <!-- Imagem 1 (PDCA) -->
+    <figure class="blog-media">
+      <img src="Imagem/blogs/pdca-ciclo.png" alt="Ciclo PDCA da ISO 9001">
+      <figcaption>O ciclo PDCA é a base da melhoria contínua na ISO 9001</figcaption>
+    </figure>
+
+    <p>
+      Neste artigo, você vai entender:
+    </p>
+    <ul>
+      <li>Para que serve a ISO 9001,</li>
+      <li>Quais benefícios ela gera,</li>
+      <li>E os 7 princípios de gestão da qualidade que sustentam a norma.</li>
+    </ul>
+
+    <h2>Norma ISO 9001: Para que serve?</h2>
+    <p>
+      Adotar a ISO 9001 traz uma série de benefícios práticos para as organizações:
+    </p>
+    <ul>
+      <li>Melhoria da qualidade: processos robustos e consistentes;</li>
+      <li>Satisfação do cliente: atendimento mais eficaz às expectativas;</li>
+      <li>Eficiência operacional: redução de desperdícios e custos;</li>
+      <li>Melhoria contínua: cultura de análise crítica e inovação constante;</li>
+      <li>Competitividade: reconhecimento mundial da certificação.</li>
+    </ul>
+
+    <!-- Imagem 2 (Benefícios) -->
+    <figure class="blog-media">
+      <img src="Imagem/blogs/beneficios-iso.png" alt="Benefícios da ISO 9001">
+      <figcaption>Os benefícios da ISO 9001 impactam diretamente clientes, processos e competitividade</figcaption>
+    </figure>
+
+    <h2>Os 7 Princípios da ISO 9001</h2>
+    <ol>
+      <li><strong>Foco no Cliente:</strong> atender e superar expectativas.</li>
+      <li><strong>Liderança:</strong> estabelecer visão clara e alinhar objetivos.</li>
+      <li><strong>Envolvimento das Pessoas:</strong> engajamento em todos os níveis.</li>
+      <li><strong>Abordagem de Processo:</strong> atividades interligadas para resultados consistentes.</li>
+      <li><strong>Melhoria:</strong> busca contínua por evolução.</li>
+      <li><strong>Tomada de Decisão Baseada em Evidências:</strong> decisões guiadas por dados.</li>
+      <li><strong>Gestão de Relacionamento:</strong> fortalecimento de parcerias estratégicas.</li>
+    </ol>
+
+    <!-- Imagem 3 (7 Princípios) -->
+    <figure class="blog-media">
+      <img src="Imagem/blogs/7-principios-iso.png" alt="7 Princípios da ISO 9001">
+      <figcaption>Os 7 princípios são os pilares que sustentam a ISO 9001</figcaption>
+    </figure>
+
+    <h2>Conclusão</h2>
+    <p>
+      A ISO 9001:2015 é muito mais do que uma norma — ela é um instrumento estratégico para organizações
+      que desejam crescer com qualidade, eficiência e credibilidade.
+    </p>
+    <ul>
+      <li>Eleva a confiança de clientes e parceiros,</li>
+      <li>Melhora processos internos,</li>
+      <li>Aumenta a competitividade global.</li>
+    </ul>
+
+    <!-- Imagem 4 (Empresa Certificada) -->
+    <figure class="blog-media">
+      <img src="Imagem/blogs/certificacoes-empresariais.png" alt="Empresa Certificada ISO 9001">
+      <figcaption>Empresas certificadas pela ISO 9001 conquistam credibilidade e vantagem competitiva</figcaption>
+    </figure>
+
+    <!-- Nota final -->
+    <aside class="blog-note">
+      <strong>Nota:</strong> Este artigo foi escrito em 09 de outubro de 2025. Dependendo da época
+      em que for lido, as informações podem estar desatualizadas.
+    </aside>
+  </article>
+</main>
+
+ <%- include('includes/footer') %>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    
     <%- include("includes/header", { user: user }) %>
 
     <!-- ===== Seção Hero / Destaque ===== -->
@@ -93,7 +92,96 @@
         </div>
     </section>
 
-   <%- include('includes/footer') %>
+    <!-- ===== Seção Blog ===== -->
+<section class="blog-section">
+  <h2 class="blog-section-title">Últimos posts no blog</h2>
+
+  <div class="blogs-grid">
+    <!-- Blog 1 -->
+    <article class="blog-card">
+      <a href="/blog1" class="blog-img-link">
+        <img src="Imagem/blogs/ISO-90012026.png" alt="ISO 9001:2026">
+      </a>
+      <div class="blog-content">
+        <a href="/blog1" class="blog-title"> 
+          O Impacto da Atualização da ISO 9001:2026 – O Que as Empresas Precisam Saber
+        </a>
+        <p>
+          A nova versão 2026 trará mudanças ligadas a sustentabilidade, digitalização,
+          cultura organizacional e resiliência.
+        </p>
+        <div class="blog-meta">
+          <span>09/10/25</span> • <span>4 min. de leitura</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Blog 2 -->
+    <article class="blog-card">
+      <a href="/blog2" class="blog-img-link">
+        <img src="Imagem/blogs/certificacoes-empresariais.png" alt="Certificações Empresariais">
+      </a>
+      <div class="blog-content">
+        <a href="/blog2" class="blog-title">
+          Certificações Empresariais: Quais Sua Empresa Precisa Ter e Por Que São Importantes
+        </a>
+        <p>
+          As certificações empresariais funcionam como selos que comprovam
+          credibilidade e responsabilidade no mercado.
+        </p>
+        <div class="blog-meta">
+          <span>09/10/25</span> • <span>6 min. de leitura</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Blog 3 -->
+    <article class="blog-card">
+      <a href="/blog3" class="blog-img-link">
+        <img src="Imagem/blogs/certificacao-vs-acreditacao.png" alt="Certificação, Acreditação, Selo ou Declaração">
+      </a>
+      <div class="blog-content">
+        <a href="/blog3" class="blog-title">
+          Certificação, Acreditação, Selo ou Declaração: Qual a Diferença?
+        </a>
+        <p>
+          Entenda de forma prática e objetiva os conceitos de certificação,
+          acreditação, selo e declaração – e como cada um impacta a credibilidade
+          da sua empresa.
+        </p>
+        <div class="blog-meta">
+          <span>09/10/25</span> • <span>5 min. de leitura</span>
+        </div>
+      </div>
+    </article> 
+
+    <!-- Blog 4 -->
+    <article class="blog-card">
+      <a href="/blog4" class="blog-img-link">
+        <img src="Imagem/blogs/ISO9001_o_que.png" alt="ISO 9001: O Que é, Para Que Serve e Quais os 7 Princípios">
+      </a>
+      <div class="blog-content">
+        <a href="/blog4" class="blog-title">
+          ISO 9001: O Que é, Para Que Serve e Quais os 7 Princípios da Norma
+        </a>
+        <p>
+          Descubra os benefícios da ISO 9001, sua aplicação prática e os 7 princípios
+          fundamentais da gestão da qualidade que sustentam a norma.
+        </p>
+        <div class="blog-meta">
+          <span>09/10/25</span> • <span>5 min. de leitura</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- Link para mais artigos -->
+<div class="blog-more">
+  <a href="/blogs">VER MAIS ARTIGOS</a>
+</div>
+
+</section>
+ <%- include('includes/footer') %>
     
     <script src="/assets/js/script.js"></script>
 </body>

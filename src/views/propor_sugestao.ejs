@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propor Sugestão - FlowCerti</title>
+
+  <link rel="icon" type="image/png" href="/Imagem/footer/logo_pequena.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/propor-relatar.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Header dinâmico -->
+  <%- include("includes/header", { user: user }) %>
+
+  <!-- Breadcrumb -->
+  <ul class="breadcrumb">
+    <li><a href="/">Início</a></li>
+    <li>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+           fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+    </li>
+    <li class="current">Propor Sugestão</li>
+  </ul>
+
+  <!-- Conteúdo -->
+  <main class="propor-main">
+    <div class="texto-header"> 
+      <p>
+        Tem alguma ideia para melhorar a plataforma?  
+        Envie sua sugestão e ajude a tornar a plataforma ainda mais útil e eficiente para você e outras empresas.  
+        Sua opinião é essencial para nossa evolução!
+      </p>
+    </div>
+
+    <%- include("includes/messages") %>
+
+    <div class="form-container-sugestao">
+      <div class="form-content-sugestao">  
+        <form class="form-sugestao" id="form-sugestao" method="POST" action="/sugestoes/nova">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <input type="text" class="input-sugestao" name="titulo" placeholder="Título da sugestão" required>
+          <textarea class="textarea-sugestao" name="descricao" placeholder="Descrição da sugestão" required></textarea>
+
+          <button type="submit" class="btn-enviar-sugestao">Propor Sugestão</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer dinâmico -->
+  <%- include("includes/footer") %>
+
+  <script src="/assets/js/sugestoes.js"></script>
+  <script src="/assets/js/script.js"></script>
+</body>
+</html>

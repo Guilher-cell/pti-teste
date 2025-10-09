@@ -1,0 +1,62 @@
+/* ===== Página Termos de Uso ===== */
+.termos-page {
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Título principal fora da caixa */
+.termos-page .titulo {
+  font-family: "Sora", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* Caixa de conteúdo */
+.termos-page .termos-container { 
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 25px 30px; 
+} 
+ 
+/* Subtítulos */
+.termos-page h2 {
+  font-family: "Sora", sans-serif;
+  font-size: 16px;
+  margin-top: 22px;
+  margin-bottom: 10px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Parágrafos e listas */
+.termos-page p,
+.termos-page li {
+  color: #b7cad0;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 6px 0;
+  text-align: left;
+}
+
+.termos-page ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0 0 15px;
+}
+
+/* Destaques */
+.termos-page strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Contato */
+.termos-page .contato {
+  color: #60a2bf;
+  font-weight: 500;
+}

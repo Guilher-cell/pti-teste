@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCerti</title>
+
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/pagamento.css">
+    <link rel="stylesheet" href="/css/conta_geral.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("includes/header", { user: user }) %>
+
+    <!-- Breadcrumb -->
+<ul class="breadcrumb">
+  <li><a href="/">Início</a></li>
+  <li>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </li>
+  <li><a href="/resumo">Conta</a></li>
+  <li>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </li>
+  <li class="current">Pagamento</li>
+</ul>
+
+    <div class="conta-wrapper"> 
+  <!-- ===== Sidebar (menu da conta) ===== -->
+  <aside class="account-sidebar">
+    <div class="account-sidebar-inner">
+      <div class="menu-title">MENU</div>
+      <nav class="account-menu">
+        <a href="/resumo" class="menu-link" aria-current="page">Resumo</a>
+        <a href="/minha-conta" class="menu-link">Minha Conta</a>
+        <a href="/meus-dados" class="menu-link">Meus Dados</a>
+        <a href="/verificacao" class="menu-link">Verificação</a>
+        <a href="/seguranca" class="menu-link">Segurança</a>
+        <a href="/pagamento" class="menu-link active" aria-current="page">Pagamento</a>
+        <a href="/cadastrar-funcionario" class="menu-link">Cadastrar Funcionários</a>
+        <a href="#" class="menu-link sair">Sair</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ===== Modal Logout ===== -->
+<div id="modal-logout" class="modal-logout">
+  <div class="modal-logout-content">
+    <h3>Deseja realmente sair?</h3>
+    <p>Você será desconectado da sua conta FlowCerti.</p>
+    <div class="modal-logout-actions">
+      <form method="POST" action="/logout">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn-logout confirmar">Sair</button>
+      </form>
+      <button class="btn-logout cancelar" id="btn-cancelar-logout">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+  <!-- ===== Conteúdo Principal ===== -->
+<main class="conta-main-pagamento">
+
+  <!-- Header -->
+  <div class="conta-header-pagamento">
+    <h2>Pagamento</h2>
+    <p>Acompanhe os status da sua assinatura e veja suas faturas.</p>
+  </div>
+
+  <!-- Grid superior: Plano + Faturas -->
+  <section class="conta-grid-pagamento">
+    <!-- Card: Plano atual -->
+    <div class="card-pagamento">
+      <div class="card-header-pagamento">
+        <h3>Plano atual</h3>
+        <span class="status-pagamento status-ativo">Ativo</span>
+      </div>
+
+      <div class="card-body-pagamento">
+        <div class="plano-row-pagamento">
+          <div class="plano-info-pagamento">
+            <div class="plano-nome-pagamento">Plano Premium</div>
+          </div>
+          <div class="plano-preco-pagamento">
+            R$ 500<span>/mês</span>
+          </div>
+        </div>
+
+        <div class="divider-pagamento"></div>
+
+        <div class="plano-datas-pagamento">
+          <p>Data da compra: <strong>10/01/2025</strong></p>
+          <p>Vencimento: <strong>10/02/2025</strong></p>
+        </div>
+
+        <div class="acoes-pagamento">
+          <a href="#" class="btn-pagamento-sm">Alterar plano</a>
+          <a href="#" class="btn-pagamento-sm btn-pagamento-sec">Cancelar plano</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Faturas -->
+    <div class="card-pagamento card-faturas-pagamento">
+      <div class="card-header-pagamento">
+        <h3>Faturas</h3>
+      </div>
+
+      <div class="card-body-pagamento">
+        <p>Confira suas cobranças anteriores.</p>
+        <a href="#" class="btn-pagamento-lg">Ver todas</a>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+    <%- include('includes/footer') %>
+    
+    <script src="/assets/js/conta_geral.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

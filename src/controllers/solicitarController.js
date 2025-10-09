@@ -28,7 +28,7 @@ exports.enviar = async (req, res) => {
     // Monta o email
     await transporter.sendMail({
       from: `"FlowCerti" <${process.env.EMAIL_USER}>`,
-      to: "seuemail@flowcerti.com", // <- seu e-mail que recebe as solicitações
+      to: "flowcerti@gmail.com", // <- seu e-mail que recebe as solicitações
       subject: "Nova solicitação de demonstração",
       html: `
         <h3>Nova solicitação recebida:</h3>
