@@ -1,5 +1,7 @@
-/* ========= PARTE 1: Helpers Globais (Abrir / Fechar Modais) ========= */
 (() => {
+  let pointerDownOnOverlay = false;
+
+  /* ========= PARTE 1: Helpers Globais (Abrir / Fechar Modais) ========= */
   function resetInputs(modal) {
     if (!modal) return;
     modal.querySelectorAll("input, textarea").forEach(i => (i.value = ""));
@@ -29,7 +31,6 @@
 
   function fecharModal(modal) {
     if (!modal) return;
-
     const content = modal.querySelector(".modal-content, .modal-excluir-content");
     modal.classList.add("fechando");
 
@@ -59,66 +60,39 @@
     }
   }
 
+  function fecharTodosModais() {
+    document.querySelectorAll(".modal, .modal-excluir").forEach(m => fecharModal(m));
+  }
+
+  // Fecha com ESC
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      document.querySelectorAll(".modal, .modal-excluir").forEach(m => fecharModal(m));
-    }
+    if (e.key === "Escape") fecharTodosModais();
   });
 
-  function setupModal(triggerId, modalId, options = {}) {
-    const trigger = document.getElementById(triggerId);
-    const modal   = document.getElementById(modalId);
-    if (!trigger || !modal) return;
+  // Fecha clicando fora
+  window.addEventListener("pointerdown", e => {
+    pointerDownOnOverlay = e.target?.classList?.contains("modal");
+  });
+  window.addEventListener("pointerup", e => {
+    if (pointerDownOnOverlay && e.target?.classList?.contains("modal")) fecharModal(e.target);
+    pointerDownOnOverlay = false;
+  });
 
-    trigger.addEventListener("click", (e) => {
-      e.preventDefault();
-      abrirModal(modalId);
-      if (options.closeMenu) options.closeMenu();
-    });
+  /* ========= PARTE 2: Configuração de Modais ========= */
+  const btnCriarPasta = document.getElementById("btn-criar-pasta");
+  const modalCriarPasta = document.getElementById("modal-criar-pasta");
+  const formCriarPasta = document.getElementById("form-criar-pasta");
 
-    const closeBtn = modal.querySelector(".close");
-    if (closeBtn) closeBtn.addEventListener("click", () => fecharModal(modal));
+  if (btnCriarPasta && modalCriarPasta && formCriarPasta) {
+    btnCriarPasta.addEventListener("click", () => abrirModal("modal-criar-pasta"));
 
-    const cancelBtn = modal.querySelector(".btn-cancelar, .cancelar");
-    if (cancelBtn) cancelBtn.addEventListener("click", () => fecharModal(modal));
+    const closeBtn = modalCriarPasta.querySelector(".close");
+    if (closeBtn) closeBtn.addEventListener("click", () => fecharModal(modalCriarPasta));
 
-    const form = modal.querySelector("form");
-    if (form) form.addEventListener("submit", () => fecharModal(modal));
-
-    window.addEventListener("click", (e) => {
-      if (e.target === modal) fecharModal(modal);
-    });
+    formCriarPasta.addEventListener("submit", () => fecharModal(modalCriarPasta));
   }
 
-  window.__docHelpers = { abrirModal, fecharModal, setupModal };
-})();
-
-/* ========= PARTE 2: Upload de Documentos (com nome dinâmico) ========= */
-(() => {
-  const { setupModal } = window.__docHelpers;
-
-  // Menu 3 pontinhos
-  const detalheOpcoes = document.querySelector(".detalhe-header .pasta-opcoes");
-  if (detalheOpcoes) {
-    const btnOpcoes = detalheOpcoes.querySelector(".btn-opcoes");
-    if (btnOpcoes) {
-      btnOpcoes.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        detalheOpcoes.classList.toggle("ativo");
-      });
-      document.addEventListener("click", (e) => {
-        if (!detalheOpcoes.contains(e.target))
-          detalheOpcoes.classList.remove("ativo");
-      });
-    }
-  }
-
-  // Modais
-  setupModal("btn-editar-pasta", "modal-editar-pasta", { closeMenu: () => detalheOpcoes?.classList.remove("ativo") });
-  setupModal("btn-excluir-pasta", "modal-excluir-pasta", { closeMenu: () => detalheOpcoes?.classList.remove("ativo") });
-
-  /* ========= Função Genérica de Upload ========= */
+  /* ========= PARTE 3: Upload de Documentos (com nome dinâmico) ========= */
   function configurarUpload(formId) {
     const form = document.getElementById(formId);
     if (!form) return;
@@ -164,7 +138,7 @@
         const inputNome = row.querySelector('input[name="nomesPersonalizados[]"]');
         const nameSpan = row.querySelector(".file-name");
 
-        // 🔹 Atualiza o nome do arquivo na hora que o usuário digita
+        // Atualiza o nome do arquivo dinamicamente conforme digita
         inputNome.addEventListener("input", () => {
           const nome = inputNome.value.trim();
           nameSpan.textContent = nome !== "" ? nome : f.name;
