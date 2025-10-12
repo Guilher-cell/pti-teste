@@ -75,7 +75,8 @@
         </label>
         <button type="button" class="more" data-target="p1">Ler mais</button>
         <div id="p1" class="more-body" hidden>
-          Relacione todas as partes que têm impacto no SGQ ou são impactadas por ele.
+          Relacione todas as partes que têm impacto no SGQ ou são impactadas por ele
+          (clientes, fornecedores, órgãos reguladores, funcionários, sócios etc.).
         </div>
       </li>
       <li>
@@ -86,7 +87,9 @@
         </label>
         <button type="button" class="more" data-target="p2">Ler mais</button>
         <div id="p2" class="more-body" hidden>
-          Documente expectativas de clientes, funcionários, órgãos reguladores, etc.
+          Para cada parte interessada, documente suas expectativas e requisitos.
+          Exemplo: cliente exige entrega no prazo, funcionário espera treinamento,
+          órgão regulador exige cumprimento de lei.
         </div>
       </li>
       <li>
@@ -97,65 +100,75 @@
         </label>
         <button type="button" class="more" data-target="p3">Ler mais</button>
         <div id="p3" class="more-body" hidden>
-          Mostre revisão periódica em reuniões, auditorias ou documentos.
+          Mostre que os requisitos são revisados periodicamente em reuniões de gestão,
+          auditorias internas ou revisão de documentos.
         </div>
       </li>
     </ul>
-    <p class="subcap-note">* O checklist é apenas um lembrete.</p>
-    <button type="submit" class="btn-subcap-salvar">Salvar Checklist</button>
+    <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>
+
+    <div class="form-actions"> 
+        <button type="submit" id="btn-salvar-checklist" class="btn-subcap-salvar">Salvar Checklist</button>
+      </div>
+
   </form>
 </section>
 
 
-  <!-- Upload -->
-   <section class="subcap-upload">
-    <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+ <!-- Upload + Ações -->
+<section class="subcap-upload">
+  <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <div class="upload-actions">
-        <!-- Botão de anexo -->
-        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
-        <label for="file-upload" class="btn-anexo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/><path d="M12 5v14"/>
-          </svg>
-          Adicionar anexo
-        </label>
+    <div class="upload-actions">
+      <!-- Botão de anexo -->
+      <input type="file" id="file-upload" name="ficheiros[]" multiple hidden>
+      <label for="file-upload" class="btn-anexo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5v14"/>
+        </svg>
+        Adicionar anexo
+      </label>
 
-        <!-- Botões de ação -->
-        <div class="form-actions">
-          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
-          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
-        </div>
+      <!-- Botões de ação -->
+      <div class="form-actions">
+        <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
+        <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
       </div>
+    </div>
 
-      <!-- Pré-visualização -->
-      <div id="file-preview" class="file-preview vazio">
-        <em>Nenhum arquivo selecionado.</em>
-      </div>
-    </form>
+    <!-- Pré-visualização -->
+    <div id="file-preview" class="file-preview vazio">
+      <em>Nenhum arquivo selecionado.</em>
+    </div>
+  </form>
 
-    <!-- Arquivos já anexados -->
-    <% if (documentos && documentos.length > 0) { %>
-      <div class="subcap-arquivos">
-        <% documentos.forEach(doc => { %>
+  <!-- Arquivos já anexados -->
+  <% if (documentos && documentos.length > 0) { %>
+    <div class="subcap-arquivos">
+      <% documentos.forEach(doc => { %>
+        <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
           <% doc.ficheiros.forEach(f => { %>
             <div class="file-row">
-              <!-- Nome -->
+              <!-- Nome personalizado ou original -->
               <span class="file-name">
-                <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
+                <a href="/uploads/<%= f.path %>" target="_blank">
+                  <%= f.nomePersonalizado || f.nomeOriginal %>
+                </a>
               </span>
 
               <!-- Tamanho -->
               <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
 
-              <!-- Input aprovado por -->
-              <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
+              <!-- Aprovado por -->
+              <input type="text" value="<%= f.aprovadoPor || '' %>"
+                     placeholder="Aprovado por..." readonly>
 
-              <!-- Ícone excluir -->
-              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+              <!-- Botão excluir -->
+              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar"
+                    method="POST" style="display:inline;">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn-apagar" title="Excluir arquivo">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -170,10 +183,11 @@
               </form>
             </div>
           <% }) %>
-        <% }) %>
-      </div>
-    <% } %>
-  </section>
+        <% } %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
 
 </main>
 

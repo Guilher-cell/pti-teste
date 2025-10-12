@@ -35,87 +35,130 @@
   <%- include('../includes/messages') %>
 
     <div class="subcap-header">
-      <h2>8.1 Planejamento e controle operacionais</h2>
-      <p>Envie o documento principal que comprove este requisito e utilize o checklist apenas como lembrete do conteúdo que ele deve cobrir.</p>
-    </div>
-  
-    <!-- Orientação -->
-    <section class="subcap-hint">
-      <button class="subcap-hint-toggle" aria-expanded="false">
-        <span>Ver orientação do documento</span>
-        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5"/></svg>
-      </button>
-      <div class="subcap-hint-body" hidden>
-        <p><strong>Documento recomendado:</strong> Plano de produção/serviço
-          <span class="muted">+ critérios de aceitação + controles</span>.
-        </p>
-      </div>
-    </section>
-  
-    <!-- Checklist -->
-   <section class="subcap-checklist">
+  <h2>8.1 Planejamento e controle operacionais</h2>
+  <p>Envie o documento principal que comprove este requisito e utilize o checklist apenas como lembrete do conteúdo que ele deve cobrir.</p>
+</div>
+
+<!-- Orientação -->
+<section class="subcap-hint">
+  <button class="subcap-hint-toggle" aria-expanded="false">
+    <span>Ver orientação do documento</span>
+    <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5"/></svg>
+  </button>
+  <div class="subcap-hint-body" hidden>
+    <p><strong>Documento recomendado:</strong> Plano de produção/serviço
+      <span class="muted">+ critérios de aceitação + controles</span>.
+    </p>
+  </div>
+</section>
+
+<!-- Checklist -->
+<section class="subcap-checklist">
   <h3>Checklist do Documento</h3>
   <form action="/iso9001/<%= capitulo %>/checklist" method="POST">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
     <ul>
-      <li><label class="chk"><input type="checkbox" name="chk_o81_1" <%= documentos[0]?.checklist?.includes("chk_o81_1") ? "checked" : "" %>> <span class="checkmark"></span> Critérios de aceitação definidos</label></li>
-      <li><label class="chk"><input type="checkbox" name="chk_o81_2" <%= documentos[0]?.checklist?.includes("chk_o81_2") ? "checked" : "" %>> <span class="checkmark"></span> Registros de controle operacional</label></li>
-      <li><label class="chk"><input type="checkbox" name="chk_o81_3" <%= documentos[0]?.checklist?.includes("chk_o81_3") ? "checked" : "" %>> <span class="checkmark"></span> Controle de mudanças em processos</label></li>
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_o81_1" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_o81_1") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Critérios de aceitação definidos para processos, produtos e serviços</span>
+        </label>
+        <button type="button" class="more" data-target="o81-1">Ler mais</button>
+        <div id="o81-1" class="more-body" hidden>
+          Defina critérios claros que indiquem quando um produto ou serviço está conforme.
+        </div>
+      </li>
+
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_o81_2" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_o81_2") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Registros de controle operacional</span>
+        </label>
+        <button type="button" class="more" data-target="o81-2">Ler mais</button>
+        <div id="o81-2" class="more-body" hidden>
+          Documente como os processos foram controlados (checklists, formulários de inspeção).
+        </div>
+      </li>
+
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_o81_3" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_o81_3") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Controle de mudanças em processos</span>
+        </label>
+        <button type="button" class="more" data-target="o81-3">Ler mais</button>
+        <div id="o81-3" class="more-body" hidden>
+          Registre qualquer alteração feita no processo e seus impactos.
+        </div>
+      </li>
     </ul>
-    <button type="submit" class="btn-subcap-salvar">Salvar Checklist</button>
+
+    <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>
+
+    <div class="form-actions">
+      <button type="submit" id="btn-salvar-checklist" class="btn-subcap-salvar">Salvar Checklist</button>
+    </div>
   </form>
-</section>
+</section> 
 
   
-     <!-- Upload -->
-   <section class="subcap-upload">
-    <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<!-- Upload + Ações -->
+<section class="subcap-upload">
+  <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <div class="upload-actions">
-        <!-- Botão de anexo -->
-        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
-        <label for="file-upload" class="btn-anexo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/><path d="M12 5v14"/>
-          </svg>
-          Adicionar anexo
-        </label>
+    <div class="upload-actions">
+      <!-- Botão de anexo -->
+      <input type="file" id="file-upload" name="ficheiros[]" multiple hidden>
+      <label for="file-upload" class="btn-anexo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5v14"/>
+        </svg>
+        Adicionar anexo
+      </label>
 
-        <!-- Botões de ação -->
-        <div class="form-actions">
-          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
-          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
-        </div>
+      <!-- Botões de ação -->
+      <div class="form-actions">
+        <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
+        <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
       </div>
+    </div>
 
-      <!-- Pré-visualização -->
-      <div id="file-preview" class="file-preview vazio">
-        <em>Nenhum arquivo selecionado.</em>
-      </div>
-    </form>
+    <!-- Pré-visualização -->
+    <div id="file-preview" class="file-preview vazio">
+      <em>Nenhum arquivo selecionado.</em>
+    </div>
+  </form>
 
-    <!-- Arquivos já anexados -->
-    <% if (documentos && documentos.length > 0) { %>
-      <div class="subcap-arquivos">
-        <% documentos.forEach(doc => { %>
+  <!-- Arquivos já anexados -->
+  <% if (documentos && documentos.length > 0) { %>
+    <div class="subcap-arquivos">
+      <% documentos.forEach(doc => { %>
+        <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
           <% doc.ficheiros.forEach(f => { %>
             <div class="file-row">
-              <!-- Nome -->
+              <!-- Nome personalizado ou original -->
               <span class="file-name">
-                <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
+                <a href="/uploads/<%= f.path %>" target="_blank">
+                  <%= f.nomePersonalizado || f.nomeOriginal %>
+                </a>
               </span>
 
               <!-- Tamanho -->
               <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
 
-              <!-- Input aprovado por -->
-              <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
+              <!-- Aprovado por -->
+              <input type="text" value="<%= f.aprovadoPor || '' %>"
+                     placeholder="Aprovado por..." readonly>
 
-              <!-- Ícone excluir -->
-              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+              <!-- Botão excluir -->
+              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar"
+                    method="POST" style="display:inline;">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn-apagar" title="Excluir arquivo">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -130,11 +173,11 @@
               </form>
             </div>
           <% }) %>
-        <% }) %>
-      </div>
-    <% } %>
-  </section>
-
+        <% } %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
   
   </main>  
 

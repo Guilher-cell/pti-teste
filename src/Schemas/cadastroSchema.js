@@ -18,19 +18,6 @@ const cadastroSchema = new mongoose.Schema({
     documentosGerais: { type: Boolean, default: true }
   },
 
-
-  plano: {
-    type: String,
-    enum: ["freemium", "mensal", "trimestral", "semestral", "anual"],
-    default: "freemium"
-  },
-
-
-  planoExpiraEm: {
-    type: Date,
-    default: () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-  }
-
 }, { timestamps: true });
 
 cadastroSchema.pre('save', async function(next) {
@@ -40,7 +27,7 @@ cadastroSchema.pre('save', async function(next) {
     next()
   } catch(e) {
     next(e);
-  }
+  }z
 });
 
 cadastroSchema.methods.isCorrectPassword = async function(candidatePassword) {

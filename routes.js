@@ -29,7 +29,6 @@ const logController = require("./src/controllers/logController");
 const centralAjudaController = require("./src/controllers/centralAjudaController");
 const planoPremiumController = require("./src/controllers/planoPremiumController");
 const pagamentoController = require("./src/controllers/pagamentoController");
-const verificaPlano = require("./src/middlewares/verificaPlano");
 const sugestaoController = require("./src/controllers/sugestaoController");
 const bugController = require("./src/controllers/bugController");
 const blogController = require('./src/controllers/blogController');
@@ -57,15 +56,14 @@ route.get('/seguranca', middleware.isAuthenticated, securityController.index);
 route.get('/pagamento', middleware.isAuthenticated, paymentController.index);
 route.get('/cadastrar-funcionario', middleware.isAuthenticated, funcionarioController.index);
 route.get('/minha-conta', middleware.isAuthenticated, accountController.index);
-route.get("/documentos", permissao("documentosGerais"), verificaPlano("freemium"), documentosController.index);
+route.get("/documentos", permissao("documentosGerais"), documentosController.index);
 route.get('/documentos/:id', middleware.isAuthenticated, documentosController.detalhe);
 route.get('/solicitar', solicitarController.index);
-route.get('/solicitar-demonstracao', solicitarController.index);
 route.get('/esqueci-senha', passwordController.forgotPasswordPage);
 route.get('/redefinir-senha/:token', passwordController.resetPasswordPage);
-route.get('/dashboard', verificaPlano("premium"), permissao("dashboardISO"), dashboardController.index);
+route.get('/dashboard', permissao("dashboardISO"), dashboardController.index);
 route.get('/gerenciar',middleware.isAuthenticated, gerenciarIsoController.index)
-route.get("/iso9001/:capitulo",middleware.isAuthenticated, verificaPlano("premium"), permissao("dashboardISO"), iso9001Controller.mostrarCapitulo);
+route.get("/iso9001/:capitulo",middleware.isAuthenticated, permissao("dashboardISO"), iso9001Controller.mostrarCapitulo);
 route.get("/logs/empresa", middleware.isAuthenticated, logController.logsEmpresa);
 route.get("/logs/admin", middleware.isAuthenticated, middleware.isAdmin, logController.logsAdmin);
 route.get("/central_ajuda", middleware.isAuthenticated, centralAjudaController.index )
@@ -76,7 +74,7 @@ route.get("/pagamento/erro",     pagamentoController.erro);
 route.get("/pagamento/pendente", pagamentoController.pendente);
 route.get("/bugs", middleware.isAuthenticated, bugController.index)
 route.get('/sugestoes', middleware.isAuthenticated, sugestaoController.index);
-route.get('/blogs', blogController.index);
+route.get('/blog', blogController.index);
 route.get('/blog1', blog1Controller.index);
 route.get('/blog2', blog2Controller.index);
 route.get('/blog3', blog3Controller.index);

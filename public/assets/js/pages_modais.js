@@ -5,7 +5,6 @@
   // =========================
   // 1) Toggle de senha (mostrar/ocultar)
   // ========================= 
-  
   document.querySelectorAll('.toggle-senha').forEach(toggle => {
     toggle.addEventListener('mousedown', e => e.preventDefault()); 
     toggle.addEventListener('click', () => {
@@ -17,7 +16,6 @@
       toggle.src = visible ? closedSrc : openSrc;
     });
   }); 
-
 
   // =========================
   // 2) Máscara CNPJ
@@ -84,16 +82,33 @@
     const inputs = formCriar.querySelectorAll("input[required]");
     const emailInput = formCriar.querySelector("input[type='email']");
     const cnpjInput = formCriar.querySelector(".input-cnpj");
+    const checkbox = formCriar.querySelector(".checkbox-cadastrar input[type='checkbox']");
     const btnCadastrar = document.getElementById("btn-cadastrar");
 
     function validarCampos() {
       let valido = true;
-      inputs.forEach(input => { if (!input.value.trim()) valido = false; });
+
+      // Todos os campos obrigatórios devem ter valor
+      inputs.forEach(input => {
+        if (!input.value.trim()) valido = false;
+      });
+
+      // E-mail e CNPJ válidos
       if (!validarEmail(emailInput.value.trim())) valido = false;
       if (!validarCNPJ(cnpjInput.value.trim())) valido = false;
+
+      // Checkbox marcado
+      if (!checkbox.checked) valido = false;
+
+      // Habilita ou desabilita o botão
       if (btnCadastrar) btnCadastrar.disabled = !valido;
     }
+
+    // Atualiza em tempo real
     inputs.forEach(input => input.addEventListener("input", validarCampos));
+    checkbox.addEventListener("change", validarCampos);
+
+    // Chamada inicial
     validarCampos();
   }
 

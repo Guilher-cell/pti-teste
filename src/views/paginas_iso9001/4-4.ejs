@@ -50,7 +50,9 @@
   <section class="subcap-hint">
     <button class="subcap-hint-toggle" aria-expanded="false">
       <span>Ver orientação do documento</span>
-      <svg viewBox="0 0 24 24" class="chev" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg>
+      <svg viewBox="0 0 24 24" class="chev" aria-hidden="true">
+        <path d="M7 10l5 5 5-5"/>
+      </svg>
     </button>
     <div class="subcap-hint-body" hidden>
       <p><strong>Documento recomendado:</strong> Mapa de processos, fluxogramas,
@@ -61,87 +63,187 @@
 
   <!-- Checklist -->
   <section class="subcap-checklist">
-  <h3>Checklist do Documento</h3>
-  <form action="/iso9001/<%= capitulo %>/checklist" method="POST">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <ul>
-      <% const checks = ["processos","entradas_saidas","sequencia","indicadores","recursos","responsaveis","riscos","melhorias","documentacao"]; %>
-      <% const labels = [
-        "Lista de processos necessários",
-        "Identificação de entradas e saídas",
-        "Descrição da sequência e interação",
-        "Critérios/métodos de monitoramento e indicadores",
-        "Recursos necessários definidos",
-        "Responsabilidades e autoridades atribuídas",
-        "Identificação dos riscos e oportunidades",
-        "Registros de melhoria dos processos",
-        "Documentação de apoio (procedimentos, instruções)"
-      ]; %>
-      <% checks.forEach((chk, i) => { %>
-        <li>
-          <label class="chk">
-            <input type="checkbox" name="chk_<%= chk %>" <%= documentos[0]?.checklist?.includes("chk_"+chk) ? "checked" : "" %>>
-            <span class="checkmark"></span>
-            <span><%= labels[i] %></span>
-          </label>
-        </li>
-      <% }) %>
-    </ul>
-    <p class="subcap-note">* O checklist é apenas um lembrete.</p>
-    <button type="submit" class="btn-subcap-salvar">Salvar Checklist</button>
-  </form>
-</section>
-
-
-   <!-- Upload -->
-   <section class="subcap-upload">
-    <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+    <h3>Checklist do Documento</h3>
+    <form action="/iso9001/<%= capitulo %>/checklist" method="POST">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <div class="upload-actions">
-        <!-- Botão de anexo -->
-        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
-        <label for="file-upload" class="btn-anexo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/><path d="M12 5v14"/>
-          </svg>
-          Adicionar anexo
-        </label>
-
-        <!-- Botões de ação -->
-        <div class="form-actions">
-          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
-          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
+      <ul>
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_processos" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_processos") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Lista de processos necessários</span>
+          </label>
+          <button type="button" class="more" data-target="s1">Ler mais</button>
+          <div id="s1" class="more-body" hidden>
+          Identifique todos os processos que compõem o SGQ,
+          como vendas, produção, compras, RH, manutenção etc.
         </div>
-      </div>
+        </li>
 
-      <!-- Pré-visualização -->
-      <div id="file-preview" class="file-preview vazio">
-        <em>Nenhum arquivo selecionado.</em>
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_entradas_saidas" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_entradas_saidas") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Identificação de entradas e saídas de cada processo</span>
+          </label>
+          <button type="button" class="more" data-target="s2">Ler mais</button>
+          <div id="s2" class="more-body" hidden>
+          Para cada processo, registre o que ele precisa (entradas) e o que entrega (saídas).
+          Exemplo: compras → entrada: requisição de materiais, saída: nota fiscal.
+        </div>
+        </li>
+
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_sequencia" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_sequencia") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Descrição da sequência e interação dos processos</span>
+          </label>
+          <button type="button" class="more" data-target="s3">Ler mais</button>
+          <div id="s3" class="more-body" hidden>
+          Mostre como os processos se relacionam entre si (um depende do outro).
+          Use fluxograma ou mapa de processos para visualizar.
+        </div>
+        </li>
+
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_indicadores" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_indicadores") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Critérios/métodos de monitoramento e indicadores de desempenho</span>
+          </label>
+          <button type="button" class="more" data-target="s4">Ler mais</button>
+          <div id="s4" class="more-body" hidden>
+          Cada processo deve ter critérios e indicadores para medir sua eficácia.
+          Exemplo: produção → taxa de retrabalho; vendas → satisfação do cliente.
+        </div>
+        </li>
+
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_recursos" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_recursos") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Recursos necessários definidos</span>
+          </label>
+          <button type="button" class="more" data-target="s5">Ler mais</button>
+          <div id="s5" class="more-body" hidden>
+          Registre os recursos que cada processo precisa (equipamentos, software, pessoas, infraestrutura).
+        </div>
+        </li>
+
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_responsaveis" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_responsaveis") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Responsabilidades e autoridades atribuídas</span>
+          </label>
+          <button type="button" class="more" data-target="s6">Ler mais</button>
+          <div id="s6" class="more-body" hidden>
+            Mostre quem é responsável por cada processo e quais decisões essa pessoa pode tomar.
+          </div>
+        </li>
+
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_riscos" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_riscos") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Identificação dos riscos e oportunidades</span>
+          </label>
+          <button type="button" class="more" data-target="s7">Ler mais</button>
+          <div id="s7" class="more-body" hidden>
+            Liste os riscos que podem prejudicar o processo e as oportunidades que podem trazer benefícios.
+          </div>
+        </li>
+
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_melhorias" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_melhorias") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Registros de melhoria dos processos</span>
+          </label>
+          <button type="button" class="more" data-target="s8">Ler mais</button>
+          <div id="s8" class="more-body" hidden>
+            Guarde evidências de melhorias feitas (planos de ação, indicadores antes/depois, atas de reunião).
+          </div>
+        </li>
+
+        <li>
+          <label class="chk">
+            <input type="checkbox" name="chk_documentacao" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_documentacao") ? "checked" : "" %>>
+            <span class="checkmark"></span>
+            <span>Documentação de apoio (procedimentos, instruções)</span>
+          </label>
+          <button type="button" class="more" data-target="s9">Ler mais</button>
+          <div id="s9" class="more-body" hidden>
+            Cada processo deve ter instruções claras de execução para garantir padronização e conformidade.
+          </div>
+        </li>
+      </ul>
+
+      <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>  
+
+      <div class="form-actions">
+        <button type="submit" id="btn-salvar-checklist" class="btn-subcap-salvar">Salvar Checklist</button>
       </div>
     </form>
+  </section>
 
-    <!-- Arquivos já anexados -->
-    <% if (documentos && documentos.length > 0) { %>
-      <div class="subcap-arquivos">
-        <% documentos.forEach(doc => { %>
+
+ <!-- Upload + Ações -->
+<section class="subcap-upload">
+  <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="upload-actions">
+      <!-- Botão de anexo -->
+      <input type="file" id="file-upload" name="ficheiros[]" multiple hidden>
+      <label for="file-upload" class="btn-anexo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5v14"/>
+        </svg>
+        Adicionar anexo
+      </label>
+
+      <!-- Botões de ação -->
+      <div class="form-actions">
+        <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
+        <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Pré-visualização -->
+    <div id="file-preview" class="file-preview vazio">
+      <em>Nenhum arquivo selecionado.</em>
+    </div>
+  </form>
+
+  <!-- Arquivos já anexados -->
+  <% if (documentos && documentos.length > 0) { %>
+    <div class="subcap-arquivos">
+      <% documentos.forEach(doc => { %>
+        <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
           <% doc.ficheiros.forEach(f => { %>
             <div class="file-row">
-              <!-- Nome -->
+              <!-- Nome personalizado ou original -->
               <span class="file-name">
-                <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
+                <a href="/uploads/<%= f.path %>" target="_blank">
+                  <%= f.nomePersonalizado || f.nomeOriginal %>
+                </a>
               </span>
 
               <!-- Tamanho -->
               <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
 
-              <!-- Input aprovado por -->
-              <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
+              <!-- Aprovado por -->
+              <input type="text" value="<%= f.aprovadoPor || '' %>"
+                     placeholder="Aprovado por..." readonly>
 
-              <!-- Ícone excluir -->
-              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+              <!-- Botão excluir -->
+              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar"
+                    method="POST" style="display:inline;">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn-apagar" title="Excluir arquivo">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -156,10 +258,11 @@
               </form>
             </div>
           <% }) %>
-        <% }) %>
-      </div>
-    <% } %>
-  </section>
+        <% } %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
 
 
 </main>

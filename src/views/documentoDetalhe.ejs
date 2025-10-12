@@ -72,77 +72,81 @@
   <%- include('includes/messages') %>
 
   <!-- Upload + Ações -->
-  <section class="subcap-upload">
-    <form action="/documentos/<%= documento._id %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<section class="documentos-upload">
+  <form action="/documentos/<%= documento._id %>/upload" method="POST" enctype="multipart/form-data" id="form-documentos">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <div class="upload-actions">
-        <!-- Botão de anexo -->
-        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
-        <label for="file-upload" class="btn-anexo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/><path d="M12 5v14"/>
-          </svg>
-          Adicionar anexo
-        </label>
+  <div class="upload-actions">
+    <input type="file" id="file-upload" name="ficheiros" multiple hidden>
+    <label for="file-upload" class="btn-anexo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+           viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M12 5v14"/>
+      </svg>
+      Adicionar anexo
+    </label>
 
-        <!-- Botões de ação -->
-        <div class="form-actions">
-          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
-          <button type="button" id="btn-editar" class="btn-subcap-editar" hidden>Editar</button>
-          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
+    <div class="form-actions">
+      <button type="submit" id="btn-salvar" class="btn-doc-salvar">Salvar</button>
+      <button type="button" id="btn-cancelar" class="btn-doc-cancelar" hidden>Cancelar</button>
+    </div>
+  </div>
+
+  <div id="file-preview" class="file-preview vazio">
+    <em>Nenhum arquivo selecionado.</em>
+  </div>
+</form>
+
+  <!-- Arquivos já anexados -->
+  <% if (documento.ficheiros && documento.ficheiros.length > 0) { %>
+    <div class="documentos-arquivos">
+      <% documento.ficheiros.forEach(f => { %>
+        <div class="file-row">
+          <!-- Nome -->
+          <span class="file-name">
+  <a href="/uploads/<%= f.path %>" target="_blank">
+    <%= f.nomePersonalizado || f.nomeOriginal %>
+  </a>
+</span>
+
+          <!-- Tamanho -->
+          <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
+
+          <!-- Input aprovado por -->
+          <input type="text"
+                 name="aprovadoPor[]"
+                 placeholder="Aprovado por..."
+                 value="<%= f.aprovadoPor || '' %>"
+                 readonly
+                 required>
+
+          <!-- Botão excluir -->
+          <form action="/documentos/<%= documento._id %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="btn-apagar" title="Excluir arquivo">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                   viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round"
+                   class="lucide lucide-trash-2">
+                <path d="M10 11v6"/><path d="M14 11v6"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </button>
+          </form>
         </div>
-      </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
 
-      <!-- Pré-visualização (JS) -->
-      <div id="file-preview" class="file-preview vazio">
-        <em>Nenhum arquivo selecionado.</em>
-      </div>
-    </form>
-
-    <!-- Arquivos já anexados -->
-    <% if (documento.ficheiros && documento.ficheiros.length > 0) { %>
-      <div class="subcap-arquivos">
-        <% documento.ficheiros.forEach(f => { %>
-          <div class="file-row">
-            <!-- Nome -->
-            <span class="file-name">
-              <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
-            </span>
-
-            <!-- Tamanho -->
-            <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
-
-            <!-- Input aprovado por -->
-            <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
-
-            <!-- Botão excluir -->
-            <form action="/documentos/<%= documento._id %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit" class="btn-apagar" title="Excluir arquivo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                     viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-trash-2">
-                  <path d="M10 11v6"/><path d="M14 11v6"/>
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
-                  <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                </svg>
-              </button>
-            </form>
-          </div>
-        <% }) %>
-      </div>
-    <% } %>
-  </section>
 </div>
 
 <!-- ==================== Modais ==================== -->
 
 <!-- Modal Editar Pasta -->
-<div id="modal-editar-pastas" class="modal">
+<div id="modal-editar-pasta" class="modal">
   <div class="modal-content">
     <div class="modal-content-forms">
       <span class="close">&times;</span>

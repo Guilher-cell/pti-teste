@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         observer.unobserve(entry.target); // só anima uma vez
       }
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.2 });
 
   boxes.forEach(box => observer.observe(box));
 

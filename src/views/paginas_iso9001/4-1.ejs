@@ -46,10 +46,7 @@
   <!-- Header -->
   <div class="subcap-header">
     <h2>4.1 Entendendo a organização e seu contexto</h2>
-    <p>Envie o documento principal que comprove este requisito e utilize o checklist apenas como lembrete do conteúdo que ele deve cobrir.</p>
-
-    <!-- 🔹 Mostra o progresso salvo -->
-    
+    <p>Envie o documento principal que comprove este requisito e utilize o checklist apenas como lembrete do conteúdo que ele deve cobrir.</p> 
   </div>
 
   <!-- Orientação do documento -->
@@ -80,91 +77,104 @@
           </label>
           <button type="button" class="more" data-target="m1">Ler mais</button>
           <div id="m1" class="more-body" hidden>
-            Você deve registrar fatores internos que influenciam o desempenho da empresa.
-            Inclui cultura organizacional, valores, processos, recursos financeiros e humanos.
-          </div>
+          Você deve registrar fatores internos que influenciam o desempenho da empresa.
+          Isso inclui a cultura organizacional (como a empresa se comporta), valores,
+          nível de conhecimento, desempenho de processos, recursos financeiros e humanos.
+          Esse levantamento ajuda a entender a realidade da empresa por dentro.
+        </div>
         </li>
         <li>
           <label class="chk">
-            <input type="checkbox" name="chk_externo" <%= documentos[0]?.checklist?.includes("chk_externo") ? "checked" : "" %>>
+            <input type="checkbox" name="chk_externo" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_externo") ? "checked" : "" %>>
             <span class="checkmark"></span>
-            <span>Descrição das questões externas (legais, tecnológicos, de mercado, sociais, econômicos, etc.)</span>
+            <span>Descrição das questões externas (fatores legais, tecnológicos, de mercado, sociais, econômicos, etc.)</span>
           </label>
           <button type="button" class="more" data-target="m2">Ler mais</button>
           <div id="m2" class="more-body" hidden>
-            Condições externas que podem afetar sua empresa: leis, tecnologia, mercado,
-            comportamento do consumidor, economia e concorrência.
-          </div>
+          Aqui entram as condições externas que podem afetar sua empresa.
+          Exemplos: novas leis, inovações tecnológicas, mudanças no mercado,
+          fatores sociais (como comportamento do consumidor),
+          condições econômicas e concorrência. O objetivo é identificar riscos
+          e oportunidades que vêm de fora.
+        </div>
         </li>
         <li>
           <label class="chk">
-            <input type="checkbox" name="chk_monitoramento" <%= documentos[0]?.checklist?.includes("chk_monitoramento") ? "checked" : "" %>>
+            <input type="checkbox" name="chk_monitoramento" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_monitoramento") ? "checked" : "" %>>
             <span class="checkmark"></span>
-            <span>Evidências de monitoramento e análise crítica periódica</span>
+            <span>Evidências de monitoramento e análise crítica periódica dessas questões</span>
           </label>
           <button type="button" class="more" data-target="m3">Ler mais</button>
           <div id="m3" class="more-body" hidden>
-            Mostre que os fatores são revisados periodicamente. Exemplos: atas de reunião,
-            relatórios de risco, SWOT atualizada.
-          </div>
+          Não basta listar os fatores, é preciso mostrar que eles são revisados periodicamente.
+          Exemplos: atas de reuniões de análise crítica, relatórios de risco ou SWOT atualizada.
+          Isso garante que a empresa acompanha as mudanças internas e externas de forma contínua.
+        </div>
         </li>
       </ul>
 
-      <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>
+      <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>  
 
-      <button type="submit" class="btn-subcap-salvar">Salvar Checklist</button>
+      <div class="form-actions"> 
+        <button type="submit" id="btn-salvar-checklist" class="btn-subcap-salvar">Salvar Checklist</button>     
+      </div> 
     </form>
   </section>
 
-  <!-- Upload + Ações -->
-  <section class="subcap-upload">
-    <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+ <!-- Upload + Ações -->
+<section class="subcap-upload">
+  <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <div class="upload-actions">
-        <!-- Botão de anexo -->
-        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
-        <label for="file-upload" class="btn-anexo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/><path d="M12 5v14"/>
-          </svg>
-          Adicionar anexo
-        </label>
+    <div class="upload-actions">
+      <!-- Botão de anexo -->
+      <input type="file" id="file-upload" name="ficheiros[]" multiple hidden>
+      <label for="file-upload" class="btn-anexo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5v14"/>
+        </svg>
+        Adicionar anexo
+      </label>
 
-        <!-- Botões de ação -->
-        <div class="form-actions">
-          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
-          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
-        </div>
+      <!-- Botões de ação -->
+      <div class="form-actions">
+        <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
+        <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
       </div>
+    </div>
 
-      <!-- Pré-visualização -->
-      <div id="file-preview" class="file-preview vazio">
-        <em>Nenhum arquivo selecionado.</em>
-      </div>
-    </form>
+    <!-- Pré-visualização -->
+    <div id="file-preview" class="file-preview vazio">
+      <em>Nenhum arquivo selecionado.</em>
+    </div>
+  </form>
 
-    <!-- Arquivos já anexados -->
-    <% if (documentos && documentos.length > 0) { %>
-      <div class="subcap-arquivos">
-        <% documentos.forEach(doc => { %>
+  <!-- Arquivos já anexados -->
+  <% if (documentos && documentos.length > 0) { %>
+    <div class="subcap-arquivos">
+      <% documentos.forEach(doc => { %>
+        <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
           <% doc.ficheiros.forEach(f => { %>
             <div class="file-row">
-              <!-- Nome -->
+              <!-- Nome personalizado ou original -->
               <span class="file-name">
-                <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
+                <a href="/uploads/<%= f.path %>" target="_blank">
+                  <%= f.nomePersonalizado || f.nomeOriginal %>
+                </a>
               </span>
 
               <!-- Tamanho -->
               <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
 
-              <!-- Input aprovado por -->
-              <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
+              <!-- Aprovado por -->
+              <input type="text" value="<%= f.aprovadoPor || '' %>"
+                     placeholder="Aprovado por..." readonly>
 
-              <!-- Ícone excluir -->
-              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+              <!-- Botão excluir -->
+              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar"
+                    method="POST" style="display:inline;">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn-apagar" title="Excluir arquivo">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -179,10 +189,12 @@
               </form>
             </div>
           <% }) %>
-        <% }) %>
-      </div>
-    <% } %>
-  </section>
+        <% } %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
 </main>
 
 <%- include('../includes/footer') %>

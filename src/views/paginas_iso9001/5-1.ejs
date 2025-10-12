@@ -42,104 +42,187 @@
   <%- include('../includes/messages') %>
 
     <!-- Header -->
-    <div class="subcap-header">
-      <h2>5.1 Liderança e comprometimento</h2>
-      <p>Envie o documento principal que comprove este requisito e utilize o checklist apenas como lembrete do conteúdo que ele deve cobrir.</p>
-    </div>
-  
-    <!-- Orientação -->
-    <section class="subcap-hint">
-      <button class="subcap-hint-toggle" aria-expanded="false">
-        <span>Ver orientação do documento</span>
-        <svg viewBox="0 0 24 24" class="chev" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg>
-      </button>
-      <div class="subcap-hint-body" hidden>
-        <p><strong>Documento recomendado:</strong> Atas de reunião da direção,
-          relatórios de recursos, comunicações oficiais.
-        </p>
-      </div>
-    </section>
-  
-    <!-- Checklist -->
-   <section class="subcap-checklist">
+<div class="subcap-header">
+  <h2>5.1 Liderança e comprometimento</h2>
+  <p>Envie o documento principal que comprove este requisito e utilize o checklist apenas como lembrete do conteúdo que ele deve cobrir.</p>
+</div>
+
+<!-- Orientação -->
+<section class="subcap-hint">
+  <button class="subcap-hint-toggle" aria-expanded="false">
+    <span>Ver orientação do documento</span>
+    <svg viewBox="0 0 24 24" class="chev" aria-hidden="true">
+      <path d="M7 10l5 5 5-5"/>
+    </svg>
+  </button>
+  <div class="subcap-hint-body" hidden>
+    <p><strong>Documento recomendado:</strong> Atas de reunião da direção,
+      relatórios de recursos, comunicações oficiais.
+    </p>
+  </div>
+</section>
+
+<!-- Checklist -->
+<section class="subcap-checklist">
   <h3>Checklist do Documento</h3>
   <form action="/iso9001/<%= capitulo %>/checklist" method="POST">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
     <ul>
-      <% const checks = ["contas","integracao","processo_risco","comunicacao","recursos","engajamento","melhoria"]; %>
-      <% const labels = [
-        "Evidência de prestação de contas pela Alta Direção",
-        "Integração dos requisitos de qualidade nos processos de negócio",
-        "Promoção da abordagem de processo e mentalidade de risco",
-        "Comunicação da importância da gestão da qualidade",
-        "Garantia de recursos necessários",
-        "Ações de engajamento das pessoas",
-        "Evidência de promoção da melhoria"
-      ]; %>
-      <% checks.forEach((chk,i) => { %>
-        <li>
-          <label class="chk">
-            <input type="checkbox" name="chk_<%= chk %>" <%= documentos[0]?.checklist?.includes("chk_"+chk) ? "checked" : "" %>>
-            <span class="checkmark"></span>
-            <span><%= labels[i] %></span>
-          </label>
-        </li>
-      <% }) %>
-    </ul>
-    <button type="submit" class="btn-subcap-salvar">Salvar Checklist</button>
-  </form>
-</section>
-
-  
-     <!-- Upload -->
-   <section class="subcap-upload">
-    <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-      <div class="upload-actions">
-        <!-- Botão de anexo -->
-        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
-        <label for="file-upload" class="btn-anexo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/><path d="M12 5v14"/>
-          </svg>
-          Adicionar anexo
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_contas" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_contas") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Evidência de prestação de contas pela Alta Direção</span>
         </label>
-
-        <!-- Botões de ação -->
-        <div class="form-actions">
-          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
-          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
+        <button type="button" class="more" data-target="l1">Ler mais</button>
+        <div id="l1" class="more-body" hidden>
+          A direção deve demonstrar que assume a responsabilidade pelo SGQ,
+          em atas de reuniões, relatórios de desempenho ou documentos oficiais.
         </div>
-      </div>
+      </li>
 
-      <!-- Pré-visualização -->
-      <div id="file-preview" class="file-preview vazio">
-        <em>Nenhum arquivo selecionado.</em>
-      </div>
-    </form>
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_integracao"  class="chk-item" <%= documentos[0]?.checklist?.includes("chk_integracao") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Integração dos requisitos de qualidade nos processos de negócio</span>
+        </label>
+        <button type="button" class="more" data-target="l2">Ler mais</button>
+        <div id="l2" class="more-body" hidden>
+          A qualidade deve estar integrada ao planejamento estratégico, finanças,
+          RH, produção e demais áreas, não separada do dia a dia da empresa.
+        </div>
+      </li>
 
-    <!-- Arquivos já anexados -->
-    <% if (documentos && documentos.length > 0) { %>
-      <div class="subcap-arquivos">
-        <% documentos.forEach(doc => { %>
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_processo_risco" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_processo_risco") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Promoção da abordagem de processo e mentalidade de risco</span>
+        </label>
+        <button type="button" class="more" data-target="l3">Ler mais</button>
+        <div id="l3" class="more-body" hidden>
+          A empresa deve planejar seus processos, entender interações
+          e avaliar riscos e oportunidades relacionados.
+        </div>
+      </li>
+
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_comunicacao" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_comunicacao") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Comunicação da importância da gestão da qualidade</span>
+        </label>
+        <button type="button" class="more" data-target="l4">Ler mais</button>
+        <div id="l4" class="more-body" hidden>
+          A direção deve reforçar que o SGQ é prioridade, por meio de treinamentos,
+          comunicados e reuniões com colaboradores.
+        </div>
+      </li>
+
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_recursos" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_recursos") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Garantia de recursos necessários</span>
+        </label>
+        <button type="button" class="more" data-target="l5">Ler mais</button>
+        <div id="l5" class="more-body" hidden>
+          A empresa deve disponibilizar recursos financeiros, humanos
+          e tecnológicos suficientes para manter o SGQ funcionando.
+        </div>
+      </li>
+
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_engajamento" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_engajamento") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Ações de engajamento das pessoas</span>
+        </label>
+        <button type="button" class="more" data-target="l6">Ler mais</button>
+        <div id="l6" class="more-body" hidden>
+          A direção deve motivar e envolver colaboradores no SGQ,
+          ouvindo sugestões, reconhecendo conquistas e incentivando participação.
+        </div>
+      </li>
+
+      <li>
+        <label class="chk">
+          <input type="checkbox" name="chk_melhoria" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_melhoria") ? "checked" : "" %>>
+          <span class="checkmark"></span>
+          <span>Evidência de promoção da melhoria</span>
+        </label>
+        <button type="button" class="more" data-target="l7">Ler mais</button>
+        <div id="l7" class="more-body" hidden>
+          Provar que a direção incentiva melhorias contínuas, aprovando investimentos
+          e liderando projetos de melhoria.
+        </div>
+      </li>
+    </ul>
+
+    <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>
+
+    <div class="form-actions">
+      <button type="submit" id="btn-salvar-checklist" class="btn-subcap-salvar">Salvar Checklist</button>
+    </div>
+  </form>
+</section> 
+  
+ <!-- Upload + Ações -->
+<section class="subcap-upload">
+  <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="upload-actions">
+      <!-- Botão de anexo -->
+      <input type="file" id="file-upload" name="ficheiros[]" multiple hidden>
+      <label for="file-upload" class="btn-anexo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5v14"/>
+        </svg>
+        Adicionar anexo
+      </label>
+
+      <!-- Botões de ação -->
+      <div class="form-actions">
+        <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
+        <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Pré-visualização -->
+    <div id="file-preview" class="file-preview vazio">
+      <em>Nenhum arquivo selecionado.</em>
+    </div>
+  </form>
+
+  <!-- Arquivos já anexados -->
+  <% if (documentos && documentos.length > 0) { %>
+    <div class="subcap-arquivos">
+      <% documentos.forEach(doc => { %>
+        <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
           <% doc.ficheiros.forEach(f => { %>
             <div class="file-row">
-              <!-- Nome -->
+              <!-- Nome personalizado ou original -->
               <span class="file-name">
-                <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
+                <a href="/uploads/<%= f.path %>" target="_blank">
+                  <%= f.nomePersonalizado || f.nomeOriginal %>
+                </a>
               </span>
 
               <!-- Tamanho -->
               <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
 
-              <!-- Input aprovado por -->
-              <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
+              <!-- Aprovado por -->
+              <input type="text" value="<%= f.aprovadoPor || '' %>"
+                     placeholder="Aprovado por..." readonly>
 
-              <!-- Ícone excluir -->
-              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+              <!-- Botão excluir -->
+              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar"
+                    method="POST" style="display:inline;">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn-apagar" title="Excluir arquivo">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -154,10 +237,12 @@
               </form>
             </div>
           <% }) %>
-        <% }) %>
-      </div>
-    <% } %>
-  </section>
+        <% } %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
 
   
   </main>

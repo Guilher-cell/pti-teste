@@ -77,9 +77,9 @@
   flex-wrap: wrap;
 }
 
-/* ======== Cards animados ======== */
+/* ======== Card Base ======== */
 .plano-box {
-  background-color: #0e1730;
+  position: relative;
   border-radius: 12px;
   padding: 40px 30px;
   width: 100%;
@@ -89,8 +89,10 @@
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  background: linear-gradient(180deg, #0e1730 0%, #101d3d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   opacity: 0;
 }
 
@@ -107,10 +109,68 @@
   to { transform: translateX(0); opacity: 1; }
 }
 
-/* Hover efeito */
-.plano-box:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+/* ======== Plano Básico ======== */
+.plano-box.basico {
+  background: linear-gradient(180deg, #0e1730, #0b1428);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.plano-box.basico:hover { 
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6); 
+}
+
+/* ======== Plano Premium ======== */
+.plano-box.premium {
+  background: linear-gradient(180deg, #081c3c, #03214e);
+  border: 2px solid transparent;
+  position: relative;
+  box-shadow: 0 0 25px rgba(0, 132, 255, 0.2);
+  overflow: hidden;
+}
+
+/* Borda gradiente leve e contínua */
+.plano-box.premium::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 2px;
+  background: linear-gradient(135deg, #0084ff, #00b7ff, #0040ff, #00b7ff);
+  background-size: 300% 300%;
+  animation: brilhoPremium 6s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes brilhoPremium {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Selo "Mais Popular" */
+.selo-popular {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(90deg, #0084ff, #00b7ff);
+  color: #fff;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  box-shadow: 0 0 10px rgba(0,132,255,0.4);
+  animation: flutuar 3s ease-in-out infinite;
+}
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Hover do Premium */
+.plano-box.premium:hover { 
+  box-shadow: 0 12px 35px rgba(0, 132, 255, 0.35);
 }
 
 /* ======== Título ======== */
@@ -131,7 +191,13 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ======== Lista animada (texto) ======== */
+.plano-duracao {
+  font-size: 14px;
+  color: #60a2bf;
+  font-weight: 500;
+}
+
+/* ======== Lista animada ======== */
 .plano-box ul {
   list-style: none;
   padding-left: 80px;
@@ -162,7 +228,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ======== Ícone separado ======== */
+/* ======== Ícones ======== */
 .icon {
   color: #0084ff;
   font-size: 20px;
@@ -186,32 +252,45 @@
 /* ======== Botão animado ======== */
 .btn-obter-plano,
 .btn-escolher-plano {
+  display: inline-block;           /* garante que o link se comporte como botão */
+  text-decoration: none;           /* tira sublinhado */
   background-color: #0084ff;
   color: #ffffff;
   font-weight: 600;
   font-size: 16px;
-  border: none;
   border-radius: 8px;
   padding: 14px 28px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   align-self: center;
   opacity: 0;
   transform: translateY(10px);
   font-family: "Inter", sans-serif;
 }
+
 .plano-box.animate .btn-obter-plano,
 .plano-box.animate .btn-escolher-plano {
   animation: fadeInButton 0.8s ease forwards;
   animation-delay: 2.6s; /* vem só depois da lista + ícones */
 }
+
 @keyframes fadeInButton {
   to { opacity: 1; transform: translateY(0); }
 }
+
 .btn-obter-plano:hover,
 .btn-escolher-plano:hover {
-  background-color: #006bcf;
+  background-color: #006bcf; 
 }
+
+/* ======== Responsivo ======== */
+@media (max-width: 1000px) {
+  .planos-container { gap: 40px; }
+}
+@media (max-width: 700px) {
+  .plano-box { max-width: 100%; }
+  .plano-box ul { padding-left: 40px; }
+} 
 
 /* Bloco externo ocupa a largura total */
 .info-extra-planos {

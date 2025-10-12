@@ -140,6 +140,75 @@
   box-shadow: none;
 }
 
+/* Checkbox */
+.checkbox-cadastrar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #cccccc;
+  line-height: 1.4;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+/* esconde o checkbox padrão */
+.checkbox-cadastrar input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* caixinha customizada */
+.checkbox-cadastrar .checkmark {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background-color: #1a2540;
+  border: 1px solid #2b3b5e;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* hover no label do checkbox */
+.checkbox-cadastrar:hover .checkmark {
+  border-color: #0084ff;
+}
+
+/* quando marcado */
+.checkbox-cadastrar input:checked ~ .checkmark {
+  background-color: #0084ff;
+  border-color: #0084ff;
+}
+
+/* ícone de check */
+.checkbox-cadastrar .checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.checkbox-cadastrar input:checked ~ .checkmark::after {
+  display: block;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-cadastrar a {
+  color: #3da0fc;
+  text-decoration: none;
+  font-weight: 500;
+}
+.checkbox-cadastrar a:hover {
+  text-decoration: underline;
+}
+
 
 /* Links de navegação */
 .links {

@@ -3,31 +3,30 @@ const Ficheiro = require("../Schemas/fileSchema");
 const Log = require("../Schemas/logSchema");
 const multer = require("../config/multerConfig");
 
-// ===============================
-// Helper: escopo da empresa
-// ===============================
+// =====================================================
+// 🔹 Helper: Escopo da empresa
+// =====================================================
 function empresaScope(req) {
   const userId = req.session.user?._id;
   const empresaId = req.session.user?.empresaId || userId;
   return { userId, empresaId };
 }
 
-// ===============================
-// RENDERIZA UM CAPÍTULO ISO
-// ===============================
+// =====================================================
+// 🔹 Mostrar Capítulo ou Subcapítulo
+// =====================================================
 exports.mostrarCapitulo = async (req, res) => {
   try {
-    const capitulo = req.params.capitulo;          // "4"  ou  "4-1"
+    const capitulo = req.params.capitulo;
     const empresaId = req.session.user.empresaId;
     const isSubcap = capitulo.includes("-");
 
     if (isSubcap) {
-      // 🔹 SUBCAPÍTULO (ex.: "4-1") → carrega UM doc
       const doc = await DocumentoISO.findOne({ capitulo, empresaId })
         .populate("ficheiros")
         .populate("alteradoPor", "user");
 
-      const documentos = doc ? [doc] : []; // seu EJS espera array
+      const documentos = doc ? [doc] : [];
       return res.render(`paginas_iso9001/${capitulo}`, {
         documentos,
         capitulo,
@@ -36,10 +35,9 @@ exports.mostrarCapitulo = async (req, res) => {
       });
     }
 
-    // 🔹 CAPÍTULO (ex.: "4") → lista TODOS subcaps "4-*"
     const documentos = await DocumentoISO.find({
       capitulo: new RegExp(`^${capitulo}-`),
-      empresaId
+      empresaId,
     }).populate("ficheiros");
 
     const progressoCapitulo = {};
@@ -54,6 +52,7 @@ exports.mostrarCapitulo = async (req, res) => {
       user: req.session.user,
       csrfToken: req.csrfToken(),
     });
+
   } catch (e) {
     console.error("❌ Erro mostrarCapitulo:", e);
     req.flash("errors", "Erro ao carregar capítulo.");
@@ -61,12 +60,16 @@ exports.mostrarCapitulo = async (req, res) => {
   }
 };
 
-
-// ===============================
-// UPLOAD DE ARQUIVOS NO CAPÍTULO
-// ===============================
+// =====================================================
+// 🔹 Upload de Arquivos (corrigido para salvar nomePersonalizado)
+// =====================================================
 exports.uploadCapitulo = (req, res) => {
-  const upload = multer.array("ficheiros", 10);
+  // ✅ Usa fields() para aceitar múltiplos nomes
+  const upload = multer.fields([
+    { name: "ficheiros", maxCount: 10 },
+    { name: "ficheiros[]", maxCount: 10 }, // aceita os dois formatos
+  ]);
+
   const capitulo = req.params.capitulo;
 
   upload(req, res, async (err) => {
@@ -77,27 +80,46 @@ exports.uploadCapitulo = (req, res) => {
     }
 
     try {
-      const userId = req.session.user._id;
-      const empresaId = req.session.user.empresaId;
+      const { userId, empresaId } = empresaScope(req);
 
-      if (!req.files || req.files.length === 0) {
+      // ✅ Pega os arquivos de forma segura
+      const files =
+        (req.files && (req.files.ficheiros || req.files["ficheiros[]"])) || [];
+
+      if (!files || files.length === 0) {
         req.flash("errors", "Nenhum arquivo enviado.");
         return res.redirect(`/iso9001/${capitulo}`);
       }
 
+      // ✅ Garante que campos de texto também sejam capturados
+      const nomesPersonalizadosArray = Array.isArray(req.body["nomesPersonalizados[]"])
+        ? req.body["nomesPersonalizados[]"]
+        : Array.isArray(req.body.nomesPersonalizados)
+        ? req.body.nomesPersonalizados
+        : [req.body.nomesPersonalizados || req.body["nomesPersonalizados[]"]];
+
+      const aprovadoPorArray = Array.isArray(req.body["aprovadoPor[]"])
+        ? req.body["aprovadoPor[]"]
+        : Array.isArray(req.body.aprovadoPor)
+        ? req.body.aprovadoPor
+        : [req.body.aprovadoPor || req.body["aprovadoPor[]"]];
+
+      // ✅ Cria/atualiza o documento ISO
       const documento = await DocumentoISO.findOneAndUpdate(
         { capitulo, empresaId },
         { $setOnInsert: { capitulo, empresaId, criadoPor: userId } },
         { upsert: true, new: true }
       );
 
-      const aprovadoPorArray = Array.isArray(req.body.aprovadoPor) ? req.body.aprovadoPor : [req.body.aprovadoPor];
-
+      // ✅ Cria cada ficheiro com nome personalizado
       const ficheiros = await Promise.all(
-        req.files.map(async (file, i) => {
+        files.map(async (file, i) => {
+          const nomePersonalizado = nomesPersonalizadosArray[i] || file.originalname;
           const aprovador = aprovadoPorArray[i] || null;
+
           const ficheiro = new Ficheiro({
             nomeOriginal: file.originalname,
+            nomePersonalizado,
             path: file.filename,
             mimetype: file.mimetype,
             size: file.size,
@@ -106,17 +128,18 @@ exports.uploadCapitulo = (req, res) => {
             aprovadoPor: aprovador,
             aprovadoEm: aprovador ? new Date() : null,
           });
+
           await ficheiro.save();
 
-          // 🔹 LOG: upload de arquivo ISO
+          // ✅ Log automático
           await Log.create({
             usuarioId: userId,
             empresaId,
             usuarioNome: req.session.user.user,
-            acao: `Upload de arquivo`,
-            modulo: `ISO 9001`,
+            acao: "Upload de arquivo",
+            modulo: "ISO 9001",
             nomeDocumento: `Capítulo ${capitulo}`,
-            nomeArquivo: file.originalname,
+            nomeArquivo: nomePersonalizado,
             aprovadoPor: ficheiro.aprovadoPor || "Não informado",
           });
 
@@ -124,11 +147,8 @@ exports.uploadCapitulo = (req, res) => {
         })
       );
 
+      // ✅ Atualiza o documento
       documento.ficheiros.push(...ficheiros);
-      documento.ultimaAlteracao = new Date();
-      documento.alteradoPor = userId;
-      await documento.save();
-
       documento.ultimaAlteracao = new Date();
       documento.alteradoPor = userId;
       documento.progresso = calcularProgresso(documento, 3);
@@ -142,12 +162,12 @@ exports.uploadCapitulo = (req, res) => {
       return res.redirect(`/iso9001/${capitulo}`);
     }
   });
-  
 };
 
-// ===============================
-// APAGAR UM FICHEIRO DO CAPÍTULO
-// ===============================
+
+// =====================================================
+// 🔹 Apagar Ficheiro
+// =====================================================
 exports.apagarFicheiroCapitulo = async (req, res) => {
   try {
     const { capitulo, fileId } = req.params;
@@ -174,7 +194,6 @@ exports.apagarFicheiroCapitulo = async (req, res) => {
     }
 
     await ficheiro.deleteOne();
-
     await DocumentoISO.findOneAndUpdate(
       { capitulo, empresaId },
       {
@@ -184,7 +203,6 @@ exports.apagarFicheiroCapitulo = async (req, res) => {
       }
     );
 
-    // 🔹 Recalcula progresso após apagar
     const docAtual = await DocumentoISO.findOne({ capitulo, empresaId }).populate("ficheiros");
     if (docAtual) {
       docAtual.progresso = calcularProgresso(docAtual, 3);
@@ -195,10 +213,10 @@ exports.apagarFicheiroCapitulo = async (req, res) => {
       usuarioId: userId,
       empresaId,
       usuarioNome: req.session.user.user,
-      acao: `Apagou arquivo`,
-      modulo: `ISO 9001`,
+      acao: "Apagou arquivo",
+      modulo: "ISO 9001",
       nomeDocumento: `Capítulo ${capitulo}`,
-      nomeArquivo: ficheiro.nomeOriginal,
+      nomeArquivo: ficheiro.nomePersonalizado || ficheiro.nomeOriginal,
     });
 
     req.flash("success", "Arquivo apagado com sucesso!");
@@ -210,42 +228,32 @@ exports.apagarFicheiroCapitulo = async (req, res) => {
   }
 };
 
+// =====================================================
+// 🔹 Calcular Progresso
+// =====================================================
 function calcularProgresso(documento, totalChecks) {
   let progresso = 0;
-
-  // Upload vale 50%
-  if (documento.ficheiros && documento.ficheiros.length > 0) {
-    progresso += 50;
-  }
-
-  // Checklist divide os outros 50%
+  if (documento.ficheiros && documento.ficheiros.length > 0) progresso += 50;
   const marcados = documento.checklist ? documento.checklist.length : 0;
-  if (totalChecks > 0) {
-    progresso += Math.round((marcados / totalChecks) * 50);
-  }
-
+  if (totalChecks > 0) progresso += Math.round((marcados / totalChecks) * 50);
   return progresso;
 }
 
-
+// =====================================================
+// 🔹 Salvar Checklist
+// =====================================================
 exports.salvarChecklist = async (req, res) => {
   try {
     const { capitulo } = req.params;
     const { userId, empresaId } = empresaScope(req);
-
-    // 🔹 Pega APENAS os campos de checkbox (começam com "chk_")
     const checks = Object.keys(req.body).filter(k => k.startsWith("chk_"));
 
     let documento = await DocumentoISO.findOne({ capitulo, empresaId });
-    if (!documento) {
-      documento = new DocumentoISO({ capitulo, empresaId, criadoPor: userId });
-    }
+    if (!documento) documento = new DocumentoISO({ capitulo, empresaId, criadoPor: userId });
 
     documento.checklist = checks;
     documento.ultimaAlteracao = new Date();
     documento.alteradoPor = userId;
-
-    // Recalcula progresso (3 checkboxes neste subcap)
     documento.progresso = calcularProgresso(documento, 3);
     await documento.save();
 

@@ -68,7 +68,6 @@
   function setupModal(triggerId, modalId, options = {}) {
     const trigger = document.getElementById(triggerId);
     const modal   = document.getElementById(modalId);
-
     if (!trigger || !modal) return;
 
     trigger.addEventListener("click", (e) => {
@@ -87,16 +86,14 @@
     if (form) form.addEventListener("submit", () => fecharModal(modal));
 
     window.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        fecharModal(modal);
-      }
+      if (e.target === modal) fecharModal(modal);
     });
   }
 
   window.__docHelpers = { abrirModal, fecharModal, setupModal };
 })();
 
-/* ========= PARTE 2: Detalhe Documento (Upload) ========= */
+/* ========= PARTE 2: Upload de Documentos (com nome dinâmico) ========= */
 (() => {
   const { setupModal } = window.__docHelpers;
 
@@ -111,54 +108,93 @@
         detalheOpcoes.classList.toggle("ativo");
       });
       document.addEventListener("click", (e) => {
-        if (!detalheOpcoes.contains(e.target)) {
+        if (!detalheOpcoes.contains(e.target))
           detalheOpcoes.classList.remove("ativo");
-        }
       });
     }
   }
 
   // Modais
-  setupModal("btn-criar-pasta",  "modal-criar-pasta");
-  setupModal("btn-editar-pasta", "modal-editar-pastas", { closeMenu: () => detalheOpcoes?.classList.remove("ativo") });
-  setupModal("btn-excluir-pasta","modal-excluir-pasta", { closeMenu: () => detalheOpcoes?.classList.remove("ativo") });
+  setupModal("btn-editar-pasta", "modal-editar-pasta", { closeMenu: () => detalheOpcoes?.classList.remove("ativo") });
+  setupModal("btn-excluir-pasta", "modal-excluir-pasta", { closeMenu: () => detalheOpcoes?.classList.remove("ativo") });
 
-  /* ===== Upload de Arquivos ===== */
- (() => {
-  const form     = document.getElementById("form-subcap");
-  const fileInput= document.getElementById("file-upload");
-  const preview  = document.getElementById("file-preview");
+  /* ========= Função Genérica de Upload ========= */
+  function configurarUpload(formId) {
+    const form = document.getElementById(formId);
+    if (!form) return;
 
-  if (!form || !fileInput || !preview) return;
+    const fileInput = form.querySelector("#file-upload");
+    const preview = form.querySelector("#file-preview");
+    const btnSalvar = form.querySelector("#btn-salvar");
+    const btnCancelar = form.querySelector("#btn-cancelar");
 
-  function formatKB(bytes) {
-    return Math.max(1, Math.round(bytes / 1024)) + " KB";
-  }
+    if (!fileInput || !preview || !btnSalvar) return;
 
-  fileInput.addEventListener("change", () => {
-    // 🔹 só mexe no preview, não mexe em mais nada do DOM
-    preview.innerHTML = "";
-
-    const files = Array.from(fileInput.files || []);
-    if (!files.length) {
-      preview.classList.add("vazio");
-      preview.innerHTML = "<em>Nenhum arquivo selecionado.</em>";
-      return;
+    function formatKB(bytes) {
+      const kb = bytes / 1024;
+      return kb < 1024
+        ? `${Math.max(1, Math.round(kb))} KB`
+        : `${(kb / 1024).toFixed(2)} MB`;
     }
 
-    preview.classList.remove("vazio");
-    files.forEach(f => {
-      const row = document.createElement("div");
-      row.className = "file-row";
-      row.innerHTML = `
-        <span class="file-name">${f.name}</span>
-        <span class="file-size">${formatKB(f.size)}</span>
-        <input type="text" name="aprovadoPor[]" placeholder="Aprovado por...">
-      `;
-      preview.appendChild(row);
-    });
-  });
+    function renderPreview() {
+      const files = Array.from(fileInput.files || []);
+      preview.innerHTML = "";
 
-  // 🔹 Importante: NÃO tem preventDefault → deixa o form enviar normal
-})();
+      if (!files.length) {
+        preview.classList.add("vazio");
+        preview.innerHTML = "<em>Nenhum arquivo selecionado.</em>";
+        btnSalvar.disabled = true;
+        if (btnCancelar) btnCancelar.hidden = true;
+        return;
+      }
+
+      preview.classList.remove("vazio");
+
+      files.forEach((f, index) => {
+        const row = document.createElement("div");
+        row.className = "file-row";
+        row.innerHTML = `
+          <span class="file-name" id="file-name-${index}">${f.name}</span>
+          <span class="file-size">${formatKB(f.size)}</span>
+          <input type="text" name="nomesPersonalizados[]" placeholder="Nome do arquivo..." required>
+          <input type="text" name="aprovadoPor[]" placeholder="Aprovado por...">
+        `;
+
+        const inputNome = row.querySelector('input[name="nomesPersonalizados[]"]');
+        const nameSpan = row.querySelector(".file-name");
+
+        // 🔹 Atualiza o nome do arquivo na hora que o usuário digita
+        inputNome.addEventListener("input", () => {
+          const nome = inputNome.value.trim();
+          nameSpan.textContent = nome !== "" ? nome : f.name;
+        });
+
+        preview.appendChild(row);
+      });
+
+      btnSalvar.disabled = false;
+      if (btnCancelar) btnCancelar.hidden = false;
+    }
+
+    fileInput.addEventListener("change", renderPreview);
+
+    if (btnCancelar) {
+      btnCancelar.addEventListener("click", () => {
+        fileInput.value = "";
+        renderPreview();
+      });
+    }
+
+    form.addEventListener("submit", () => {
+      if (!fileInput.files || !fileInput.files.length) return;
+      btnSalvar.disabled = true;
+      btnSalvar.textContent = "Salvando...";
+    });
+
+    renderPreview();
+  }
+
+  // Aplica à página de Documentos Gerais
+  configurarUpload("form-documentos");
 })();

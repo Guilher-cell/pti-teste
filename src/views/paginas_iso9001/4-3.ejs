@@ -69,81 +69,104 @@
     <ul>
       <li>
         <label class="chk">
-          <input type="checkbox" name="chk_escopo" <%= documentos[0]?.checklist?.includes("chk_escopo") ? "checked" : "" %>>
+          <input type="checkbox" name="chk_escopo" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_escopo") ? "checked" : "" %>>
           <span class="checkmark"></span>
-          <span>Declaração formal do escopo</span>
+          <span>Declaração formal do escopo (tipos de produtos/serviços abrangidos)</span>
         </label>
+        <button type="button" class="more" data-target="e1">Ler mais</button>
+        <div id="e1" class="more-body" hidden>
+          Descreva claramente quais produtos, serviços e áreas da empresa fazem parte do SGQ.
+          Isso define até onde o sistema vai atuar.
+        </div>
       </li>
       <li>
         <label class="chk">
-          <input type="checkbox" name="chk_naoaplicavel" <%= documentos[0]?.checklist?.includes("chk_naoaplicavel") ? "checked" : "" %>>
+          <input type="checkbox" name="chk_naoaplicavel" class="chk-item" <%= documentos[0]?.checklist?.includes("chk_naoaplicavel") ? "checked" : "" %>>
           <span class="checkmark"></span>
           <span>Justificativa para requisitos não aplicáveis</span>
         </label>
+        <button type="button"  class="more" data-target="e2">Ler mais</button>
+        <div id="e2" class="more-body" hidden>
+          Se algum requisito da norma não se aplica, justifique.
+          Exemplo: empresa que não desenvolve produtos pode declarar não aplicável a seção de projeto e desenvolvimento.
+        </div>
       </li>
       <li>
         <label class="chk">
-          <input type="checkbox" name="chk_limites" <%= documentos[0]?.checklist?.includes("chk_limites") ? "checked" : "" %>>
+          <input type="checkbox" name="chk_limites"  class="chk-item" <%= documentos[0]?.checklist?.includes("chk_limites") ? "checked" : "" %>>
           <span class="checkmark"></span>
-          <span>Documento com limites e aplicabilidade do SGQ</span>
+          <span>Documento com os limites e aplicabilidade do SGQ</span>
         </label>
+        <button type="button" class="more" data-target="e3">Ler mais</button>
+        <div id="e3" class="more-body" hidden>
+          Registre em documento oficial o que está incluído e o que está fora do escopo.
+          Este documento deve estar disponível como evidência.
+        </div>
       </li>
     </ul>
-    <p class="subcap-note">* O checklist é apenas um lembrete.</p>
-    <button type="submit" class="btn-subcap-salvar">Salvar Checklist</button>
+    <p class="subcap-note">* O checklist é apenas um lembrete. O documento enviado deve cobrir todos os pontos.</p>
+
+    <div class="form-actions"> 
+        <button type="submit" id="btn-salvar-checklist" class="btn-subcap-salvar">Salvar Checklist</button>
+      </div>
   </form>
 </section>
 
 
-   <!-- Upload -->
-   <section class="subcap-upload">
-    <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+ <!-- Upload + Ações -->
+<section class="subcap-upload">
+  <form action="/iso9001/<%= capitulo %>/upload" method="POST" enctype="multipart/form-data" id="form-subcap">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <div class="upload-actions">
-        <!-- Botão de anexo -->
-        <input type="file" id="file-upload" name="ficheiros" multiple hidden>
-        <label for="file-upload" class="btn-anexo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-               viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/><path d="M12 5v14"/>
-          </svg>
-          Adicionar anexo
-        </label>
+    <div class="upload-actions">
+      <!-- Botão de anexo -->
+      <input type="file" id="file-upload" name="ficheiros[]" multiple hidden>
+      <label for="file-upload" class="btn-anexo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5v14"/>
+        </svg>
+        Adicionar anexo
+      </label>
 
-        <!-- Botões de ação -->
-        <div class="form-actions">
-          <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
-          <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
-        </div>
+      <!-- Botões de ação -->
+      <div class="form-actions">
+        <button type="submit" id="btn-salvar" class="btn-subcap-salvar">Salvar</button>
+        <button type="button" id="btn-cancelar" class="btn-subcap-cancelar" hidden>Cancelar</button>
       </div>
+    </div>
 
-      <!-- Pré-visualização -->
-      <div id="file-preview" class="file-preview vazio">
-        <em>Nenhum arquivo selecionado.</em>
-      </div>
-    </form>
+    <!-- Pré-visualização -->
+    <div id="file-preview" class="file-preview vazio">
+      <em>Nenhum arquivo selecionado.</em>
+    </div>
+  </form>
 
-    <!-- Arquivos já anexados -->
-    <% if (documentos && documentos.length > 0) { %>
-      <div class="subcap-arquivos">
-        <% documentos.forEach(doc => { %>
+  <!-- Arquivos já anexados -->
+  <% if (documentos && documentos.length > 0) { %>
+    <div class="subcap-arquivos">
+      <% documentos.forEach(doc => { %>
+        <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
           <% doc.ficheiros.forEach(f => { %>
             <div class="file-row">
-              <!-- Nome -->
+              <!-- Nome personalizado ou original -->
               <span class="file-name">
-                <a href="/uploads/<%= f.path %>" target="_blank"><%= f.nomeOriginal %></a>
+                <a href="/uploads/<%= f.path %>" target="_blank">
+                  <%= f.nomePersonalizado || f.nomeOriginal %>
+                </a>
               </span>
 
               <!-- Tamanho -->
               <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
 
-              <!-- Input aprovado por -->
-              <input type="text" name="aprovadoPor[]" placeholder="Aprovado por..." value="<%= f.aprovadoPor || '' %>">
+              <!-- Aprovado por -->
+              <input type="text" value="<%= f.aprovadoPor || '' %>"
+                     placeholder="Aprovado por..." readonly>
 
-              <!-- Ícone excluir -->
-              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar" method="POST" style="display:inline;">
+              <!-- Botão excluir -->
+              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar"
+                    method="POST" style="display:inline;">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn-apagar" title="Excluir arquivo">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -158,10 +181,11 @@
               </form>
             </div>
           <% }) %>
-        <% }) %>
-      </div>
-    <% } %>
-  </section>
+        <% } %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
 
 </main>
     <%- include('../includes/footer') %>
