@@ -10,7 +10,7 @@ exports.index = async (req, res) => {
       user: req.session.user,
       csrfToken: req.csrfToken(),
       usuario: usuario,
-      empresa: dadosEmpresa || {} // 🔑 envia empresa para a view
+      empresa: dadosEmpresa || {} 
     });
   } catch (err) {
     console.error('Erro ao carregar resumo:', err);

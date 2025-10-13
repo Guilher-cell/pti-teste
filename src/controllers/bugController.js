@@ -1,15 +1,15 @@
 const nodemailer = require('nodemailer');
 
-// Configura Nodemailer
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER, // seu email
-    pass: process.env.EMAIL_PASS  // senha de app do Gmail
+    user: process.env.EMAIL_USER, 
+    pass: process.env.EMAIL_PASS  
   }
 });
 
-// Página inicial
+
 exports.index = async (req, res) => {
   try {
     res.render('relatar_bug', {
@@ -23,7 +23,7 @@ exports.index = async (req, res) => {
   }
 };
 
-// Enviar novo bug por e-mail
+
 exports.salvarBug = async (req, res) => {
   try {
     const { titulo, descricao } = req.body;
@@ -33,10 +33,10 @@ exports.salvarBug = async (req, res) => {
       return res.redirect('/bugs');
     }
 
-    // monta e envia o email para sua caixa
+    
     await transporter.sendMail({
       from: `"FlowCerti - Reportar Bug" <${process.env.EMAIL_USER}>`,
-      to: "flowcerti@gmail.com", // email que recebe
+      to: "flowcerti@gmail.com", 
       subject: `Novo bug reportado: ${titulo}`,
       html: `
         <h3>Um bug foi relatado</h3>
@@ -49,7 +49,7 @@ exports.salvarBug = async (req, res) => {
     req.flash('success', 'Bug relatado com sucesso! Nossa equipe foi notificada por e-mail.');
     res.redirect('/bugs');
   } catch (err) {
-    console.error("❌ Erro ao enviar bug:", err);
+    console.error("Erro ao enviar bug:", err);
     req.flash('error', 'Erro ao enviar bug. Tente novamente.');
     res.redirect('/bugs');
   }

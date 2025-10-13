@@ -10,10 +10,10 @@ exports.index = async (req, res) => {
       csrfToken: req.csrfToken(),
       user: req.session.user,
       usuario: usuario,
-      empresa: dadosEmpresa || {}   // 🔑 agora a view vai ter acesso ao "empresa"
+      empresa: dadosEmpresa || {}  
     });
   } catch (err) {
-    console.error('❌ Erro ao carregar verificação:', err);
+    console.error('Erro ao carregar verificação:', err);
     req.flash('errors', 'Erro ao carregar dados de verificação');
     res.redirect('/');
   }

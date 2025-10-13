@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perguntas Frequentes - FlowCerti</title>
+    
+    <link rel="icon" type="image/png" href="Imagem/footer/logo_pequena.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/faq.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("includes/header", { user: user }) %>
+
+    <!-- Breadcrumb -->
+    <ul class="breadcrumb">
+        <li><a href="/">Início</a></li>
+        <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </li>
+        <li class="current">Perguntas Frequentes</li>
+    </ul>
+
+
+    <main class="faq-container">
+  <h1 class="faq-title">Perguntas Frequentes</h1>
+  <p class="faq-subtitle">Encontre respostas para as dúvidas mais comuns sobre a FlowCerti.</p>
+
+  <!-- SOBRE A PLATAFORMA -->
+  <section class="faq-section">
+    <h2>Sobre a Plataforma</h2>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        O que é a FlowCerti?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        A FlowCerti é uma plataforma digital de gestão de certificações empresariais. Nosso objetivo é simplificar o processo de controle documental, auditorias e prazos, ajudando empresas a manterem a conformidade sem burocracia.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Quais normas a FlowCerti suporta?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Atualmente, a FlowCerti oferece suporte completo para ISO 9001 e está em expansão para outras normas como ISO 14001 e ISO 27001.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        A FlowCerti substitui uma consultoria?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Não. A FlowCerti é uma ferramenta de apoio à gestão, facilitando o controle, monitoramento e centralização de informações, mas não substitui o papel técnico de auditores ou consultores especializados.
+      </div>
+    </div>
+  </section>
+
+  <!-- CADASTRO E ACESSO -->
+  <section class="faq-section">
+    <h2>Cadastro e Acesso</h2>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Como faço meu cadastro na FlowCerti?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Basta acessar o site, clicar em “Criar Conta” e preencher os dados da sua empresa e usuário. Você receberá um e-mail de confirmação para ativar o acesso.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Esqueci minha senha, o que fazer?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Na tela de login, clique em “Esqueci minha senha” e siga as instruções. Um link de redefinição será enviado ao seu e-mail cadastrado.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Posso ter múltiplos usuários na mesma empresa?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Cada CNPJ pode estar vinculado a apenas uma conta principal. Após criada, a empresa pode adicionar novos usuários (funcionários) pela página <strong>“Cadastrar Funcionários”</strong>, acessível em <strong>“Ver Minha Conta”</strong>. Essas contas são vinculadas à conta master da empresa.
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCUMENTOS E CERTIFICAÇÕES -->
+  <section class="faq-section">
+    <h2>Documentos e Certificações</h2>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Posso enviar qualquer tipo de documento?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Sim. Você pode anexar relatórios, formulários, evidências, planilhas, imagens ou PDFs, desde que estejam relacionados à certificação e respeitem as políticas de uso.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        É possível organizar documentos por capítulos ou requisitos?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Sim! O sistema possui um painel estruturado por capítulos e subcapítulos, permitindo anexar arquivos e checklists específicos para cada requisito da norma.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Como funciona o checklist de conformidade?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Cada documento pode conter um checklist com itens que devem ser verificados. Assim, a FlowCerti ajuda a preparar sua empresa para auditorias com antecedência.
+      </div>
+    </div>
+  </section>
+
+  <!-- ALERTAS E MONITORAMENTO -->
+  <section class="faq-section">
+    <h2>Alertas e Monitoramento</h2>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        O que é o monitoramento de prazos?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        A FlowCerti envia alertas automáticos sobre vencimentos, pendências e atualizações, conforme o tempo previsto para cada capítulo ou subcapítulo da norma, ajudando sua empresa a se manter em conformidade.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Consigo personalizar os alertas?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Os alertas seguem prazos definidos automaticamente de acordo com o cronograma de cada capítulo e subcapítulo da norma. Assim, o sistema mantém o monitoramento padronizado conforme os requisitos da ISO.
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS E PAGAMENTOS -->
+  <section class="faq-section">
+    <h2>Planos e Pagamentos</h2>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        A FlowCerti é gratuita?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        A FlowCerti oferece um <strong>Plano Básico (freemium)</strong> gratuito por 30 dias, com funcionalidades limitadas. Para acesso completo, é necessário aderir ao <strong>Plano Premium</strong>, que inclui certificações ilimitadas, monitoramento de prazos, gestão de requisitos e armazenamento de documentos.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Posso mudar de plano depois?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Sim. Após o término do Plano Básico de 30 dias, o usuário pode migrar para o Plano Premium. O Premium possui 4 modalidades de assinatura: mensal, trimestral, semestral e anual. Você pode alterar entre essas opções a qualquer momento.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Como são feitos os pagamentos?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Os pagamentos são processados de forma segura via Pix, cartão de crédito ou boleto, conforme o plano escolhido.
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPORTE E AJUDA -->
+  <section class="faq-section">
+    <h2>Suporte e Ajuda</h2>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Como relatar um erro ou bug?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Você pode usar a página <strong>“Relatar Bugs”</strong> dentro da plataforma. Basta descrever o problema e nossa equipe técnica analisará o mais rápido possível.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Existe suporte técnico?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        E-mail oficial para suporte, dúvidas gerais, tratativas comerciais e parcerias: <strong>flowcerti@gmail.com</strong>.  
+        Utilize este canal para entrar em contato com a equipe FlowCerti em casos de suporte técnico, sugestões, propostas de parceria ou outros assuntos relacionados.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Quanto tempo leva para o suporte responder?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        O suporte para usuários e dúvidas gerais tem tempo médio de resposta de até <strong>48 horas úteis</strong>.  
+        No caso de bugs, o tempo de resposta depende da gravidade do problema, mas geralmente também é de até 48 horas úteis.
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTROS -->
+  <section class="faq-section">
+    <h2>Outros</h2>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        A FlowCerti é compatível com dispositivos móveis?
+        <svg viewBox="0 0 24 24" class="chev"><path d="M7 10l5 5 5-5" /></svg>
+      </button>
+      <div class="faq-answer">
+        Sim! A plataforma é totalmente responsiva e pode ser usada em tablets, notebooks e smartphones.
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('includes/footer') %>
+   
+    
+    <script src="/assets/js/faq.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

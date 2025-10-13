@@ -1,4 +1,3 @@
-// src/models/passwordModel.js
 class PasswordValidator {
   constructor(password, passwordConfirm) {
     this.password = password;

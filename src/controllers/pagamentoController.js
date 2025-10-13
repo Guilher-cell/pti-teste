@@ -1,6 +1,6 @@
 const { MercadoPagoConfig, Preference } = require("mercadopago");
 
-// use sua credencial do .env
+
 const mpClient = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
 
 const PLANOS = {
@@ -37,20 +37,20 @@ auto_return: "approved",
       },
     });
 
-    // SDK nova retorna direto as props no objeto
+    
     const url = result.init_point || result.sandbox_init_point;
     if (!url) return res.status(500).json({ error: "Preferência criada sem URL" });
 
     return res.json({ init_point: url });
   } catch (err) {
-    console.error("❌ Erro ao criar pagamento:", err);
+    console.error("Erro ao criar pagamento:", err);
     return res.status(500).json({ error: "Erro ao criar pagamento" });
   }
 };
 
 exports.sucesso = async (req, res) => {
   try {
-    const plano = req.query.plano; // pode vir na URL se você enviar
+    const plano = req.query.plano; 
     const userId = req.session.user._id;
 
     let dias = 0;
@@ -72,5 +72,5 @@ exports.sucesso = async (req, res) => {
   }
 };
 
-exports.erro     = (req, res) => res.send("❌ O pagamento falhou. Tente novamente.");
-exports.pendente = (req, res) => res.send("⏳ Pagamento pendente. Aguardando confirmação.");
+exports.erro= (req, res) => res.send("O pagamento falhou. Tente novamente.");
+exports.pendente = (req, res) => res.send("Pagamento pendente. Aguardando confirmação.");

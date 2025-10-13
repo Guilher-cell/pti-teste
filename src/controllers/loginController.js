@@ -2,9 +2,7 @@ const Cadastro = require('../Schemas/cadastroSchema');
 const Funcionario = require('../Schemas/funcionarioSchema');
 const nodemailer = require('nodemailer');
 
-// =============================
-// Configuração do Nodemailer
-// =============================
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -13,22 +11,18 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// =============================
-// Página de login
-// =============================
+
 exports.index = (req, res) => {
   if (req.session.user) return res.redirect('/');
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
-// =============================
-// LOGIN (admin, master, funcionario)
-// =============================
+
 exports.login = async function (req, res) {
   try {
     const { user, password } = req.body;
 
-    // 1) Tenta login no Cadastro (admin/master) usando user OU email
+   
     let cadastro = await Cadastro.findOne({
       $or: [{ user: user }, { email: user }]
     }).select('+password');
@@ -39,19 +33,19 @@ exports.login = async function (req, res) {
         return req.session.save(() => res.redirect('/login'));
       }
 
-      // prepara objeto do usuário
+   
       const tempUser = {
         _id: cadastro._id,
         user: cadastro.user,
         email: cadastro.email,
         cnpj: cadastro.cnpj,
-        role: cadastro.role,        // "admin" ou "master"
-        empresaId: cadastro._id,    // master/admin = eles mesmos
+        role: cadastro.role,        
+        empresaId: cadastro._id,    
         permissoes: cadastro.permissoes || {},
         twoFAEnabled: cadastro.twoFAEnabled || false,
       };
 
-      // Se tiver 2FA ativado
+     
       if (cadastro.twoFAEnabled) {
         req.session.tempUser = tempUser;
 
@@ -69,13 +63,13 @@ exports.login = async function (req, res) {
         return req.session.save(() => res.redirect('/login/2fa'));
       }
 
-      // Sem 2FA → login direto
+      
       req.session.user = tempUser;
       req.flash('success', `Login realizado como ${cadastro.role}!`);
       return req.session.save(() => res.redirect('/'));
     }
 
-    // 2) Se não achou no Cadastro → tenta funcionário (usuário OU email)
+  
     const funcionario = await Funcionario.findOne({
       $or: [{ usuario: user }, { email: user }]
     }).select('+senha');
@@ -95,7 +89,6 @@ exports.login = async function (req, res) {
       return req.session.save(() => res.redirect('/'));
     }
 
-    // 3) Se não achou em nenhum
     req.flash('errors', 'Usuário/e-mail ou senha inválidos.');
     return req.session.save(() => res.redirect('/login'));
 
@@ -106,17 +99,13 @@ exports.login = async function (req, res) {
   }
 };
 
-// =============================
-// PÁGINA DE VERIFICAÇÃO 2FA
-// =============================
+
 exports.login2FA = (req, res) => {
   if (!req.session.tempUser) return res.redirect('/login');
   res.render('verificacao2fa', { csrfToken: req.csrfToken() });
 };
 
-// =============================
-// CONFIRMAÇÃO DO CÓDIGO 2FA
-// =============================
+
 exports.confirm2FA = async (req, res) => {
   const { code } = req.body;
 
@@ -133,16 +122,14 @@ exports.confirm2FA = async (req, res) => {
   return req.session.save(() => res.redirect('/login/2fa'));
 };
 
-// =============================
-// LOGOUT
-// =============================
+
 exports.logout = function (req, res) {
   req.session.destroy(err => {
     if (err) {
       console.error('Erro ao destruir a sessão:', err);
-      return res.redirect('/'); // fallback
+      return res.redirect('/'); 
     }
     res.clearCookie('connect.sid'); 
-    return res.redirect('/'); // manda para tela inicial
+    return res.redirect('/'); 
   });
 };

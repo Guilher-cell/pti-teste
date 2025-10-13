@@ -5,11 +5,8 @@ const fs = require("fs");
 const path = require("path");
 const Log = require("../Schemas/logSchema");
 
-// ======================================================
-// UPLOAD DE FICHEIROS (com nomePersonalizado + aprovadoPor)
-// ======================================================
+
 exports.uploadFicheiro = (req, res) => {
-  // ✅ Usa fields() para aceitar arquivos + inputs de texto
   const uploadHandler = multer.fields([
     { name: "ficheiros", maxCount: 10 },
     { name: "nomesPersonalizados[]", maxCount: 10 },
@@ -30,7 +27,7 @@ exports.uploadFicheiro = (req, res) => {
       const usuarioNome = user?.user || "Desconhecido";
       const alteradoPorModel = user?.role === "funcionario" ? "Funcionario" : "Cadastro";
 
-      // ✅ Captura corretamente os arquivos (em array)
+     
       const uploadedFiles = req.files?.ficheiros || [];
 
       if (!uploadedFiles.length) {
@@ -38,7 +35,7 @@ exports.uploadFicheiro = (req, res) => {
         return res.redirect(`/documentos/${documentoId}`);
       }
 
-      // ✅ Captura campos de texto corretamente
+     
       const nomesPersonalizados = Array.isArray(req.body["nomesPersonalizados[]"])
         ? req.body["nomesPersonalizados[]"]
         : Array.isArray(req.body.nomesPersonalizados)
@@ -61,9 +58,7 @@ exports.uploadFicheiro = (req, res) => {
         return res.redirect("/documentos");
       }
 
-      // ======================================================
-      // 🔹 Cria e salva cada arquivo com seus metadados
-      // ======================================================
+  
       const ficheiros = await Promise.all(
         uploadedFiles.map(async (file, idx) => {
           const nomePersonalizado =
@@ -72,7 +67,7 @@ exports.uploadFicheiro = (req, res) => {
 
           const ficheiro = new Ficheiro({
             nomeOriginal: file.originalname,
-            nomePersonalizado, // ✅ nome customizado
+            nomePersonalizado, 
             path: file.filename,
             mimetype: file.mimetype,
             size: file.size,
@@ -84,7 +79,7 @@ exports.uploadFicheiro = (req, res) => {
 
           await ficheiro.save();
 
-          // 🔹 Cria log individual
+         
           await Log.create({
             usuarioId: userId,
             empresaId: user.empresaId || userId,
@@ -100,9 +95,7 @@ exports.uploadFicheiro = (req, res) => {
         })
       );
 
-      // ======================================================
-      // 🔹 Atualiza Documento principal
-      // ======================================================
+  
       await Documento.findByIdAndUpdate(documentoId, {
         $push: { ficheiros: { $each: ficheiros } },
         $set: {
@@ -115,16 +108,13 @@ exports.uploadFicheiro = (req, res) => {
       req.flash("success", "Arquivos enviados com sucesso!");
       return res.redirect(`/documentos/${documentoId}`);
     } catch (e) {
-      console.error("🔥 Erro no upload:", e);
+      console.error("Erro no upload:", e);
       req.flash("errors", ["Erro ao salvar os arquivos."]);
       return res.redirect(`/documentos/${req.params.id}`);
     }
   });
 };
 
-// ======================================================
-// APAGAR UM FICHEIRO
-// ======================================================
 exports.apagarFicheiro = async (req, res) => {
   try {
     const { id, fileId } = req.params;
@@ -159,11 +149,10 @@ exports.apagarFicheiro = async (req, res) => {
       return req.session.save(() => res.redirect(`/documentos/${id}`));
     }
 
-    // 🔹 Remove arquivo físico
     const filePath = path.resolve("public", "uploads", ficheiro.path);
     if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
 
-    // 🔹 Remove do banco
+  
     await ficheiro.deleteOne();
 
     await Documento.findByIdAndUpdate(id, {
@@ -175,7 +164,7 @@ exports.apagarFicheiro = async (req, res) => {
       },
     });
 
-    // 🔹 Log da exclusão
+    
     await Log.create({
       usuarioId: userId,
       empresaId: user.empresaId || userId,

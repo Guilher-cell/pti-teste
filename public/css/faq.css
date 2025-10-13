@@ -1,0 +1,99 @@
+.faq-container {
+  max-width: 1000px;
+  margin: 80px auto;
+  padding: 0 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.faq-title {
+  font-family: "Sora", sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.faq-subtitle {
+  color: #cccccc;
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 16px;
+}
+
+.faq-section {
+  margin-bottom: 40px;
+  font-family: "Inter", sans-serif;
+}
+
+.faq-section h2 {
+  font-family: "Sora", sans-serif;
+  font-size: 22px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.faq-item {
+  border: 1px solid #2b3b5e;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  background-color: #111b31;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  border-color: #04b2f2;
+}
+
+.faq-question {
+  width: 100%;
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 15px;
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  font-family: "Inter", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Ícone SVG (chevron) */
+.chev {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #8fb8ff;
+  stroke-width: 2;
+  transform: rotate(-90deg);
+  transition: transform 0.25s ease;
+}
+
+.faq-item.ativo .chev {
+  transform: rotate(0deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  color: #cfe3ff;
+  background-color: #0e1629;
+  border-top: 1px solid #2b3b5e;
+  padding: 0 20px;
+  transition: max-height 0.4s ease;
+}
+
+.faq-item.ativo .faq-answer {
+  padding: 16px 20px;
+} 
+
+@media (max-width: 768px) {
+  .faq-title { font-size: 28px; }
+  .faq-section h2 { font-size: 20px; }
+  .faq-question { font-size: 14px; }
+}

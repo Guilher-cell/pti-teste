@@ -62,14 +62,6 @@
 
 .ajuda-card strong {
   color: #ffffff;
-}
-
-.ajuda-card a {
-  color: #3da0fc; 
-  text-decoration: none; 
-}
-.ajuda-card a:hover { 
-  text-decoration: underline; 
 } 
 
 /* Botão Ver FAQ */
@@ -86,6 +78,7 @@
   font-family: "Inter", sans-serif;
   transition: background 0.3s ease, transform 0.2s ease;
   margin-top: auto; /* empurra para o final do card */
+  text-decoration: none;
 }
 .btn-ajuda:hover {
   background: #006bcf; 
@@ -105,8 +98,7 @@
 }
 
 /* Sociais */
-
-.ajuda-card-sociais p{
+.ajuda-card-sociais p {
   margin-top: 10px;
 }
 .ajuda-sociais {
@@ -165,7 +157,6 @@
   text-decoration: underline;
 }
 
-    
 /* Responsivo */
 @media (max-width: 800px) {
   .ajuda-grid {

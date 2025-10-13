@@ -74,13 +74,13 @@ app.locals.env = process.env;
 const csrfProtection = csrf();
 app.use((req, res, next) => {
   if (req.method === "POST") {
-    // Upload de documentos gerais (ObjectId)
+   
     if (/^\/documentos\/[a-f\d]{24}\/upload$/i.test(req.path)) {
       console.log("Ignorando CSRF para rota de upload de documentos gerais:", req.path);
       return next();
     }
 
-    // Upload dos capítulos ISO (ex.: /iso9001/4-1/upload)
+    
     if (/^\/iso9001\/[\w-]+\/upload$/i.test(req.path)) {
       console.log("Ignorando CSRF para rota de upload ISO:", req.path);
       return next();

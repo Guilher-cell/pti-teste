@@ -1,3 +1,4 @@
+/* ========= SCRIPT ORIGINAL ========= */
 (() => {
   let pointerDownOnOverlay = false;
 
@@ -171,4 +172,99 @@
 
   // Aplica à página de Documentos Gerais
   configurarUpload("form-documentos");
+})();
+
+/* ========= SCRIPT NOVO (integrado sem sobrescrever o anterior) ========= */
+(() => {
+  // Reusa funções globais se existirem
+  const abrirModal = window.abrirModal || function(id) {
+    const modal = document.getElementById(id);
+    if (modal) modal.style.display = "flex";
+  };
+
+  const fecharModal = window.fecharModal || function(modal) {
+    if (modal) modal.style.display = "none";
+  };
+
+  // Exporta helpers
+  window.__docHelpers = { abrirModal, fecharModal, setupModal };
+
+  function setupModal(triggerId, modalId, options = {}) {
+    const trigger = document.getElementById(triggerId);
+    const modal   = document.getElementById(modalId);
+    if (!trigger || !modal) return;
+
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      abrirModal(modalId);
+      if (options.closeMenu) options.closeMenu();
+    });
+
+    const closeBtn = modal.querySelector(".close");
+    if (closeBtn) closeBtn.addEventListener("click", () => fecharModal(modal));
+
+    const cancelBtn = modal.querySelector(".btn-cancelar, .cancelar");
+    if (cancelBtn) cancelBtn.addEventListener("click", () => fecharModal(modal));
+
+    const form = modal.querySelector("form");
+    if (form) form.addEventListener("submit", () => fecharModal(modal));
+
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) fecharModal(modal);
+    });
+  }
+
+  /* ========= MENU DE OPÇÕES DETALHE DOCUMENTO ========= */
+  const detalheOpcoes = document.querySelector(".detalhe-header .pasta-opcoes");
+  if (detalheOpcoes) {
+    const btnOpcoes = detalheOpcoes.querySelector(".btn-opcoes");
+    if (btnOpcoes) {
+      btnOpcoes.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        detalheOpcoes.classList.toggle("ativo");
+      });
+      document.addEventListener("click", (e) => {
+        if (!detalheOpcoes.contains(e.target)) {
+          detalheOpcoes.classList.remove("ativo");
+        }
+      });
+    }
+  }
+
+  // Configura modais de pasta
+  setupModal("btn-criar-pasta",  "modal-criar-pasta");
+  setupModal("btn-editar-pasta", "modal-editar-pasta", { closeMenu: () => detalheOpcoes?.classList.remove("ativo") });
+  setupModal("btn-excluir-pasta","modal-excluir-pasta", { closeMenu: () => detalheOpcoes?.classList.remove("ativo") });
+
+  /* ========= UPLOADS ADICIONAIS (Subcapítulos) ========= */
+  function configurarUploadExtra(formId) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+
+    const fileInput = form.querySelector("#file-upload");
+    const preview = form.querySelector("#file-preview");
+    const btnSalvar = form.querySelector("#btn-salvar");
+    const btnCancelar = form.querySelector("#btn-cancelar");
+    if (!fileInput || !preview) return;
+
+    fileInput.addEventListener("change", () => {
+      const files = Array.from(fileInput.files);
+      preview.innerHTML = "";
+      if (!files.length) {
+        preview.innerHTML = "<em>Nenhum arquivo selecionado.</em>";
+        return;
+      }
+      files.forEach(f => {
+        const row = document.createElement("div");
+        row.className = "file-row";
+        row.innerHTML = `<span class="file-name">${f.name}</span><span class="file-size">${(f.size/1024).toFixed(1)} KB</span>`;
+        preview.appendChild(row);
+      });
+      btnSalvar.disabled = false;
+      if (btnCancelar) btnCancelar.hidden = false;
+    });
+  }
+
+  configurarUploadExtra("form-subcap");
 })();

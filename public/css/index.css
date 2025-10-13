@@ -12,11 +12,10 @@
   flex-wrap: wrap;
 }
 
-
 /* Texto */
 .hero-home-text {
   flex: 1 1 500px;
-  margin-top: -100px; /* <-- sobe o bloco de texto */
+  margin-top: -100px;
 }
 
 .hero-home-text h2 {
@@ -36,8 +35,7 @@
   font-family: "Inter", sans-serif;
 }
 
-
-/* Botão estilo igual ao .btn-conta-* */
+/* Botão */
 .btn-home-hero {
   background-color: #0084ff;
   color: #ffffff;
@@ -57,11 +55,11 @@
 
 /* Imagem */
 .hero-home-image {
-  flex: 1 1 500px; /* aumenta a largura base */
+  flex: 1 1 500px;
   text-align: center;
 }
 .hero-home-image img {
-  max-width: 140%; /* aumenta a proporção */
+  max-width: 140%;
   height: auto;
 }
 
@@ -79,7 +77,6 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 1.7;
-  word-spacing: 1px;
   color: #cccccc;
   margin-bottom: 60px;
   font-family: "Inter", sans-serif;
@@ -146,8 +143,8 @@
 /* Card "Em breve" */
 .cert-card.soon {
   opacity: 0.5;
-  border-style: dashed; /* destaque de em breve */
-  pointer-events: none; /* não clicável */
+  border-style: dashed;
+  pointer-events: none;
 }
 .cert-card.soon h3::after {
   content: " (em breve)";
@@ -161,7 +158,6 @@
   cursor: not-allowed;
   pointer-events: none;
 }
-
 
 /* ===== Seção: Simplifique ===== */
 .simplifique {
@@ -178,7 +174,7 @@
 }
 
 .simplifique-container {
-  max-width: 1200px; /* aumentei um pouco pra dar respiro */
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -191,7 +187,7 @@
 .simplifique-image {
   flex: 1 1 600px;
   text-align: center;
-  margin-left: -40px; /* puxa a imagem mais para a esquerda */
+  margin-left: -40px;
 }
 
 .simplifique-image img {
@@ -201,7 +197,6 @@
   object-fit: contain;
 }
 
-
 /* Texto (direita) */
 .simplifique-texto {
   flex: 1 1 520px;
@@ -210,14 +205,12 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 1.9;
-  word-spacing: 1px;
   color: #cccccc;
 }
 
 .simplifique-texto strong {
   color: #ffffff;
 }
-
 
 /* ===== Seção Blog ===== */
 .blog-section {
@@ -246,7 +239,7 @@
   background: #0e1629;
   padding: 10px 10px 0;
   border-radius: 10px;
-  overflow: hidden; 
+  overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
@@ -310,7 +303,7 @@
   text-decoration: none;
   font-family: "Inter", sans-serif;
   padding: 0 15px;
-  background-color: #0e1629; /* fundo da seção, evita que a linha passe por trás do texto */
+  background-color: #0e1629;
   position: relative;
   z-index: 1;
 }
@@ -336,17 +329,218 @@
 
 .blog-more a:hover {
   color: #ffffff;
-} 
+}
 
-/* Responsivo */
-@media (max-width: 1000px) {
+/* ===============================
+   RESPONSIVIDADE TOTAL OTIMIZADA
+=============================== */
+
+/* 🔹 Até 1200px */
+@media (max-width: 1200px) {
+  .hero-home-text {
+    margin-top: -60px;
+  }
+  .hero-home-text h2 {
+    font-size: 32px;
+  }
+  .hero-home-text p {
+    font-size: 17px;
+  }
+  .hero-home-image img {
+    max-width: 115%;
+  }
+  .simplifique-container {
+    gap: 40px;
+  }
+  .simplifique-texto p {
+    font-size: 17px;
+  }
+}
+
+/* 🔹 Até 1100px — centralização e tamanho ajustado */
+@media (max-width: 1100px) {
+  .hero-home {
+    padding: 50px 20px 20px;
+  }
+  .hero-home-container {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .hero-home-image {
+    margin: 0 auto;
+  }
+  .hero-home-image img {
+    max-width: 78%;
+    height: auto;
+    margin-bottom: 6px;
+  }
+
+  .hero-home-text {
+    margin-top: 10px;
+  }
+  .hero-home-text h2 {
+    font-size: 30px;
+    margin: 6px 0 10px;
+  }
+  .hero-home-text p {
+    font-size: 16px;
+    margin: 0 0 15px;
+  }
+
+  /* Simplifique */
+  .simplifique {
+    margin-top: 90px;
+  }
+  .simplifique-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+  .simplifique-image {
+    margin-left: 0;
+  }
+  .simplifique-image img {
+    width: 85%;
+    max-width: 680px;
+    margin-bottom: 8px;
+  }
+  .simplifique-titulo {
+    font-size: 30px;
+    margin: 14px 0 10px;
+  }
+  .simplifique-texto {
+    margin-top: 0;
+  }
+  .simplifique-texto p {
+    font-size: 15.5px;
+    line-height: 1.75;
+  }
+}
+
+/* 🔹 Até 900px — imagens maiores e espaçamento menor */
+@media (max-width: 900px) {
+  .hero-home {
+    padding: 40px 18px 18px;
+  }
+  .hero-home-container {
+    gap: 8px;
+  }
+  .hero-home-text h2 {
+    font-size: 28px;
+  }
+  .hero-home-text p {
+    font-size: 15px;
+  }
+  .hero-home-image img {
+    max-width: 82%;
+    margin-bottom: 8px;
+  }
+
+  .simplifique {
+    margin-top: 70px;
+  }
+  .simplifique-container {
+    gap: 10px;
+  }
+  .simplifique-image img {
+    width: 88%;
+    max-width: 640px;
+  }
+  .simplifique-texto p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
   .blogs-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media (max-width: 600px) {
+
+/* 🔹 Até 700px — centralização perfeita e proporção equilibrada */
+@media (max-width: 700px) {
+  .hero-home {
+    padding: 30px 16px 18px;
+  }
+  .hero-home-container {
+    gap: 6px;
+  }
+  .hero-home-text h2 {
+    font-size: 25px;
+    margin: 10px 0 8px;
+  }
+  .hero-home-text p {
+    font-size: 14.5px;
+  }
+  .btn-home-hero {
+    padding: 12px 28px;
+    font-size: 13.5px;
+  }
+  .hero-home-image img {
+    max-width: 86%;
+  }
+
+  .simplifique {
+    margin-top: 55px;
+  }
+  .simplifique-container {
+    gap: 8px;
+  }
+  .simplifique-image img {
+    width: 90%;
+  }
+  .simplifique-titulo {
+    font-size: 25px;
+    margin-bottom: 12px;
+  }
+  .simplifique-texto p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+/* 🔹 Até 500px — layout fluido, imagem central e espaçamento mínimo */
+@media (max-width: 500px) {
+  .hero-home {
+    padding: 24px 12px 14px;
+  }
+  .hero-home-container {
+    gap: 4px;
+  }
+  .hero-home-text h2 {
+    font-size: 23px;
+    line-height: 1.25;
+  }
+  .hero-home-text p {
+    font-size: 13.5px;
+    margin-bottom: 10px;
+  }
+  .hero-home-image img {
+    max-width: 92%;
+  }
+
+  .simplifique {
+    margin-top: 50px;
+  }
+  .simplifique-container {
+    gap: 6px;
+  }
+  .simplifique-image img {
+    width: 95%;
+  }
+  .simplifique-titulo {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .simplifique-texto p {
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
   .blogs-grid {
     grid-template-columns: 1fr;
   }
 }
-

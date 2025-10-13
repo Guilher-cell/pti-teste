@@ -5,14 +5,12 @@ const cadastroModel = require("../Schemas/cadastroSchema");
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,  // seu e-mail
-    pass: process.env.EMAIL_PASS   // senha de app, não a senha normal
+    user: process.env.EMAIL_USER,  
+    pass: process.env.EMAIL_PASS   
   }
 });
 
-// ============================
-// ATIVAR 2FA (usuário logado)
-// ============================
+
 exports.habilitar2FA = async (req, res) => {
   try {
     if (!req.session.user) return res.redirect("/login");
@@ -32,13 +30,13 @@ exports.habilitar2FA = async (req, res) => {
       message: "Enviamos um código para o seu e-mail."
     });
   } catch (err) {
-    console.error("❌ Erro ao enviar e-mail 2FA:", err);
+    console.error("Erro ao enviar e-mail 2FA:", err);
     req.flash("errors", "Não foi possível enviar o e-mail de ativação.");
     return req.session.save(() => res.redirect("/seguranca"));
   }
 };
 
-// confirma a 2fa na pagina seguranca em minha
+
 exports.confirmarAtivacao = async (req, res) => {
   const { code } = req.body;
 
@@ -55,9 +53,7 @@ exports.confirmarAtivacao = async (req, res) => {
   return req.session.save(() => res.redirect("/seguranca"));
 };
 
-// ============================
-// LOGIN COM 2FA
-// ============================
+
 exports.enviarCodigoLogin = async (user, req) => {
   // gera código e salva no banco
   const code = crypto.randomInt(100000, 999999).toString();
@@ -72,16 +68,16 @@ exports.enviarCodigoLogin = async (user, req) => {
     text: `Seu código de login é: ${code}`
   });
 
-  req.session.tempUserId = user._id; // guarda usuário temporário
+  req.session.tempUserId = user._id; 
 };
 
-// verifica a 2fa no login
+
 exports.verificacaoLogin = (req, res) => {
   if (!req.session.tempUserId) return res.redirect("/login");
   res.render("verificacao2fa", { csrfToken: req.csrfToken(), error: null });
 };
 
-//confirma o 2fa
+
 exports.confirmarLogin2FA = async (req, res) => {
   const { code } = req.body;
   const user = await cadastroModel.findById(req.session.tempUserId);
@@ -90,7 +86,7 @@ exports.confirmarLogin2FA = async (req, res) => {
     return res.render("verificacao2fa", { csrfToken: req.csrfToken(), error: "Código inválido ou expirado." });
   }
 
-  // login completo
+ 
   req.session.user = {
     _id: user._id,
     user: user.user,
@@ -99,7 +95,6 @@ exports.confirmarLogin2FA = async (req, res) => {
     twoFAEnabled: true
   };
 
-  // limpa código do banco
   user.twoFACode = null;
   user.twoFACodeExpires = null;
   await user.save();

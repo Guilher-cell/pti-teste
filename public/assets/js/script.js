@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // =======================================================
-  // MENUS HEADER
+  // MENUS HEADER (Notificação + Hamburguer)
   // =======================================================
   const notif = document.querySelector(".menu-notificacao");
   const menuHamburguer = document.getElementById("menuHamburguer");
@@ -19,39 +19,74 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("load", ajustarSubmenuLargura);
   window.addEventListener("resize", ajustarSubmenuLargura);
 
+  // =======================================================
+  // MENU DROPDOWN RESPONSIVO ("MENU ▼")
+  // =======================================================
+  const dropdown = document.querySelector(".menu-dropdown");
+  const toggle = document.querySelector(".dropdown-toggle");
+
+  function fecharDropdown() {
+    if (dropdown) dropdown.classList.remove("active");
+  }
+
+  if (toggle && dropdown) {
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle("active");
+      if (notif) notif.classList.remove("aberto");
+      if (menuHamburguer) menuHamburguer.classList.remove("active");
+    });
+  }
+
+  // =======================================================
+  // NOTIFICAÇÃO (Sininho)
+  // =======================================================
   if (notif) {
     notif.addEventListener("click", (e) => {
       e.stopPropagation();
       notif.classList.toggle("aberto");
       if (menuHamburguer) menuHamburguer.classList.remove("active");
+      fecharDropdown(); // fecha o dropdown se estiver aberto
     });
   }
 
+  // =======================================================
+  // MENU HAMBURGUER
+  // =======================================================
   if (menuHamburguer) {
     menuHamburguer.addEventListener("click", (e) => {
       e.stopPropagation();
       menuHamburguer.classList.toggle("active");
       if (notif) notif.classList.remove("aberto");
+      fecharDropdown(); // fecha o dropdown se aberto
       ajustarSubmenuLargura();
     });
   }
 
+  // =======================================================
+  // FECHAR MENUS AO CLICAR FORA
+  // =======================================================
   document.addEventListener("click", () => {
     if (notif) notif.classList.remove("aberto");
     if (menuHamburguer) menuHamburguer.classList.remove("active");
+    fecharDropdown();
   });
 
+  // =======================================================
+  // FECHAR MENUS COM ESC
+  // =======================================================
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       if (notif) notif.classList.remove("aberto");
       if (menuHamburguer) menuHamburguer.classList.remove("active");
+      fecharDropdown();
     }
   });
 
   // =======================================================
-  // UPLOAD DE FICHEIROS (preview + aprovadores)
+  // UPLOAD DE FICHEIROS (Preview + Aprovadores)
   // =======================================================
-  const inputFicheiros = document.getElementById("file-upload"); // seu input
+  const inputFicheiros = document.getElementById("file-upload");
   const previewList = document.getElementById("preview-list");
   const aprovadoresWrapper = document.getElementById("aprovadores-wrapper");
 
@@ -61,12 +96,12 @@ document.addEventListener("DOMContentLoaded", () => {
       aprovadoresWrapper.innerHTML = "";
 
       Array.from(inputFicheiros.files).forEach((file) => {
-        // preview do arquivo
+        // Preview do arquivo
         const li = document.createElement("li");
         li.textContent = `${file.name} — ${(file.size / 1024).toFixed(2)} KB`;
         previewList.appendChild(li);
 
-        // input "Aprovado por"
+        // Campo “Aprovado por”
         const row = document.createElement("div");
         row.className = "aprovador-row";
         row.innerHTML = `
@@ -87,12 +122,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalApagar = document.getElementById("modal-excluir-pasta");
   const modalLogout = document.getElementById("modal-logout");
 
-  const abrirModal = (modal) => { if (modal) modal.style.display = "flex"; };
-  const fecharModal = (modal) => { if (modal) modal.style.display = "none"; };
+  const abrirModal = (modal) => {
+    if (modal) modal.style.display = "flex";
+  };
+
+  const fecharModal = (modal) => {
+    if (modal) modal.style.display = "none";
+  };
 
   if (btnEditar) btnEditar.addEventListener("click", () => abrirModal(modalEditar));
   if (btnApagar) btnApagar.addEventListener("click", () => abrirModal(modalApagar));
 
+  // Fecha ao clicar no botão X ou “Cancelar”
   document.querySelectorAll(".modal .close, .btn-cancelar, #btn-cancelar-logout").forEach(btn => {
     btn.addEventListener("click", (e) => {
       const modal = e.target.closest(".modal, .modal-excluir, .modal-logout");
@@ -100,15 +141,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Fecha clicando fora do modal
   window.addEventListener("click", (e) => {
-    if (e.target.classList.contains("modal") ||
-        e.target.classList.contains("modal-excluir") ||
-        e.target.classList.contains("modal-logout")) {
+    if (
+      e.target.classList.contains("modal") ||
+      e.target.classList.contains("modal-excluir") ||
+      e.target.classList.contains("modal-logout")
+    ) {
       fecharModal(e.target);
     }
   });
 
-  // Logout (links com classe sair)
+  // Logout (abre modal)
   document.querySelectorAll(".sair").forEach(link => {
     link.addEventListener("click", (e) => {
       e.preventDefault();

@@ -135,7 +135,6 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
-  font-family: "Inter", sans-serif;
 }
 .btn-anexo svg {
   width: 18px;
@@ -146,7 +145,7 @@
   border-color: #0084ff;
 }
 
-/* Pré-visualização (JS) */
+/* Pré-visualização */
 #file-preview {
   margin-top: 10px;
   font-size: 14px;
@@ -176,13 +175,6 @@
   font-size: 14px;
   flex: 1;
 }
-.file-name a {
-  color: #7fb6ff;
-  text-decoration: none;
-}
-.file-name a:hover {
-  text-decoration: underline;
-}
 .file-size {
   color: #7aa7ff;
   font-size: 12px;
@@ -201,7 +193,6 @@
   font-size: 14px;
   outline: none;
   transition: 0.3s;
-  font-family: "Inter", sans-serif;
   box-sizing: border-box;
 }
 .file-row input::placeholder {
@@ -213,16 +204,37 @@
   border-color: #0084ff;
   box-shadow: 0 0 6px rgba(0, 132, 255, 0.4);
 }
-
-/* Estado readonly */
 .file-row input[readonly] {
   color: #999999;
   cursor: not-allowed;
-  border-color: #2b3b5e;
 }
-.file-row input[readonly]:focus {
-  border-color: #2b3b5e;
-  box-shadow: none;
+
+/* ===== Ações: Download + Excluir ===== */
+.file-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botão de download */
+.btn-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.2s ease;
+  padding: 6px;
+}
+.btn-download svg {
+  stroke: #04b2f2;
+  width: 22px;
+  height: 22px;
+}
+.btn-download:hover {
+  background: rgba(4, 178, 242, 0.1); 
 }
 
 /* Botão excluir */
@@ -235,15 +247,15 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 .btn-apagar svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   stroke: #ff4d4d;
 }
 .btn-apagar:hover {
-  background: rgba(255, 77, 77, 0.1);
+  background: rgba(255, 77, 77, 0.1); 
 }
 
 /* ===== Botões Upload ===== */
@@ -252,7 +264,7 @@
   gap: 12px;
   justify-content: flex-end;
 }
-.btn-doc-salvar, 
+.btn-doc-salvar,
 .btn-doc-cancelar {
   font-weight: 600;
   font-size: 15px;
@@ -260,14 +272,14 @@
   padding: 12px 24px;
   cursor: pointer;
   border: none;
-  transition: background-color 0.3s ease;
-  font-family: "Inter", sans-serif;
+  transition: background-color 0.3s ease; 
+  font-family: "Inter", sans-serif; 
 }
 .btn-doc-salvar {
   background-color: #0084ff;
   color: #fff;
 }
-.btn-doc-salvar:hover  {
+.btn-doc-salvar:hover {
   background-color: #006bcf;
 }
 .btn-doc-cancelar {
@@ -277,6 +289,7 @@
 .btn-doc-cancelar:hover {
   background: #444f6a;
 }
+
 
 
 /* ===== Modais (Criar / Editar) ===== */

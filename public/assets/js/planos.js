@@ -59,4 +59,50 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   console.log("✅ planos.js carregado com animações + pagamentos");
+
+  // ======================================================
+  // 4) Modal do Plano Básico (30 dias grátis)
+  // ======================================================
+  const btnAbrir = document.getElementById("btn-obter-plano");
+  const modal = document.getElementById("modal-plano-basico");
+  const close = document.getElementById("close-plano-basico");
+  const cancelar = document.getElementById("cancelar-plano-basico");
+  const confirmar = document.getElementById("btn-confirmar-plano");
+
+  if (btnAbrir && modal) {
+    // Abrir modal
+    btnAbrir.addEventListener("click", (e) => {
+      e.preventDefault();
+      modal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    });
+
+    // Fechar modal
+    [close, cancelar].forEach(btn => {
+      if (btn) {
+        btn.addEventListener("click", () => {
+          modal.style.display = "none";
+          document.body.style.overflow = "";
+        });
+      }
+    });
+
+    // Fechar clicando fora
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+      }
+    });
+
+    // Confirmação (ativar plano)
+    if (confirmar) {
+      confirmar.addEventListener("click", () => {
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+        alert("Seu plano básico foi ativado com sucesso! Aproveite seus 30 dias grátis."); 
+      });
+    }
+  }
 });
+ 

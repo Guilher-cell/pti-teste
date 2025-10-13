@@ -1,10 +1,10 @@
-const Cadastro = require('../models/cadastroModel'); // Classe Cadastro
+const Cadastro = require('../models/cadastroModel'); 
 const TokenModel = require('../models/tokenModel');
-const cadastroModel = require('../Schemas/cadastroSchema'); // Schema real do usuário
+const cadastroModel = require('../Schemas/cadastroSchema'); 
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
-// Config Nodemailer
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -13,15 +13,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// =============================
-// PÁGINA DE CADASTRO
-// =============================
+
 exports.criar = (req, res) => {
   if (req.session.user) return res.redirect('/');
 
   res.render('cadastro', { 
     csrfToken: req.csrfToken(),
-    dados: req.flash('formdata')[0] || {}, // dados antigos (se existirem)
+    dados: req.flash('formdata')[0] || {}, 
     messages: {
       errors: req.flash('errors'),
       success: req.flash('success')
@@ -29,16 +27,13 @@ exports.criar = (req, res) => {
   });
 };
 
-// =============================
-// REGISTRO DE USUÁRIO
-// =============================
 exports.register = async (req, res) => {
   try {
     const cadastro = new Cadastro(req.body);
     await cadastro.register();
 
     if (cadastro.errors.length > 0) {
-      // Salva erros e os dados do form (sem senha)
+      
       req.flash('errors', cadastro.errors);
       req.flash('formdata', {
         email: req.body.email,
@@ -49,17 +44,17 @@ exports.register = async (req, res) => {
       return req.session.save(() => res.redirect('/criar'));
     }
 
-    // Usuário criado
+   
     const user = cadastro.user;
 
-    // Gera token de verificação
+    
     const token = crypto.randomBytes(32).toString('hex');
     await TokenModel.create({
       userId: user._id,
       token: token,
     });
 
-    // Link de confirmação
+   
     const link = `${req.protocol}://${req.get('host')}/verificar-email/${token}`;
 
     await transporter.sendMail({
@@ -78,15 +73,13 @@ exports.register = async (req, res) => {
     return req.session.save(() => res.redirect('/login'));
 
   } catch (err) {
-    console.error('❌ Erro no registro:', err);
+    console.error('Erro no registro:', err);
     req.flash('errors', 'Erro ao criar conta. Tente novamente!');
     return req.session.save(() => res.redirect('/criar'));
   }
 };
 
-// =============================
-// VERIFICAÇÃO DE EMAIL
-// =============================
+
 exports.verificarEmail = async (req, res) => {
   try {
     const tokenDoc = await TokenModel.findOne({ token: req.params.token });
@@ -95,16 +88,16 @@ exports.verificarEmail = async (req, res) => {
       return res.redirect('/login');
     }
 
-    // Ativa a conta
+   
     await cadastroModel.findByIdAndUpdate(tokenDoc.userId, { ativo: true });
 
-    // Remove token
+    
     await tokenDoc.deleteOne();
 
     req.flash('success', 'Conta ativada com sucesso! Faça login.');
     return res.redirect('/login');
   } catch (err) {
-    console.error('❌ Erro ao verificar email:', err);
+    console.error('Erro ao verificar email:', err);
     req.flash('errors', 'Erro ao verificar conta.');
     return res.redirect('/login');
   }

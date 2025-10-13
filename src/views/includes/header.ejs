@@ -9,7 +9,7 @@
         <% if (user && user.role === "funcionario") { %>
           <% if (user.permissoes && user.permissoes.dashboardISO) { %>
     <!-- Funcionário: vê Dashboard -->
-    <a href="/dashboard">Dashboard</a>
+    <a href="/dashboard">Certificações</a>
   <% } %>
   <% if (user.permissoes && user.permissoes.documentosGerais) { %>
     <!-- Funcionário: vê Documentos -->
@@ -21,7 +21,38 @@
   <a href="/planos">Planos</a>
 <% } %>
       </div>
-    </div>
+    </div> 
+
+    <!-- Menu Dinâmico (para telas médias e pequenas) -->
+<div class="menu-dropdown">
+  <button class="dropdown-toggle">
+    MENU <span class="seta">▼</span>
+  </button>
+
+  <div class="dropdown-content">
+    <a href="/sobre">Sobre a Empresa</a>
+    <a href="/funcionalidades">Funcionalidades</a>
+
+    <% if (user && user.role === "funcionario") { %>
+      <% if (user.permissoes && user.permissoes.dashboardISO) { %>
+        <a href="/dashboard">Certificações</a>
+      <% } %>
+      <% if (user.permissoes && user.permissoes.documentosGerais) { %>
+        <a href="/documentos">Documentos Gerais</a>
+      <% } %>
+    <% } else { %>
+      <a href="/dashboard">Certificações</a>
+      <a href="/planos">Planos</a>
+    <% } %>
+
+    <!--  Só aparece dentro do MENU a partir de 699px -->
+    <a href="/solicitar" class="link-demonstracao-menu">Solicitar Demonstração</a>
+  </div>
+</div>
+
+
+
+
 
     
       <% if (!user || (user && user.role !== "funcionario")) { %>
@@ -36,7 +67,7 @@
     <% if (user) { %>
       <div class="menu-item">
         <div class="menu-notificacao">
-           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-notificacao-icon lucide lucide-bell-icon""><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M13.916 2.314A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.74 7.327A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673 9 9 0 0 1-.585-.665"/><circle cx="18" cy="8" r="3"/></svg>
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-notificacao-icon lucide lucide-bell-icon"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M13.916 2.314A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.74 7.327A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673 9 9 0 0 1-.585-.665"/><circle cx="18" cy="8" r="3"/></svg>
           <div class="submenu-notificacao">
             <p>Os documentos do <strong>Capítulo 4 - Contexto da Organização</strong> precisam ser atualizados.
       <br>Prazo de revisão: <strong>15/01/2026</strong>. </p>

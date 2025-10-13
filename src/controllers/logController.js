@@ -1,6 +1,5 @@
 const Log = require("../Schemas/logSchema");
 
-// Logs da empresa (master)
 exports.logsEmpresa = async (req, res) => {
   try {
     const empresaId = req.session.user.empresaId || req.session.user._id;
@@ -10,14 +9,12 @@ exports.logsEmpresa = async (req, res) => {
 
     res.render("logs_empresa", { csrfToken: req.csrfToken(), logs, user: req.session.user });
   } catch (err) {
-    console.error("❌ Erro logs da empresa:", err);
+    console.error("Erro logs da empresa:", err);
     req.flash("errors", "Erro ao carregar logs.");
     res.redirect("/");
   }
 };
 
-// Logs globais (admin)
-// Logs globais (admin)
 exports.logsAdmin = async (req, res) => {
   try {
     if (!req.session.user || req.session.user.role !== "admin") {
@@ -36,7 +33,7 @@ exports.logsAdmin = async (req, res) => {
       user: req.session.user 
     });
   } catch (err) {
-    console.error("❌ Erro logs admin:", err);
+    console.error("Erro logs admin:", err);
     req.flash("errors", "Erro ao carregar logs.");
     res.redirect("/");
   }

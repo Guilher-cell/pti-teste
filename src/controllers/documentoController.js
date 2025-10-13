@@ -1,21 +1,18 @@
 const DocumentoModel = require("../Schemas/documentoSchema");
 const FicheiroModel = require("../Schemas/fileSchema");
 const Log = require("../Schemas/logSchema");
-// Helper: resolve o escopo da empresa (compatível com legado)
 function empresaScope(req) {
   const userId = req.session.user?._id;
-  const empresaId = req.session.user?.empresaId || userId; // master: empresa = ele mesmo
+  const empresaId = req.session.user?.empresaId || userId;
   return { userId, empresaId };
 }
 
-// Query compatível: aceita registros antigos (owner) e novos (empresaId)
+
 function empresaFilter(empresaId, userId) {
   return { $or: [{ empresaId }, { owner: userId }] };
 }
 
-// ===============================
-// LISTA PASTAS (apenas da empresa)
-// ===============================
+
 exports.index = async (req, res) => {
   try {
     const { userId, empresaId } = empresaScope(req);
@@ -23,7 +20,7 @@ exports.index = async (req, res) => {
     const documentos = await DocumentoModel.find(empresaFilter(empresaId, userId))
       .sort({ createdAt: -1 })
       .populate("ficheiros")
-      // pega nome de Cadastro (user) OU Funcionario (nome/usuario)
+     
       .populate({ path: "alteradoPor", select: "user nome usuario" });
 
     return res.render("documentos", {
@@ -37,9 +34,7 @@ exports.index = async (req, res) => {
   }
 };
 
-// ===============================
-// CRIA NOVA PASTA (vincula à empresa)
-// ===============================
+
 exports.criar = async (req, res) => {
   try {
     const { empresaId, userId } = empresaScope(req);
@@ -53,15 +48,15 @@ exports.criar = async (req, res) => {
     const novoDocumento = await DocumentoModel.create({
       nome,
       descricao,
-      empresaId,        // escopo empresa
-      owner: empresaId, // compat legado
+      empresaId,
+      owner: empresaId,
       criadoPor: userId,
       ultimaAlteracao: new Date(),
       alteradoPor: userId,
       alteradoPorModel: req.session.user.role === "funcionario" ? "Funcionario" : "Cadastro",
     });
 
-    // 🔹 Cria log da ação
+    
     await Log.create({
       usuarioId: userId,
       empresaId,
@@ -80,9 +75,7 @@ exports.criar = async (req, res) => {
   }
 };
 
-// ===============================
-// DETALHE DE UMA PASTA (escopo empresa)
-// ===============================
+
 exports.detalhe = async (req, res) => {
   try {
     const { empresaId, userId } = empresaScope(req);
@@ -110,9 +103,7 @@ exports.detalhe = async (req, res) => {
   }
 };
 
-// ===============================
-// EDITA PASTA (escopo empresa)
-// ===============================
+
 exports.editar = async (req, res) => {
   try {
     const { empresaId, userId } = empresaScope(req);
@@ -132,7 +123,7 @@ exports.editar = async (req, res) => {
         descricao,
         ultimaAlteracao: new Date(),
         alteradoPor: userId,
-        alteradoPorModel, // 🔑 importante
+        alteradoPorModel, 
       },
       { new: true, runValidators: true }
     );
@@ -151,9 +142,7 @@ exports.editar = async (req, res) => {
   }
 };
 
-// ===============================
-// APAGA PASTA (escopo empresa)
-// ===============================
+
 exports.apagar = async (req, res) => {
   try {
     const { empresaId, userId } = empresaScope(req);
@@ -189,9 +178,7 @@ exports.apagar = async (req, res) => {
   }
 };
 
-// ===============================
-// APROVAR FICHEIRO (escopo empresa)
-// ===============================
+
 exports.aprovarFicheiro = async (req, res) => {
   try {
     const { empresaId, userId } = empresaScope(req);

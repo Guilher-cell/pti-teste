@@ -1,7 +1,7 @@
-const Solicitacao = require('../models/solicitacaoModel'); // sua classe
+const Solicitacao = require('../models/solicitacaoModel'); 
 const nodemailer = require('nodemailer');
 
-// Configura o transporte do Nodemailer
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -28,7 +28,7 @@ exports.enviar = async (req, res) => {
     // Monta o email
     await transporter.sendMail({
       from: `"FlowCerti" <${process.env.EMAIL_USER}>`,
-      to: "flowcerti@gmail.com", // <- seu e-mail que recebe as solicitações
+      to: "flowcerti@gmail.com", 
       subject: "Nova solicitação de demonstração",
       html: `
         <h3>Nova solicitação recebida:</h3>
@@ -41,7 +41,7 @@ exports.enviar = async (req, res) => {
       `
     });
 
-    // (Opcional) Resposta automática para o cliente
+   
     await transporter.sendMail({
       from: `"FlowCerti" <${process.env.EMAIL_USER}>`,
       to: req.body.email,
@@ -53,7 +53,7 @@ exports.enviar = async (req, res) => {
     return req.session.save(() => res.redirect("/solicitar"));
 
   } catch (err) {
-    console.error("❌ Erro ao enviar solicitação:", err);
+    console.error("Erro ao enviar solicitação:", err);
     req.flash("errors", "Não foi possível enviar sua solicitação.");
     return req.session.save(() => res.redirect("/solicitar"));
   }

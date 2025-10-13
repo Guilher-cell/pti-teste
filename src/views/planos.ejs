@@ -45,7 +45,7 @@
         </div>
     </section>
  
-    <section class="planos-container">
+   <section class="planos-container">
   <!-- Plano Básico -->
   <div class="plano-box basico"> 
     <h2>Plano Básico <span class="plano-duracao">(30 dias grátis)</span></h2> 
@@ -54,8 +54,8 @@
       <li><span class="icon">✔</span> Monitoramento de prazos</li>
       <li><span class="icon">✔</span> Gestão de requisitos</li>
       <li><span class="icon">✔</span> Armazenamento de documentos</li>
-    </ul>  
-    <a href="plano-basico.html" class="btn-obter-plano">Obter Plano</a>
+    </ul> 
+    <button id="btn-obter-plano" class="btn-obter-plano">Obter Plano</button>
   </div>
 
   <!-- Plano Premium -->
@@ -73,6 +73,34 @@
   </div>
 </section>
 
+<!-- Modal Plano Básico -->
+<div id="modal-plano-basico" class="modal">
+  <div class="modal-content">
+    <span id="close-plano-basico" class="close">&times;</span>
+
+    <h2>Obter Plano Básico</h2>
+    <p class="modal-intro">
+      Para obter o plano básico da FlowCerti, siga atentamente as instruções abaixo
+      e conclua a verificação da sua conta:
+    </p>
+
+    <ul class="modal-instrucoes">
+      <li>1. Crie sua conta na plataforma FlowCerti.</li>
+      <li>2. Verifique o e-mail de confirmação para ativar sua conta.</li>
+      <li>3. Após ativar, faça login e acesse a página <strong>"Ver Minha Conta"</strong>.</li>
+      <li>4. Localize a seção <strong>"Validação Pendente"</strong> e clique em <strong>"Ver Verificações"</strong>.</li>
+      <li>5. Você será direcionado para a página <strong>"Verificação"</strong> onde verá a mensagem: “Você ainda não completou seus dados”.</li>
+      <li>6. Clique em <strong>"Meus Dados"</strong> e preencha todas as informações solicitadas (Dados empresariais e Endereço).</li>
+      <li>7. Após preencher tudo, clique em <strong>"Salvar"</strong>. Sua conta estará 100% verificada.</li>
+      <li>8. Agora você poderá obter seu <strong>Plano Básico</strong>.</li>
+    </ul>
+
+    <div class="modal-actions">
+      <button id="btn-confirmar-plano" class="btn-confirmar-plano">Obter plano</button>
+      <button id="cancelar-plano-basico" class="btn-cancelar-plano">Cancelar</button>
+    </div>
+  </div>
+</div> 
 
 
     <div class="info-extra-planos">

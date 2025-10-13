@@ -17,12 +17,12 @@ function fileFilter(req, file, cb) {
     "image/jpeg",
     "image/png",
     "image/gif",
-    "application/msword", // Word antigo (.doc)
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Word novo (.docx)
-    "application/vnd.ms-excel", // Excel antigo (.xls)
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel novo (.xlsx)
-    "application/vnd.ms-powerpoint", // PowerPoint antigo (.ppt)
-    "application/vnd.openxmlformats-officedocument.presentationml.presentation" // PowerPoint novo (.pptx)
+    "application/msword", 
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+    "application/vnd.ms-excel", 
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+    "application/vnd.ms-powerpoint", 
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation"
   ];
 
   if (allowedMimes.includes(file.mimetype)) {

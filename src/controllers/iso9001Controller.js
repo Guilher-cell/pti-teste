@@ -3,18 +3,14 @@ const Ficheiro = require("../Schemas/fileSchema");
 const Log = require("../Schemas/logSchema");
 const multer = require("../config/multerConfig");
 
-// =====================================================
-// 🔹 Helper: Escopo da empresa
-// =====================================================
+
 function empresaScope(req) {
   const userId = req.session.user?._id;
   const empresaId = req.session.user?.empresaId || userId;
   return { userId, empresaId };
 }
 
-// =====================================================
-// 🔹 Mostrar Capítulo ou Subcapítulo
-// =====================================================
+
 exports.mostrarCapitulo = async (req, res) => {
   try {
     const capitulo = req.params.capitulo;
@@ -54,27 +50,23 @@ exports.mostrarCapitulo = async (req, res) => {
     });
 
   } catch (e) {
-    console.error("❌ Erro mostrarCapitulo:", e);
+    console.error("Erro mostrarCapitulo:", e);
     req.flash("errors", "Erro ao carregar capítulo.");
     return req.session.save(() => res.redirect("/"));
   }
 };
 
-// =====================================================
-// 🔹 Upload de Arquivos (corrigido para salvar nomePersonalizado)
-// =====================================================
 exports.uploadCapitulo = (req, res) => {
-  // ✅ Usa fields() para aceitar múltiplos nomes
   const upload = multer.fields([
     { name: "ficheiros", maxCount: 10 },
-    { name: "ficheiros[]", maxCount: 10 }, // aceita os dois formatos
+    { name: "ficheiros[]", maxCount: 10 }, 
   ]);
 
   const capitulo = req.params.capitulo;
 
   upload(req, res, async (err) => {
     if (err) {
-      console.error("❌ Erro upload:", err);
+      console.error("Erro upload:", err);
       req.flash("errors", [err.message]);
       return res.redirect(`/iso9001/${capitulo}`);
     }
@@ -82,7 +74,7 @@ exports.uploadCapitulo = (req, res) => {
     try {
       const { userId, empresaId } = empresaScope(req);
 
-      // ✅ Pega os arquivos de forma segura
+     
       const files =
         (req.files && (req.files.ficheiros || req.files["ficheiros[]"])) || [];
 
@@ -91,7 +83,7 @@ exports.uploadCapitulo = (req, res) => {
         return res.redirect(`/iso9001/${capitulo}`);
       }
 
-      // ✅ Garante que campos de texto também sejam capturados
+    
       const nomesPersonalizadosArray = Array.isArray(req.body["nomesPersonalizados[]"])
         ? req.body["nomesPersonalizados[]"]
         : Array.isArray(req.body.nomesPersonalizados)
@@ -104,14 +96,14 @@ exports.uploadCapitulo = (req, res) => {
         ? req.body.aprovadoPor
         : [req.body.aprovadoPor || req.body["aprovadoPor[]"]];
 
-      // ✅ Cria/atualiza o documento ISO
+      
       const documento = await DocumentoISO.findOneAndUpdate(
         { capitulo, empresaId },
         { $setOnInsert: { capitulo, empresaId, criadoPor: userId } },
         { upsert: true, new: true }
       );
 
-      // ✅ Cria cada ficheiro com nome personalizado
+     
       const ficheiros = await Promise.all(
         files.map(async (file, i) => {
           const nomePersonalizado = nomesPersonalizadosArray[i] || file.originalname;
@@ -131,7 +123,6 @@ exports.uploadCapitulo = (req, res) => {
 
           await ficheiro.save();
 
-          // ✅ Log automático
           await Log.create({
             usuarioId: userId,
             empresaId,
@@ -147,7 +138,7 @@ exports.uploadCapitulo = (req, res) => {
         })
       );
 
-      // ✅ Atualiza o documento
+
       documento.ficheiros.push(...ficheiros);
       documento.ultimaAlteracao = new Date();
       documento.alteradoPor = userId;
@@ -157,7 +148,7 @@ exports.uploadCapitulo = (req, res) => {
       req.flash("success", "Arquivos enviados com sucesso!");
       return res.redirect(`/iso9001/${capitulo}`);
     } catch (e) {
-      console.error("🔥 Erro uploadCapitulo:", e);
+      console.error("Erro uploadCapitulo:", e);
       req.flash("errors", ["Erro ao salvar arquivos."]);
       return res.redirect(`/iso9001/${capitulo}`);
     }
@@ -165,9 +156,7 @@ exports.uploadCapitulo = (req, res) => {
 };
 
 
-// =====================================================
-// 🔹 Apagar Ficheiro
-// =====================================================
+
 exports.apagarFicheiroCapitulo = async (req, res) => {
   try {
     const { capitulo, fileId } = req.params;
@@ -222,15 +211,13 @@ exports.apagarFicheiroCapitulo = async (req, res) => {
     req.flash("success", "Arquivo apagado com sucesso!");
     return res.redirect(`/iso9001/${capitulo}`);
   } catch (e) {
-    console.error("❌ Erro apagarFicheiroCapitulo:", e);
+    console.error("Erro apagarFicheiroCapitulo:", e);
     req.flash("errors", "Erro ao apagar o arquivo.");
     return res.redirect(`/iso9001/${req.params.capitulo}`);
   }
 };
 
-// =====================================================
-// 🔹 Calcular Progresso
-// =====================================================
+
 function calcularProgresso(documento, totalChecks) {
   let progresso = 0;
   if (documento.ficheiros && documento.ficheiros.length > 0) progresso += 50;
@@ -239,9 +226,7 @@ function calcularProgresso(documento, totalChecks) {
   return progresso;
 }
 
-// =====================================================
-// 🔹 Salvar Checklist
-// =====================================================
+
 exports.salvarChecklist = async (req, res) => {
   try {
     const { capitulo } = req.params;
@@ -260,7 +245,7 @@ exports.salvarChecklist = async (req, res) => {
     req.flash("success", "Checklist salva com sucesso!");
     return res.redirect(`/iso9001/${capitulo}`);
   } catch (e) {
-    console.error("❌ Erro salvarChecklist:", e);
+    console.error("Erro salvarChecklist:", e);
     req.flash("errors", "Erro ao salvar checklist.");
     return res.redirect(`/iso9001/${req.params.capitulo}`);
   }

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const documentoISOSchema = new mongoose.Schema({
-  capitulo: { type: String, required: true }, // Ex: "4-1"
+  capitulo: { type: String, required: true }, 
   nome: { type: String, default: "" },
   descricao: { type: String, default: "" },
   ficheiros: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ficheiro" }],

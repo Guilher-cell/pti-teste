@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const dadosEmpresaSchema = new mongoose.Schema({
   _id: {
-    type: mongoose.Schema.Types.ObjectId, // mesmo ID do usuário
+    type: mongoose.Schema.Types.ObjectId, 
     ref: 'Cadastro',
     required: true
   },

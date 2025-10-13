@@ -183,7 +183,7 @@
   font-style: italic;
 }
 
-/* ===== Upload ===== */
+/* ===== Upload (Subcapítulos) ===== */
 .subcap-upload {
   background: #0e1629;
   border: 2px solid #2b3b5e;
@@ -192,6 +192,7 @@
   font-family: "Inter", sans-serif;
 }
 
+/* ===== Ações principais ===== */
 .upload-actions {
   display: flex;
   justify-content: space-between;
@@ -200,6 +201,7 @@
   margin-bottom: 12px;
 }
 
+/* Botão adicionar anexo */
 .btn-anexo {
   display: inline-flex;
   align-items: center;
@@ -213,7 +215,6 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
-  font-family: "Inter", sans-serif;
 }
 .btn-anexo svg {
   width: 18px;
@@ -221,7 +222,7 @@
   stroke: #ffffff;
 }
 .btn-anexo:hover {
-  border-color: #0084ff;
+  border-color: #04b2f2;
 }
 
 /* Pré-visualização */
@@ -235,7 +236,12 @@
   font-style: italic;
 }
 
-/* Linha arquivo */
+/* ===== Lista de arquivos ===== */
+.subcap-arquivos {
+  margin-top: 12px;
+}
+
+/* Linha de arquivo */
 .file-row {
   display: flex;
   align-items: center;
@@ -249,13 +255,6 @@
   font-size: 14px;
   flex: 1;
 }
-.file-name a {
-  color: #7fb6ff;
-  text-decoration: none;
-}
-.file-name a:hover {
-  text-decoration: underline;
-}
 .file-size {
   color: #7aa7ff;
   font-size: 12px;
@@ -263,7 +262,7 @@
   text-align: right;
 }
 
-/* Input aprovado por */
+/* Input "Aprovado por" */
 .file-row input {
   width: 220px;
   padding: 10px 12px;
@@ -275,36 +274,50 @@
   outline: none;
   transition: 0.3s;
   font-family: "Inter", sans-serif;
-  box-sizing: border-box;
 }
 .file-row input::placeholder {
   color: #999999;
   opacity: 0.5;
-  font-size: 13px;
 }
 .file-row input:focus {
-  border-color: #0084ff;
-  box-shadow: 0 0 6px rgba(0, 132, 255, 0.4);
+  border-color: #04b2f2;
+  box-shadow: 0 0 6px rgba(4, 178, 242, 0.4);
 }
-
-/* Estado readonly */
 .file-row input[readonly] {
   color: #999999;
   cursor: not-allowed;
   border-color: #2b3b5e;
 }
-.file-row input[readonly]:focus {
-  border-color: #2b3b5e;
-  box-shadow: none;
-}
-.file-row .aprovado-label {
-  font-size: 13px;
-  color: #8aa0c8;
-  margin-right: 6px;
-  white-space: nowrap;
+
+/* ===== Ações (Download + Excluir) ===== */
+.file-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* Excluir só ícone */
+/* Botão de download */
+.btn-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.2s ease;
+  padding: 6px;
+}
+.btn-download svg {
+  stroke: #04b2f2;
+  width: 22px;
+  height: 22px;
+}
+.btn-download:hover {
+  background: rgba(4, 178, 242, 0.1); 
+}
+
+/* Botão excluir */
 .btn-apagar {
   background: none;
   border: none;
@@ -314,24 +327,24 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 .btn-apagar svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   stroke: #ff4d4d;
 }
 .btn-apagar:hover {
-  background: rgba(255, 77, 77, 0.1);
+  background: rgba(255, 77, 77, 0.1); 
 }
 
-/* ===== Botões ===== */
+/* ===== Botões Upload ===== */
 .form-actions {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
 }
-.btn-subcap-salvar, 
+.btn-subcap-salvar,
 .btn-subcap-cancelar {
   font-weight: 600;
   font-size: 15px;
@@ -340,13 +353,13 @@
   cursor: pointer;
   border: none;
   transition: background-color 0.3s ease;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif; 
 }
 .btn-subcap-salvar {
   background-color: #0084ff;
   color: #fff;
 }
-.btn-subcap-salvar:hover  {
+.btn-subcap-salvar:hover {
   background-color: #006bcf;
 }
 .btn-subcap-cancelar {
@@ -355,8 +368,7 @@
 }
 .btn-subcap-cancelar:hover {
   background: #444f6a;
-} 
- 
+}
 
 
 /* ===== Responsivo ===== */

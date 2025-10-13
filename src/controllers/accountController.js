@@ -1,6 +1,6 @@
 // src/controllers/accountController.js
 const CadastroModel = require('../Schemas/cadastroSchema');
-const PasswordValidator = require('../models/minhaContaModel'); // ✅ importar
+const PasswordValidator = require('../models/minhaContaModel'); 
 
 exports.index = (req, res) => {
   res.render('minha_conta', {
@@ -15,7 +15,7 @@ exports.alterarSenha = async (req, res) => {
   try {
     const { password, passwordConfirm } = req.body;
 
-    // 🔹 valida senha com model separado
+  
     const validator = new PasswordValidator(password, passwordConfirm);
     validator.valida();
 
@@ -30,13 +30,13 @@ exports.alterarSenha = async (req, res) => {
       return req.session.save(() => res.redirect('/login'));
     }
 
-    user.password = password; // hook do Schema aplica hash
+    user.password = password;
     await user.save();
 
     req.flash('success', 'Senha alterada com sucesso!');
     return req.session.save(() => res.redirect('/minha-conta'));
   } catch (err) {
-    console.error('❌ Erro ao alterar senha:', err);
+    console.error('Erro ao alterar senha:', err);
     req.flash('errors', 'Erro ao alterar senha.');
     return req.session.save(() => res.redirect('/minha-conta'));
   }

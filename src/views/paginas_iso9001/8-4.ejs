@@ -140,39 +140,42 @@
         <% if (doc.ficheiros && doc.ficheiros.length > 0) { %>
           <% doc.ficheiros.forEach(f => { %>
             <div class="file-row">
-              <!-- Nome personalizado ou original -->
-              <span class="file-name">
-                <a href="/uploads/<%= f.path %>" target="_blank">
-                  <%= f.nomePersonalizado || f.nomeOriginal %>
-                </a>
-              </span>
+              <!-- Nome -->
+              <span class="file-name"><%= f.nomePersonalizado || f.nomeOriginal %></span>
 
               <!-- Tamanho -->
               <span class="file-size"><%= (f.size / 1024).toFixed(2) %> KB</span>
 
-              <!-- Nome personalizado (para exibir, não envia de novo) -->
-              <input type="text" value="<%= f.nomePersonalizado || '' %>"
-                     placeholder="Nome do arquivo" readonly>
-
               <!-- Aprovado por -->
-              <input type="text" value="<%= f.aprovadoPor || '' %>"
-                     placeholder="Aprovado por..." readonly>
+              <input type="text" value="<%= f.aprovadoPor || '' %>" placeholder="Aprovado por..." readonly>
 
-              <!-- Botão excluir -->
-              <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar"
-                    method="POST" style="display:inline;">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button type="submit" class="btn-apagar" title="Excluir arquivo">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                       viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"
-                       stroke-linecap="round" stroke-linejoin="round"
-                       class="lucide lucide-trash-2">
-                    <path d="M10 11v6"/><path d="M14 11v6"/>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
-                    <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              <!-- Ações (download + excluir) -->
+              <div class="file-actions">
+                <!-- Botão de download -->
+                <a href="/uploads/<%= f.path %>" target="_blank" class="btn-download" title="Baixar arquivo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                       viewBox="0 0 24 24" fill="none" stroke="#04b2f2"
+                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/>
                   </svg>
-                </button>
-              </form>
+                </a>
+
+                <!-- Botão excluir -->
+                <form action="/iso9001/<%= capitulo %>/ficheiro/<%= f._id %>/apagar"
+                      method="POST" style="display:inline;">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <button type="submit" class="btn-apagar" title="Excluir arquivo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                         viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-trash-2">
+                      <path d="M10 11v6"/><path d="M14 11v6"/>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                      <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                  </button>
+                </form>
+              </div>
             </div>
           <% }) %>
         <% } %>
@@ -180,7 +183,6 @@
     </div>
   <% } %>
 </section>
-
   </main>
   
 

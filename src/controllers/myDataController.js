@@ -17,7 +17,7 @@ exports.index = async (req, res) => {
       }
     });
   } catch (err) {
-    console.error("❌ Erro ao carregar meus dados:", err);
+    console.error("Erro ao carregar meus dados:", err);
     req.flash("errors", "Erro ao carregar dados");
     res.redirect("/");
   }
@@ -49,7 +49,7 @@ exports.salvar = async (req, res) => {
     req.flash('success', 'Dados atualizados com sucesso!');
     res.redirect('/meus-dados');
   } catch (err) {
-    console.error('❌ Erro ao salvar meus dados:', err);
+    console.error('Erro ao salvar meus dados:', err);
     req.flash('errors', 'Erro ao atualizar dados');
     res.redirect('/meus-dados');
   }
